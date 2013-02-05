@@ -22,13 +22,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #ifndef PAZPAR2_PPMUTEX_H
-#define PAZPAR2_PPMUTEXF_H
+#define PAZPAR2_PPMUTEX_H
 
 #include <yaz/mutex.h>
+
+#if YAZ_POSIX_THREADS
+#include <pthread.h>
+#endif
 
 void pazpar2_mutex_init(void);
 
 void pazpar2_mutex_create(YAZ_MUTEX *p, const char *name);
+
+typedef struct {
+    int readers_reading;
+    int writers_writing;
+#if YAZ_POSIX_THREADS
+    pthread_mutex_t mutex;
+    pthread_cond_t lock_free;
+#endif
+} Pazpar2_lock_rdwr;
+
+int pazpar2_lock_rdwr_init(Pazpar2_lock_rdwr *p);
+int pazpar2_lock_rdwr_destroy(Pazpar2_lock_rdwr *p);
+int pazpar2_lock_rdwr_rlock(Pazpar2_lock_rdwr *p);
+int pazpar2_lock_rdwr_wlock(Pazpar2_lock_rdwr *p);
+int pazpar2_lock_rdwr_runlock(Pazpar2_lock_rdwr *p);
+int pazpar2_lock_rdwr_wunlock(Pazpar2_lock_rdwr *p);
+int pazpar2_lock_rdwr_upgrade(Pazpar2_lock_rdwr *p);
 
 #endif
 

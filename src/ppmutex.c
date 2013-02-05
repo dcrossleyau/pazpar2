@@ -43,6 +43,104 @@ void pazpar2_mutex_create(YAZ_MUTEX *p, const char *name)
     yaz_mutex_set_name(*p, ppmutex_level, name);
 }
 
+int pazpar2_lock_rdwr_init(Pazpar2_lock_rdwr *p)
+{
+    p->readers_reading = 0;
+    p->writers_writing = 0;
+#if YAZ_POSIX_THREADS
+    pthread_mutex_init(&p->mutex, 0);
+    pthread_cond_init(&p->lock_free, 0);
+#endif
+    return 0;
+}
+
+int pazpar2_lock_rdwr_destroy(Pazpar2_lock_rdwr *p)
+{
+    assert (p->readers_reading == 0);
+    assert (p->writers_writing == 0);
+#if YAZ_POSIX_THREADS
+    pthread_mutex_destroy(&p->mutex);
+    pthread_cond_destroy(&p->lock_free);
+#endif
+    return 0;
+}
+
+int pazpar2_lock_rdwr_rlock(Pazpar2_lock_rdwr *p)
+{
+#if YAZ_POSIX_THREADS
+    pthread_mutex_lock(& p->mutex);
+    while (p->writers_writing)
+	pthread_cond_wait(&p->lock_free, &p->mutex);
+    p->readers_reading++;
+    pthread_mutex_unlock(&p->mutex);
+#endif
+    return 0;
+}
+
+int pazpar2_lock_rdwr_wlock(Pazpar2_lock_rdwr *p)
+{
+#if YAZ_POSIX_THREADS
+    pthread_mutex_lock(&p->mutex);
+    while (p->writers_writing || p->readers_reading)
+	pthread_cond_wait(&p->lock_free, &p->mutex);
+    p->writers_writing++;
+    pthread_mutex_unlock(&p->mutex);
+#endif
+    return 0;
+}
+
+int pazpar2_lock_rdwr_upgrade(Pazpar2_lock_rdwr *p)
+{
+#if YAZ_POSIX_THREADS
+    pthread_mutex_lock(&p->mutex);
+    --p->readers_reading;
+    while (p->writers_writing || p->readers_reading)
+	pthread_cond_wait(&p->lock_free, &p->mutex);
+    p->writers_writing++;
+    pthread_mutex_unlock(&p->mutex);
+#endif
+    return 0;
+}
+
+int pazpar2_lock_rdwr_runlock(Pazpar2_lock_rdwr *p)
+{
+#if YAZ_POSIX_THREADS
+    pthread_mutex_lock(&p->mutex);
+    if (p->readers_reading == 0)
+    {
+	pthread_mutex_unlock(&p->mutex);
+	return -1;
+    } 
+    else
+    {
+	p->readers_reading--;
+	if (p->readers_reading == 0)
+	    pthread_cond_signal(&p->lock_free);
+	pthread_mutex_unlock(&p->mutex);
+    }
+#endif
+    return 0;
+}
+
+int pazpar2_lock_rdwr_wunlock(Pazpar2_lock_rdwr *p)
+{
+#if YAZ_POSIX_THREADS
+    pthread_mutex_lock(&p->mutex);
+    if (p->writers_writing == 0)
+    {
+	pthread_mutex_unlock(&p->mutex);
+	return -1;
+    }
+    else
+    {
+	p->writers_writing--;
+	pthread_cond_broadcast(&p->lock_free);
+	pthread_mutex_unlock(&p->mutex);
+    }
+#endif
+    return 0;
+}
+
 /*
  * Local variables:
  * c-basic-offset: 4

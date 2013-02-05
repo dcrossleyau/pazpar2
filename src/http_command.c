@@ -162,7 +162,7 @@ struct http_session *http_session_create(struct conf_service *service,
     char tmp_str[50];
 
     sprintf(tmp_str, "session#%u", sesid);
-    r->psession = new_session(nmem, service, sesid);
+    r->psession = session_create(nmem, service, sesid);
     r->session_id = sesid;
     r->timestamp = 0;
     r->nmem = nmem;
@@ -1098,6 +1098,7 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     if (!s)
         return;
 
+    session_enter_ro(s->psession, "show_records");
     // We haven't counted clients yet if we're called on a block release
     if (active < 0)
         active = session_active_clients(s->psession);
@@ -1114,8 +1115,8 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     if (!(sp = reclist_parse_sortparms(c->nmem, sort, service)))
     {
         error(rs, PAZPAR2_MALFORMED_PARAMETER_VALUE, "sort");
+        session_leave_ro(s->psession, "show_records");
         return;
-
     }
 
     rl = show_range_start(s->psession, sp, startn, &numn, &total, &total_hits, &approx_hits);
@@ -1161,7 +1162,7 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     }
 
     show_range_stop(s->psession, rl);
-
+    session_leave_ro(s->psession, "show_records");
     response_close(c, "show");
 }
 

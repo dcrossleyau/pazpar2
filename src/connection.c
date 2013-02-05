@@ -323,9 +323,8 @@ static void connection_handler(IOCHAN iochan, int event)
     else if (event & EVENT_TIMEOUT)
     {
         ZOOM_connection_fire_event_timeout(co->link);
-        client_lock(cl);
+
         non_block_events(co);
-        client_unlock(cl);
 
         remove_connection_from_host(co);
         yaz_mutex_leave(host->mutex);
@@ -335,13 +334,11 @@ static void connection_handler(IOCHAN iochan, int event)
     {
         yaz_mutex_leave(host->mutex);
 
-        client_lock(cl);
         non_block_events(co);
 
         ZOOM_connection_fire_event_socket(co->link, event);
 
         non_block_events(co);
-        client_unlock(cl);
 
         if (co->link)
         {

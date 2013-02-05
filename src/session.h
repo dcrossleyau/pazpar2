@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "termlists.h"
 #include "reclists.h"
 #include "http.h"
+#include "ppmutex.h"
 
 struct record;
 struct client;
@@ -117,7 +118,7 @@ struct session {
     int number_of_warnings_unknown_elements;
     int number_of_warnings_unknown_metadata;
     normalize_cache_t normalize_cache;
-    YAZ_MUTEX session_mutex;
+    Pazpar2_lock_rdwr lock;
     unsigned session_id;
     int settings_modified;
     facet_limits_t facet_limits;
@@ -153,8 +154,8 @@ struct hitsbytarget {
 };
 
 struct hitsbytarget *get_hitsbytarget(struct session *s, int *count, NMEM nmem);
-struct session *new_session(NMEM nmem, struct conf_service *service,
-                            unsigned session_id);
+struct session *session_create(NMEM nmem, struct conf_service *service,
+                               unsigned session_id);
 void session_destroy(struct session *s);
 void session_init_databases(struct session *s);
 void statistics(struct session *s, struct statistics *stat);
@@ -190,6 +191,13 @@ void add_facet(struct session *s, const char *type, const char *value, int count
 int session_check_cluster_limit(struct session *se, struct record_cluster *rec);
 
 void perform_termlist(struct http_channel *c, struct session *se, const char *name, int num, int version);
+
+void session_enter_ro(struct session *s, const char *caller);
+void session_leave_ro(struct session *s, const char *caller);
+
+void session_enter_rw(struct session *s, const char *caller);
+void session_leave_rw(struct session *s, const char *caller);
+
 void session_log(struct session *s, int level, const char *fmt, ...)
 #ifdef __GNUC__
     __attribute__ ((format (printf, 3, 4)))
