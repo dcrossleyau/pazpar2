@@ -517,13 +517,9 @@ void client_check_preferred_watch(struct client *cl)
     yaz_log(YLOG_DEBUG, "client_check_preferred_watch: %s ", client_get_id(cl));
     if (se)
     {
-        /* TODO possible threading issue. Session can have been destroyed */
         assert(cl->session);
-        if (session_is_preferred_clients_ready(se)) {
-            assert(cl->session);
+        if (session_is_preferred_clients_ready(se))
             session_alert_watch(se, SESSION_WATCH_SHOW_PREF);
-            assert(cl->session);
-        }
         else
             yaz_log(YLOG_DEBUG, "client_check_preferred_watch: Still locked on preferred targets.");
         assert(cl->session);
@@ -1597,12 +1593,6 @@ int client_get_maxrecs(struct client *cl)
 {
     return cl->maxrecs;
 }
-
-void client_set_preferred(struct client *cl, int v)
-{
-    cl->preferred = v;
-}
-
 
 struct suggestions* client_suggestions_create(const char* suggestions_string)
 {

@@ -152,7 +152,7 @@ void session_enter_ro(struct session *s, const char *caller)
 {
     assert(s);
     if (caller)
-        session_log(s, YLOG_DEBUG, "Session read lock by %s", caller);
+        session_log(s, YLOG_LOG, "Session read lock by %s", caller);
     pazpar2_lock_rdwr_rlock(&s->lock);
 }
 
@@ -160,15 +160,23 @@ void session_enter_rw(struct session *s, const char *caller)
 {
     assert(s);
     if (caller)
-        session_log(s, YLOG_DEBUG, "Session write lock by %s", caller);
+        session_log(s, YLOG_LOG, "Session write lock by %s", caller);
     pazpar2_lock_rdwr_wlock(&s->lock);
+}
+
+void session_upgrade(struct session *s, const char *caller)
+{
+    assert(s);
+    if (caller)
+        session_log(s, YLOG_LOG, "Session upgrade lock by %s", caller);
+    pazpar2_lock_rdwr_upgrade(&s->lock);
 }
 
 void session_leave_ro(struct session *s, const char *caller)
 {
     assert(s);
     if (caller)
-        session_log(s, YLOG_DEBUG, "Session read unlock by %s", caller);
+        session_log(s, YLOG_LOG, "Session read unlock by %s", caller);
     pazpar2_lock_rdwr_runlock(&s->lock);
 }
 
@@ -176,8 +184,16 @@ void session_leave_rw(struct session *s, const char *caller)
 {
     assert(s);
     if (caller)
-        session_log(s, YLOG_DEBUG, "Session write unlock by %s", caller);
+        session_log(s, YLOG_LOG, "Session write unlock by %s", caller);
     pazpar2_lock_rdwr_wunlock(&s->lock);
+}
+
+void session_downgrade(struct session *s, const char *caller)
+{
+    assert(s);
+    if (caller)
+        session_log(s, YLOG_LOG, "Session write unlock by %s", caller);
+    pazpar2_lock_rdwr_downgrade(&s->lock);
 }
 
 static void session_normalize_facet(struct session *s, const char *type,
@@ -648,7 +664,8 @@ static void session_clear_set(struct session *se, struct reclist_sortparms *sp)
     se->reclist = reclist_create(se->nmem);
 }
 
-static void session_sort_unlocked(struct session *se, struct reclist_sortparms *sp)
+static void session_sort_unlocked(struct session *se,
+                                  struct reclist_sortparms *sp)
 {
     struct reclist_sortparms *sr;
     struct client_list *l;
@@ -717,21 +734,22 @@ static void session_sort_unlocked(struct session *se, struct reclist_sortparms *
     }
 }
 
-void session_sort(struct session *se, struct reclist_sortparms *sp) {
-    //session_enter(se, "session_sort");
+void session_sort(struct session *se, struct reclist_sortparms *sp)
+{
+    session_enter_rw(se, "session_sort");
     session_sort_unlocked(se, sp);
-    //session_leave(se, "session_sort");
+    session_leave_rw(se, "session_sort");
 }
 
-
-enum pazpar2_error_code session_search(struct session *se,
-                                       const char *query,
-                                       const char *startrecs,
-                                       const char *maxrecs,
-                                       const char *filter,
-                                       const char *limit,
-                                       const char **addinfo,
-                                       struct reclist_sortparms *sp)
+static
+enum pazpar2_error_code session_search_unlocked(struct session *se,
+                                                const char *query,
+                                                const char *startrecs,
+                                                const char *maxrecs,
+                                                const char *filter,
+                                                const char *limit,
+                                                const char **addinfo,
+                                                struct reclist_sortparms *sp)
 {
     int live_channels = 0;
     int no_working = 0;
@@ -743,11 +761,8 @@ enum pazpar2_error_code session_search(struct session *se,
 
     *addinfo = 0;
 
-    session_enter_rw(se, "session_search");
-
-    if (se->settings_modified) {
+    if (se->settings_modified)
         session_remove_cached_clients(se);
-    }
     else
         session_reset_active_clients(se, 0);
 
@@ -758,23 +773,18 @@ enum pazpar2_error_code session_search(struct session *se,
 
     live_channels = select_targets(se, filter);
     if (!live_channels)
-    {
-        session_leave_ro(se, "session_search");
         return PAZPAR2_NO_TARGETS;
-    }
 
     facet_limits_destroy(se->facet_limits);
     se->facet_limits = facet_limits_create(limit);
     if (!se->facet_limits)
     {
         *addinfo = "limit";
-        session_leave_ro(se, "session_search");
         return PAZPAR2_MALFORMED_PARAMETER_VALUE;
     }
 
     l0 = se->clients_active;
     se->clients_active = 0;
-    session_leave_ro(se, "session_search");
 
     for (l = l0; l; l = l->next)
     {
@@ -816,8 +826,24 @@ enum pazpar2_error_code session_search(struct session *se,
         else
             return PAZPAR2_NO_TARGETS;
     }
-    session_log(se, YLOG_LOG, "session_start_search done");
     return PAZPAR2_NO_ERROR;
+}
+
+enum pazpar2_error_code session_search(struct session *se,
+                                       const char *query,
+                                       const char *startrecs,
+                                       const char *maxrecs,
+                                       const char *filter,
+                                       const char *limit,
+                                       const char **addinfo,
+                                       struct reclist_sortparms *sp)
+{
+    enum pazpar2_error_code c;
+    session_enter_rw(se, "session_search");
+    c = session_search_unlocked(se, query, startrecs, maxrecs, filter,
+                                limit, addinfo, sp);
+    session_leave_rw(se, "session_search");
+    return c;
 }
 
 // Creates a new session_database object for a database

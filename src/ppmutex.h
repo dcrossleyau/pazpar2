@@ -43,13 +43,14 @@ typedef struct {
 #endif
 } Pazpar2_lock_rdwr;
 
-int pazpar2_lock_rdwr_init(Pazpar2_lock_rdwr *p);
-int pazpar2_lock_rdwr_destroy(Pazpar2_lock_rdwr *p);
-int pazpar2_lock_rdwr_rlock(Pazpar2_lock_rdwr *p);
-int pazpar2_lock_rdwr_wlock(Pazpar2_lock_rdwr *p);
-int pazpar2_lock_rdwr_runlock(Pazpar2_lock_rdwr *p);
-int pazpar2_lock_rdwr_wunlock(Pazpar2_lock_rdwr *p);
-int pazpar2_lock_rdwr_upgrade(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_init(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_destroy(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_rlock(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_wlock(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_runlock(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_wunlock(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_upgrade(Pazpar2_lock_rdwr *p);
+void pazpar2_lock_rdwr_downgrade(Pazpar2_lock_rdwr *p);
 
 #endif
 
