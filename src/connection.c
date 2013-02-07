@@ -195,7 +195,7 @@ static struct connection *connection_create(struct client *cl,
     return co;
 }
 
-static void non_block_events(struct connection *co)
+static void non_block_events_unlocked(struct connection *co)
 {
     int got_records = 0;
     IOCHAN iochan = co->iochan;
@@ -276,11 +276,20 @@ static void non_block_events(struct connection *co)
     }
 }
 
+static void non_block_events(struct client *cl, struct connection *co)
+{
+    session_enter_rw(client_get_session(cl), "non_block_events");
+    non_block_events_unlocked(co);
+    session_leave_rw(client_get_session(cl), "non_block_events");
+}
+
 void connection_continue(struct connection *co)
 {
     int r = ZOOM_connection_exec_task(co->link);
     if (!r)
-        non_block_events(co);
+    {
+        non_block_events_unlocked(co);
+    }
     else
     {
         iochan_setflags(co->iochan, ZOOM_connection_get_mask(co->link));
@@ -310,7 +319,7 @@ static void connection_handler(IOCHAN iochan, int event)
     {
         ZOOM_connection_fire_event_timeout(co->link);
 
-        non_block_events(co);
+        non_block_events(cl, co);
 
         remove_connection_from_host(co);
         yaz_mutex_leave(host->mutex);
@@ -320,11 +329,11 @@ static void connection_handler(IOCHAN iochan, int event)
     {
         yaz_mutex_leave(host->mutex);
 
-        non_block_events(co);
+        non_block_events(cl, co);
 
         ZOOM_connection_fire_event_socket(co->link, event);
 
-        non_block_events(co);
+        non_block_events(cl, co);
 
         if (co->link)
         {

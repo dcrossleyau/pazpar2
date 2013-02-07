@@ -513,7 +513,6 @@ void client_check_preferred_watch(struct client *cl)
 {
     struct session *se = cl->session;
 
-    session_enter_ro(se, "client_check_preferred_watch");
     yaz_log(YLOG_DEBUG, "client_check_preferred_watch: %s ", client_get_id(cl));
     if (se)
     {
@@ -527,7 +526,6 @@ void client_check_preferred_watch(struct client *cl)
     else
         yaz_log(YLOG_WARN, "client_check_preferred_watch: %s. No session!", client_get_id(cl));
 
-    session_leave_ro(se, "client_check_preferred_watch");
 }
 
 struct suggestions* client_suggestions_create(const char* suggestions_string);
@@ -541,7 +539,6 @@ void client_search_response(struct client *cl)
 
     const char *error, *addinfo = 0;
 
-    session_enter_rw(cl->session, "client_search_response");
     if (ZOOM_connection_error(link, &error, &addinfo))
     {
         cl->hits = 0;
@@ -559,14 +556,12 @@ void client_search_response(struct client *cl)
             client_suggestions_destroy(cl);
         cl->suggestions = client_suggestions_create(ZOOM_resultset_option_get(resultset, "suggestions"));
     }
-    session_leave_rw(cl->session, "client_search_response");
 }
 
 void client_got_records(struct client *cl)
 {
     struct session *se = cl->session;
 
-    session_enter_ro(se, "client_got_records");
     if (reclist_get_num_records(se->reclist) > 0)
     {
         session_alert_watch(se, SESSION_WATCH_SHOW);
@@ -574,7 +569,6 @@ void client_got_records(struct client *cl)
         session_alert_watch(se, SESSION_WATCH_TERMLIST);
         session_alert_watch(se, SESSION_WATCH_RECORD);
     }
-    session_leave_ro(se, "client_got_records");
 }
 
 static void client_record_ingest(struct client *cl)
@@ -651,7 +645,6 @@ void client_record_response(struct client *cl, int *got_records)
     ZOOM_resultset resultset = cl->resultset;
     const char *error, *addinfo;
 
-    session_enter_rw(cl->session, "client_record_response");
     if (ZOOM_connection_error(link, &error, &addinfo))
     {
         client_set_state(cl, Client_Error);
@@ -681,7 +674,6 @@ void client_record_response(struct client *cl, int *got_records)
             *got_records = 1;
         }
     }
-    session_leave_rw(cl->session, "client_record_response");
 }
 
 int client_reingest(struct client *cl)

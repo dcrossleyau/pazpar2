@@ -1098,7 +1098,6 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     if (!s)
         return;
 
-    session_enter_ro(s->psession, "show_records");
     // We haven't counted clients yet if we're called on a block release
     if (active < 0)
         active = session_active_clients(s->psession);
@@ -1115,7 +1114,6 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     if (!(sp = reclist_parse_sortparms(c->nmem, sort, service)))
     {
         error(rs, PAZPAR2_MALFORMED_PARAMETER_VALUE, "sort");
-        session_leave_ro(s->psession, "show_records");
         return;
     }
 
@@ -1162,7 +1160,6 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     }
 
     show_range_stop(s->psession, rl);
-    session_leave_ro(s->psession, "show_records");
     response_close(c, "show");
 }
 
@@ -1266,7 +1263,9 @@ static void cmd_show(struct http_channel *c)
             }
         }
     }
+    session_enter_ro(s->psession, "show_records");
     show_records(c, s, status);
+    session_leave_ro(s->psession, "show_records");
     release_session(c, s);
 }
 
