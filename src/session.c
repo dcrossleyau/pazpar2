@@ -1064,9 +1064,7 @@ static struct hitsbytarget *hitsbytarget_nb(struct session *se,
 struct hitsbytarget *get_hitsbytarget(struct session *se, int *count, NMEM nmem)
 {
     struct hitsbytarget *p;
-    session_enter_ro(se, "get_hitsbytarget");
     p = hitsbytarget_nb(se, count, nmem);
-    session_leave_ro(se, "get_hitsbytarget");
     return p;
 }
 

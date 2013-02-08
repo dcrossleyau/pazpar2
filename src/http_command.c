@@ -825,7 +825,9 @@ static void cmd_bytarget(struct http_channel *c)
             return;
         }
     }
+    session_enter_ro(s->psession, "cmd_bytarget");
     bytarget_response(c, s, status_message);
+    session_leave_ro(s->psession, "cmd_bytarget");
     release_session(c, s);
 }
 
