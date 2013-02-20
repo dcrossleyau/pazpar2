@@ -988,7 +988,7 @@ struct session *session_create(NMEM nmem, struct conf_service *service,
     sprintf(tmp_str, "session#%u", session_id);
 
     session->session_id = session_id;
-    session_log(session, YLOG_DEBUG, "New");
+    session_log(session, YLOG_LOG, "new");
     session->service = service;
     session->relevance = 0;
     session->total_records = 0;
