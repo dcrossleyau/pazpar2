@@ -319,8 +319,6 @@ static void connection_handler(IOCHAN iochan, int event)
     {
         ZOOM_connection_fire_event_timeout(co->link);
 
-        non_block_events(cl, co);
-
         remove_connection_from_host(co);
         yaz_mutex_leave(host->mutex);
         connection_destroy(co);
