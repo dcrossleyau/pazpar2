@@ -93,6 +93,8 @@ struct http_sessions {
 static YAZ_MUTEX g_http_session_mutex = 0;
 static int g_http_sessions = 0;
 
+static void show_records_ready(void *data);
+
 int get_version(struct http_request *rq) {
     const char *version = http_argbyname(rq, "version");
     int version_no = 0;
@@ -1119,7 +1121,10 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
         return;
     }
 
-    rl = show_range_start(s->psession, sp, startn, &numn, &total, &total_hits, &approx_hits);
+    rl = show_range_start(s->psession, sp, startn, &numn, &total,
+                          &total_hits, &approx_hits, show_records_ready, c);
+    if (!rl)
+        return;
 
     response_open(c, "show");
     wrbuf_printf(c->wrbuf, "\n<activeclients>%d</activeclients>\n", active);

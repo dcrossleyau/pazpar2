@@ -1263,10 +1263,44 @@ void show_single_stop(struct session *se, struct record_cluster *rec)
 }
 
 
+int session_fetch_more(struct session *se)
+{
+    struct client_list *l;
+    int ret = 0;
+
+    for (l = se->clients_active; l; l = l->next)
+    {
+        struct client *cl = l->client;
+        if (client_get_state(cl) == Client_Idle)
+        {
+            if (client_fetch_more(cl))
+            {
+                session_log(se, YLOG_LOG, "%s: more to fetch",
+                            client_get_id(cl));
+                ret = 1;
+            }
+            else
+            {
+                session_log(se, YLOG_LOG, "%s: no more to fetch",
+                            client_get_id(cl));
+            }
+        }
+        else
+        {
+            session_log(se, YLOG_LOG, "%s: no fetch due to state=%s",
+                        client_get_id(cl), client_get_state_str(cl));
+        }
+
+    }
+    return ret;
+}
+
 struct record_cluster **show_range_start(struct session *se,
                                          struct reclist_sortparms *sp,
                                          int start, int *num, int *total,
-                                         Odr_int *sumhits, Odr_int *approx_hits)
+                                         Odr_int *sumhits, Odr_int *approx_hits,
+                                         void (*show_records_ready)(void *data),
+                                         struct http_channel *chan)
 {
     struct record_cluster **recs = 0;
     struct reclist_sortparms *spp;
@@ -1297,13 +1331,24 @@ struct record_cluster **show_range_start(struct session *se,
     reclist_enter(se->reclist);
     *total = reclist_get_num_records(se->reclist);
 
+    for (l = se->clients_active; l; l = l->next)
+        client_update_show_stat(l->client, 0);
+
     for (i = 0; i < start; i++)
-        if (!reclist_read_record(se->reclist))
+    {
+        struct record_cluster *r = reclist_read_record(se->reclist);
+        if (!r)
         {
             *num = 0;
             break;
         }
-
+        else
+        {
+            struct record *rec = r->records;
+            for (;rec; rec = rec->next)
+                client_update_show_stat(rec->client, 1);
+        }
+    }
     if (*num > 0)
         recs =
             nmem_malloc(se->nmem, *num * sizeof(struct record_cluster *));
@@ -1315,7 +1360,13 @@ struct record_cluster **show_range_start(struct session *se,
             *num = i;
             break;
         }
-        recs[i] = r;
+        else
+        {
+            struct record *rec = r->records;
+            for (;rec; rec = rec->next)
+                client_update_show_stat(rec->client, 1);
+            recs[i] = r;
+        }
     }
     reclist_leave(se->reclist);
 #if USE_TIMING
@@ -1325,6 +1376,24 @@ struct record_cluster **show_range_start(struct session *se,
             yaz_timing_get_sys(t));
     yaz_timing_destroy(&t);
 #endif
+
+    if (!session_fetch_more(se))
+        session_log(se, YLOG_LOG, "can not fetch more");
+    else
+    {
+        session_log(se, YLOG_LOG, "fetching more in progress");
+        if (session_set_watch(se, SESSION_WATCH_SHOW,
+                              show_records_ready, chan, chan))
+        {
+            session_log(se, YLOG_WARN, "Ignoring show block");
+        }
+        else
+        {
+            show_range_stop(se, recs);
+            session_log(se, YLOG_LOG, "session watch OK");
+            return 0;
+        }
+    }
     return recs;
 }
 
