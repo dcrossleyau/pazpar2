@@ -57,7 +57,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <yaz/oid_db.h>
 #include <yaz/snprintf.h>
 
-#define USE_TIMING 0
+#define USE_TIMING 1
 #if USE_TIMING
 #include <yaz/timing.h>
 #endif
@@ -215,7 +215,8 @@ static void session_normalize_facet(struct session *s, const char *type,
     prt = pp2_charset_token_create(service->charsets, icu_chain_id);
     if (!prt)
     {
-        yaz_log(YLOG_FATAL, "Unknown ICU chain '%s' for facet of type '%s'",
+        session_log(s, YLOG_FATAL,
+                    "Unknown ICU chain '%s' for facet of type '%s'",
                 icu_chain_id, type);
         wrbuf_destroy(facet_wrbuf);
         wrbuf_destroy(display_wrbuf);
@@ -674,11 +675,12 @@ static void session_sort_unlocked(struct session *se,
     int type  = sp->type;
     int clients_research = 0;
 
-    yaz_log(YLOG_DEBUG, "session_sort field=%s increasing=%d type=%d", field, increasing, type);
+    session_log(se, YLOG_DEBUG, "session_sort field=%s increasing=%d type=%d",
+                field, increasing, type);
     /* see if we already have sorted for this criteria */
     for (sr = se->sorted_results; sr; sr = sr->next)
     {
-        if (!reclist_sortparms_cmp(sr,sp))
+        if (!reclist_sortparms_cmp(sr, sp))
             break;
     }
     if (sr)
@@ -702,7 +704,9 @@ static void session_sort_unlocked(struct session *se,
         clients_research += client_parse_sort(cl, sp);
     }
     if (clients_research) {
-        yaz_log(YLOG_DEBUG, "Reset results due to %d clients researching", clients_research);
+        session_log(se, YLOG_DEBUG,
+                    "Reset results due to %d clients researching",
+                    clients_research);
         session_clear_set(se, sp);
     }
     else {
@@ -727,7 +731,8 @@ static void session_sort_unlocked(struct session *se,
             client_start_search(cl);
         }
         else {
-            yaz_log(YLOG_DEBUG, "Client %s: No re-start/ingest in show. Wrong client state: %d",
+            session_log(se, YLOG_DEBUG,
+                        "Client %s: No re-start/ingest in show. Wrong client state: %d",
                         client_get_id(cl), client_get_state(cl));
         }
 
@@ -1371,7 +1376,7 @@ struct record_cluster **show_range_start(struct session *se,
     reclist_leave(se->reclist);
 #if USE_TIMING
     yaz_timing_stop(t);
-    yaz_log(YLOG_LOG, "show %6.5f %3.2f %3.2f",
+    session_log(se, YLOG_LOG, "show %6.5f %3.2f %3.2f",
             yaz_timing_get_real(t), yaz_timing_get_user(t),
             yaz_timing_get_sys(t));
     yaz_timing_destroy(&t);
@@ -1441,10 +1446,11 @@ static struct record_metadata *record_metadata_init(
     {
         if (attr->children && attr->children->content)
         {
-            if (strcmp((const char *) attr->name, "type"))
-            {  /* skip the "type" attribute.. Its value is already part of
-                  the element in output (md-%s) and so repeating it here
-                  is redundant */
+            if (strcmp((const char *) attr->name, "type")
+                && strcmp((const char *) attr->name, "empty"))
+            {  /* skip the "type" + "empty" attribute..
+                  The "Type" is already part of the element in output
+                  (md-%s) and so repeating it here is redundant */
                 *attrp = nmem_malloc(nmem, sizeof(**attrp));
                 (*attrp)->name =
                     nmem_strdup(nmem, (const char *) attr->name);
@@ -1895,10 +1901,17 @@ static int ingest_to_cluster(struct client *cl,
 
             type = xmlGetProp(n, (xmlChar *) "type");
             value = xmlNodeListGetString(xdoc, n->children, 1);
-
-            if (!type || !value || !*value)
+            if (!type)
                 continue;
-
+            if (!value || !*value)
+            {
+                xmlChar *empty = xmlGetProp(n, (xmlChar *) "empty");
+                if (!empty)
+                    continue;
+                if (value)
+                    xmlFree(value);
+                value = empty;
+            }
             md_field_id
                 = conf_service_metadata_field_id(service, (const char *) type);
             if (md_field_id < 0)
@@ -1954,7 +1967,8 @@ static int ingest_to_cluster(struct client *cl,
             int hits = (int) client_get_hits(cl);
             term_factor = MAX(hits, maxrecs) /  MAX(1, maxrecs);
             assert(term_factor >= 1);
-            yaz_log(YLOG_DEBUG, "Using term factor: %d (%d / %d)", term_factor, MAX(hits, maxrecs), MAX(1, maxrecs));
+            session_log(se, YLOG_DEBUG, "Using term factor: %d (%d / %d)",
+                        term_factor, MAX(hits, maxrecs), MAX(1, maxrecs));
         }
     }
 
