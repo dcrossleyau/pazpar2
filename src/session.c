@@ -1707,7 +1707,8 @@ int ingest_record(struct client *cl, const char *rec,
     }
     assert(client_get_session(cl) == se);
 
-    ret = ingest_to_cluster(cl, xdoc, root, record_no, mergekey_norm);
+    if (se->relevance)
+        ret = ingest_to_cluster(cl, xdoc, root, record_no, mergekey_norm);
 
     xmlFreeDoc(xdoc);
     return ret;
