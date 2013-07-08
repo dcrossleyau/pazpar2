@@ -97,7 +97,6 @@ struct client_list {
 /* session counting (1) , disable client counting (0) */
 static YAZ_MUTEX g_session_mutex = 0;
 static int no_sessions = 0;
-static int no_session_total = 0;
 
 static int session_use(int delta)
 {
@@ -106,28 +105,16 @@ static int session_use(int delta)
         yaz_mutex_create(&g_session_mutex);
     yaz_mutex_enter(g_session_mutex);
     no_sessions += delta;
-    if (delta > 0)
-        no_session_total += delta;
     sessions = no_sessions;
     yaz_mutex_leave(g_session_mutex);
-    yaz_log(YLOG_DEBUG, "%s sessions=%d", delta == 0 ? "" : (delta > 0 ? "INC" : "DEC"), no_sessions);
+    yaz_log(YLOG_DEBUG, "%s sessions=%d", delta == 0 ? "" :
+            (delta > 0 ? "INC" : "DEC"), no_sessions);
     return sessions;
 }
 
 int sessions_count(void)
 {
     return session_use(0);
-}
-
-int session_count_total(void)
-{
-    int total = 0;
-    if (!g_session_mutex)
-        return 0;
-    yaz_mutex_enter(g_session_mutex);
-    total = no_session_total;
-    yaz_mutex_leave(g_session_mutex);
-    return total;
 }
 
 static void log_xml_doc(xmlDoc *doc)
@@ -196,10 +183,9 @@ void session_downgrade(struct session *s, const char *caller)
     pazpar2_lock_rdwr_downgrade(&s->lock);
 }
 
-static void session_normalize_facet(struct session *s, const char *type,
-                                    const char *value,
-                                    WRBUF display_wrbuf,
-                                    WRBUF facet_wrbuf)
+static void session_normalize_facet(struct session *s,
+                                    const char *type, const char *value,
+                                    WRBUF display_wrbuf, WRBUF facet_wrbuf)
 {
     struct conf_service *service = s->service;
     pp2_charset_token_t prt;
@@ -651,6 +637,8 @@ static void session_clear_set(struct session *se, struct reclist_sortparms *sp)
     se->total_records = se->total_merged = 0;
     se->num_termlists = 0;
 
+    relevance_clear(se->relevance);
+
     /* reset list of sorted results and clear to relevance search */
     se->sorted_results = nmem_malloc(se->nmem, sizeof(*se->sorted_results));
     se->sorted_results->name = nmem_strdup(se->nmem, sp->name);
@@ -665,9 +653,10 @@ static void session_clear_set(struct session *se, struct reclist_sortparms *sp)
 }
 
 static void session_sort_unlocked(struct session *se,
-                                  struct reclist_sortparms *sp)
+                                  struct reclist_sortparms *sp,
+                                  const char *mergekey,
+                                  const char *rank)
 {
-    struct reclist_sortparms *sr;
     struct client_list *l;
     const char *field = sp->name;
     int increasing = sp->increasing;
@@ -676,20 +665,42 @@ static void session_sort_unlocked(struct session *se,
 
     session_log(se, YLOG_DEBUG, "session_sort field=%s increasing=%d type=%d",
                 field, increasing, type);
-    /* see if we already have sorted for this criteria */
-    for (sr = se->sorted_results; sr; sr = sr->next)
+
+    if (rank && (!se->rank || strcmp(se->rank, rank)))
     {
-        if (!reclist_sortparms_cmp(sr, sp))
-            break;
+        /* new rank must research/reingest anyway */
+        assert(rank);
+        xfree(se->rank);
+        se->rank = *rank ? xstrdup(rank) : 0;
+        clients_research = 1;
+        session_log(se, YLOG_DEBUG, "session_sort: new rank = %s",
+                    rank);
     }
-    if (sr)
+    if (mergekey && (!se->mergekey || strcmp(se->mergekey, mergekey)))
     {
-        session_log(se, YLOG_DEBUG, "search_sort: field=%s increasing=%d type=%d already fetched",
-                    field, increasing, type);
-        return;
+        /* new mergekey must research/reingest anyway */
+        assert(mergekey);
+        xfree(se->mergekey);
+        se->mergekey = *mergekey ? xstrdup(mergekey) : 0;
+        clients_research = 1;
+        session_log(se, YLOG_DEBUG, "session_sort: new mergekey = %s",
+                    mergekey);
     }
-    session_log(se, YLOG_DEBUG, "search_sort: field=%s increasing=%d type=%d must fetch",
-                    field, increasing, type);
+    if (clients_research == 0)
+    {
+        struct reclist_sortparms *sr;
+        for (sr = se->sorted_results; sr; sr = sr->next)
+            if (!reclist_sortparms_cmp(sr, sp))
+                break;
+        if (sr)
+        {
+            session_log(se, YLOG_DEBUG, "session_sort: field=%s increasing=%d type=%d already fetched",
+                        field, increasing, type);
+            return;
+        }
+    }
+    session_log(se, YLOG_DEBUG, "session_sort: field=%s increasing=%d type=%d must fetch",
+                field, increasing, type);
 
     // We need to reset reclist on every sort that changes the records, not just for position
     // So if just one client requires new searching, we need to clear set.
@@ -702,21 +713,23 @@ static void session_sort_unlocked(struct session *se,
         client_parse_init(cl, 1);
         clients_research += client_parse_sort(cl, sp);
     }
-    if (clients_research) {
+    if (clients_research)
+    {
         session_log(se, YLOG_DEBUG,
-                    "Reset results due to %d clients researching",
+                    "session_sort: reset results due to %d clients researching",
                     clients_research);
         session_clear_set(se, sp);
     }
-    else {
+    else
+    {
         // A new sorting based on same record set
-        sr = nmem_malloc(se->nmem, sizeof(*sr));
+        struct reclist_sortparms *sr = nmem_malloc(se->nmem, sizeof(*sr));
         sr->name = nmem_strdup(se->nmem, field);
         sr->increasing = increasing;
         sr->type = type;
         sr->next = se->sorted_results;
         se->sorted_results = sr;
-        session_log(se, YLOG_DEBUG, "No research/ingesting done");
+        session_log(se, YLOG_DEBUG, "session_sort: no research/ingesting done");
         return ;
     }
     session_log(se, YLOG_DEBUG, "Re- search/ingesting for clients due to change in sort order");
@@ -729,19 +742,21 @@ static void session_sort_unlocked(struct session *se,
             client_get_state(cl) == Client_Working) {
             client_start_search(cl);
         }
-        else {
+        else
+        {
             session_log(se, YLOG_DEBUG,
-                        "Client %s: No re-start/ingest in show. Wrong client state: %d",
+                        "session_sort: %s: No re-start/ingest in show. "
+                        "Wrong client state: %d",
                         client_get_id(cl), client_get_state(cl));
         }
-
     }
 }
 
-void session_sort(struct session *se, struct reclist_sortparms *sp)
+void session_sort(struct session *se, struct reclist_sortparms *sp,
+                  const char *mergekey, const char *rank)
 {
     session_enter_rw(se, "session_sort");
-    session_sort_unlocked(se, sp);
+    session_sort_unlocked(se, sp, mergekey, rank);
     session_leave_rw(se, "session_sort");
 }
 
@@ -753,7 +768,9 @@ enum pazpar2_error_code session_search_unlocked(struct session *se,
                                                 const char *filter,
                                                 const char *limit,
                                                 const char **addinfo,
-                                                struct reclist_sortparms *sp)
+                                                struct reclist_sortparms *sp,
+                                                const char *mergekey,
+                                                const char *rank)
 {
     int live_channels = 0;
     int no_working = 0;
@@ -771,6 +788,17 @@ enum pazpar2_error_code session_search_unlocked(struct session *se,
         session_reset_active_clients(se, 0);
 
     se->settings_modified = 0;
+
+    if (mergekey)
+    {
+        xfree(se->mergekey);
+        se->mergekey = *mergekey ? xstrdup(mergekey) : 0;
+    }
+    if (rank)
+    {
+        xfree(se->rank);
+        se->rank = *rank ? xstrdup(rank) : 0;
+    }
 
     session_clear_set(se, sp);
     relevance_destroy(&se->relevance);
@@ -840,12 +868,14 @@ enum pazpar2_error_code session_search(struct session *se,
                                        const char *filter,
                                        const char *limit,
                                        const char **addinfo,
-                                       struct reclist_sortparms *sp)
+                                       struct reclist_sortparms *sp,
+                                       const char *mergekey,
+                                       const char *rank)
 {
     enum pazpar2_error_code c;
     session_enter_rw(se, "session_search");
     c = session_search_unlocked(se, query, startrecs, maxrecs, filter,
-                                limit, addinfo, sp);
+                                limit, addinfo, sp, mergekey, rank);
     session_leave_rw(se, "session_search");
     return c;
 }
@@ -958,6 +988,8 @@ void session_destroy(struct session *se)
     normalize_cache_destroy(se->normalize_cache);
     relevance_destroy(&se->relevance);
     reclist_destroy(se->reclist);
+    xfree(se->mergekey);
+    xfree(se->rank);
     if (nmem_total(se->nmem))
         session_log(se, YLOG_DEBUG, "NMEN operation usage %zd", nmem_total(se->nmem));
     if (nmem_total(se->session_nmem))
@@ -1008,6 +1040,8 @@ struct session *session_create(NMEM nmem, struct conf_service *service,
     session->databases = 0;
     session->sorted_results = 0;
     session->facet_limits = 0;
+    session->mergekey = 0;
+    session->rank = 0;
 
     for (i = 0; i <= SESSION_WATCH_MAX; i++)
     {
@@ -1464,6 +1498,7 @@ static struct record_metadata *record_metadata_init(
 
         rec_md->data.text.disp = p;
         rec_md->data.text.sort = 0;
+        rec_md->data.text.snippet = 0;
     }
     else if (type == Metadata_type_year || type == Metadata_type_date)
     {
@@ -1481,6 +1516,26 @@ static struct record_metadata *record_metadata_init(
     else
         return 0;
     return rec_md;
+}
+
+static void mergekey_norm_wr(pp2_charset_fact_t charsets,
+                             WRBUF norm_wr, const char *value)
+{
+    const char *norm_str;
+    pp2_charset_token_t prt =
+        pp2_charset_token_create(charsets, "mergekey");
+
+    pp2_charset_token_first(prt, value, 0);
+    while ((norm_str = pp2_charset_token_next(prt)))
+    {
+        if (*norm_str)
+        {
+            if (wrbuf_len(norm_wr))
+                wrbuf_puts(norm_wr, " ");
+            wrbuf_puts(norm_wr, norm_str);
+        }
+    }
+    pp2_charset_token_destroy(prt);
 }
 
 static int get_mergekey_from_doc(xmlDoc *doc, xmlNode *root, const char *name,
@@ -1501,29 +1556,17 @@ static int get_mergekey_from_doc(xmlDoc *doc, xmlNode *root, const char *name,
             else if (!strcmp(name, (const char *) type))
             {
                 xmlChar *value = xmlNodeListGetString(doc, n->children, 1);
-                if (value)
+                if (value && *value)
                 {
-                    const char *norm_str;
-                    pp2_charset_token_t prt =
-                        pp2_charset_token_create(service->charsets, "mergekey");
-
-                    pp2_charset_token_first(prt, (const char *) value, 0);
                     if (wrbuf_len(norm_wr) > 0)
                         wrbuf_puts(norm_wr, " ");
                     wrbuf_puts(norm_wr, name);
-                    while ((norm_str =
-                            pp2_charset_token_next(prt)))
-                    {
-                        if (*norm_str)
-                        {
-                            wrbuf_puts(norm_wr, " ");
-                            wrbuf_puts(norm_wr, norm_str);
-                        }
-                    }
-                    xmlFree(value);
-                    pp2_charset_token_destroy(prt);
+                    mergekey_norm_wr(service->charsets, norm_wr,
+                                     (const char *) value);
                     no_found++;
                 }
+                if (value)
+                    xmlFree(value);
             }
             xmlFree(type);
         }
@@ -1532,31 +1575,27 @@ static int get_mergekey_from_doc(xmlDoc *doc, xmlNode *root, const char *name,
 }
 
 static const char *get_mergekey(xmlDoc *doc, struct client *cl, int record_no,
-                                struct conf_service *service, NMEM nmem)
+                                struct conf_service *service, NMEM nmem,
+                                const char *session_mergekey)
 {
     char *mergekey_norm = 0;
     xmlNode *root = xmlDocGetRootElement(doc);
     WRBUF norm_wr = wrbuf_alloc();
+    xmlChar *mergekey;
 
-    /* consider mergekey from XSL first */
-    xmlChar *mergekey = xmlGetProp(root, (xmlChar *) "mergekey");
-    if (mergekey)
+    if (session_mergekey)
     {
-        const char *norm_str;
-        pp2_charset_token_t prt =
-            pp2_charset_token_create(service->charsets, "mergekey");
+        int i, num = 0;
+        char **values = 0;
+        nmem_strsplit_escape2(nmem, ",", session_mergekey, &values,
+                              &num, 1, '\\', 1);
 
-        pp2_charset_token_first(prt, (const char *) mergekey, 0);
-        while ((norm_str = pp2_charset_token_next(prt)))
-        {
-            if (*norm_str)
-            {
-                if (wrbuf_len(norm_wr))
-                    wrbuf_puts(norm_wr, " ");
-                wrbuf_puts(norm_wr, norm_str);
-            }
-        }
-        pp2_charset_token_destroy(prt);
+        for (i = 0; i < num; i++)
+            get_mergekey_from_doc(doc, root, values[i], service, norm_wr);
+    }
+    else if ((mergekey = xmlGetProp(root, (xmlChar *) "mergekey")))
+    {
+        mergekey_norm_wr(service->charsets, norm_wr, (const char *) mergekey);
         xmlFree(mergekey);
     }
     else
@@ -1698,7 +1737,8 @@ int ingest_record(struct client *cl, const char *rec,
         return -2;
     }
 
-    mergekey_norm = get_mergekey(xdoc, cl, record_no, service, nmem);
+    mergekey_norm = get_mergekey(xdoc, cl, record_no, service, nmem,
+        se->mergekey);
     if (!mergekey_norm)
     {
         session_log(se, YLOG_WARN, "Got no mergekey");
@@ -1716,12 +1756,15 @@ int ingest_record(struct client *cl, const char *rec,
 
 //    struct conf_metadata *ser_md = &service->metadata[md_field_id];
 //    struct record_metadata *rec_md = record->metadata[md_field_id];
-static int match_metadata_local(struct conf_metadata *ser_md,
+static int match_metadata_local(struct conf_service *service,
+                                struct conf_metadata *ser_md,
                                 struct record_metadata *rec_md0,
                                 char **values, int num_v)
 {
     int i;
     struct record_metadata *rec_md = rec_md0;
+    WRBUF val_wr = 0;
+    WRBUF text_wr = wrbuf_alloc();
     for (i = 0; i < num_v; )
     {
         if (rec_md)
@@ -1736,21 +1779,29 @@ static int match_metadata_local(struct conf_metadata *ser_md,
             }
             else
             {
-                yaz_log(YLOG_DEBUG, "cmp: '%s' '%s'", rec_md->data.text.disp, values[i]);
-                if (!strcmp(rec_md->data.text.disp, values[i]))
+                if (!val_wr)
                 {
-                    // Value equals, should not be filtered.
-                    break;
+                    val_wr = wrbuf_alloc();
+                    mergekey_norm_wr(service->charsets, val_wr, values[i]);
                 }
+                wrbuf_rewind(text_wr);
+                mergekey_norm_wr(service->charsets, text_wr,
+                                 rec_md->data.text.disp);
+                if (!strcmp(wrbuf_cstr(val_wr), wrbuf_cstr(text_wr)))
+                    break;
             }
             rec_md = rec_md->next;
         }
         else
         {
             rec_md = rec_md0;
+            wrbuf_destroy(val_wr);
+            val_wr = 0;
             i++;
         }
     }
+    wrbuf_destroy(val_wr);
+    wrbuf_destroy(text_wr);
     return i < num_v ? 1 : 0;
 }
 
@@ -1786,7 +1837,8 @@ int session_check_cluster_limit(struct session *se, struct record_cluster *rec)
                 nmem_strsplit_escape2(nmem_tmp, "|", value, &values,
                                       &num, 1, '\\', 1);
 
-                if (!match_metadata_local(&service->metadata[md_field_id],
+                if (!match_metadata_local(service,
+                                          &service->metadata[md_field_id],
                                           rec->metadata[md_field_id],
                                           values, num))
                 {
@@ -1828,6 +1880,7 @@ static int check_limit_local(struct client *cl,
                  md_field_id++)
             {
                 if (match_metadata_local(
+                        service,
                         &service->metadata[md_field_id],
                         record->metadata[md_field_id],
                         values, num_v))
@@ -1845,6 +1898,7 @@ static int check_limit_local(struct client *cl,
                 break;
             }
             if (!match_metadata_local(
+                    service,
                     &service->metadata[md_field_id],
                     record->metadata[md_field_id],
                     values, num_v))
@@ -1872,6 +1926,9 @@ static int ingest_to_cluster(struct client *cl,
     struct record_cluster *cluster;
     struct record_metadata **metadata0;
     struct session_database *sdb = client_get_database(cl);
+    NMEM ingest_nmem = 0;
+    char **rank_values = 0;
+    int rank_num = 0;
     struct record *record = record_create(se->nmem,
                                           service->num_metadata,
                                           service->num_sortkeys, cl,
@@ -1931,6 +1988,18 @@ static int ingest_to_cluster(struct client *cl,
                             "for element '%s'", value, type);
                 continue;
             }
+
+            if (ser_md->type == Metadata_type_generic)
+            {
+                WRBUF w = wrbuf_alloc();
+                if (relevance_snippet(se->relevance,
+                                      (char*) value, ser_md->name, w))
+                    rec_md->data.text.snippet = nmem_strdup(se->nmem,
+                                                            wrbuf_cstr(w));
+                wrbuf_destroy(w);
+            }
+
+
             wheretoput = &record->metadata[md_field_id];
             while (*wheretoput)
                 wheretoput = &(*wheretoput)->next;
@@ -1979,6 +2048,14 @@ static int ingest_to_cluster(struct client *cl,
     memcpy(metadata0, cluster->metadata,
            sizeof(*metadata0) * service->num_metadata);
 
+    ingest_nmem = nmem_create();
+    if (se->rank)
+    {
+        yaz_log(YLOG_LOG, "local in sort : %s", se->rank);
+        nmem_strsplit_escape2(ingest_nmem, ",", se->rank, &rank_values,
+                              &rank_num, 1, '\\', 1);
+    }
+
     // now parsing XML record and adding data to cluster or record metadata
     for (n = root->children; n; n = n->next)
     {
@@ -1999,8 +2076,8 @@ static int ingest_to_cluster(struct client *cl,
             struct record_metadata *rec_md = 0;
             int md_field_id = -1;
             int sk_field_id = -1;
-            const char *rank;
-            xmlChar *xml_rank;
+            const char *rank = 0;
+            xmlChar *xml_rank = 0;
 
             type = xmlGetProp(n, (xmlChar *) "type");
             value = xmlNodeListGetString(xdoc, n->children, 1);
@@ -2030,8 +2107,28 @@ static int ingest_to_cluster(struct client *cl,
             if (!rec_md)
                 continue;
 
-            xml_rank = xmlGetProp(n, (xmlChar *) "rank");
-            rank = xml_rank ? (const char *) xml_rank : ser_md->rank;
+            if (rank_num)
+            {
+                int i;
+                for (i = 0; i < rank_num; i++)
+                {
+                    const char *val = rank_values[i];
+                    const char *cp = strchr(val, '=');
+                    if (!cp)
+                        continue;
+                    if ((cp - val) == strlen((const char *) type)
+                        && !memcmp(val, type, cp - val))
+                    {
+                        rank = cp + 1;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                xml_rank = xmlGetProp(n, (xmlChar *) "rank");
+                rank = xml_rank ? (const char *) xml_rank : ser_md->rank;
+            }
 
             wheretoput = &cluster->metadata[md_field_id];
 
@@ -2130,7 +2227,6 @@ static int ingest_to_cluster(struct client *cl,
                 relevance_countwords(se->relevance, cluster,
                                      (char *) value, rank, ser_md->name);
             }
-
             // construct facets ... unless the client already has reported them
             if (ser_md->termlist && !client_has_facet(cl, (char *) type))
             {
@@ -2170,6 +2266,7 @@ static int ingest_to_cluster(struct client *cl,
     if (value)
         xmlFree(value);
 
+    nmem_destroy(ingest_nmem);
     xfree(metadata0);
     relevance_donerecord(se->relevance, cluster);
     se->total_records++;

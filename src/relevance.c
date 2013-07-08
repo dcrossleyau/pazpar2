@@ -83,6 +83,63 @@ static struct word_entry *word_entry_match(struct relevance *r,
     return 0;
 }
 
+int relevance_snippet(struct relevance *r,
+                      const char *words, const char *name,
+                      WRBUF w_snippet)
+{
+    int no = 0;
+    const char *norm_str;
+    int highlight = 0;
+
+    pp2_charset_token_first(r->prt, words, 0);
+    while ((norm_str = pp2_charset_token_next(r->prt)))
+    {
+        size_t org_start, org_len;
+        struct word_entry *entries = r->entries;
+        int i;
+
+        pp2_get_org(r->prt, &org_start, &org_len);
+        for (; entries; entries = entries->next, i++)
+        {
+            if (*norm_str && !strcmp(norm_str, entries->norm_str))
+            {
+                break;
+                if (!highlight)
+                {
+                    highlight = 1;
+                    wrbuf_puts(w_snippet, "<match>");
+                }
+                break;
+            }
+        }
+        if (entries)
+        {
+            if (!highlight)
+            {
+                highlight = 1;
+                wrbuf_puts(w_snippet, "<match>");
+                no++;
+            }
+        }
+        else
+        {
+            if (highlight)
+            {
+                highlight = 0;
+                wrbuf_puts(w_snippet, "</match>");
+            }
+        }
+        wrbuf_xmlputs_n(w_snippet, words + org_start, org_len);
+    }
+    if (highlight)
+        wrbuf_puts(w_snippet, "</match>");
+    if (no)
+    {
+        yaz_log(YLOG_DEBUG, "SNIPPET match: %s", wrbuf_cstr(w_snippet));
+    }
+    return no;
+}
+
 void relevance_countwords(struct relevance *r, struct record_cluster *cluster,
                           const char *words, const char *rank,
                           const char *name)
@@ -215,6 +272,15 @@ static void pull_terms(struct relevance *res, struct ccl_rpn_node *n)
         break;
     }
 }
+void relevance_clear(struct relevance *r)
+{
+    if (r)
+    {
+        int i;
+        for (i = 0; i < r->vec_len; i++)
+            r->doc_frequency_vec[i] = 0;
+    }
+}
 
 struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
                                        struct ccl_rpn_node *query,
@@ -224,7 +290,6 @@ struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
 {
     NMEM nmem = nmem_create();
     struct relevance *res = nmem_malloc(nmem, sizeof(*res));
-    int i;
 
     res->nmem = nmem;
     res->entries = 0;
@@ -238,8 +303,6 @@ struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
     pull_terms(res, query);
 
     res->doc_frequency_vec = nmem_malloc(nmem, res->vec_len * sizeof(int));
-    for (i = 0; i < res->vec_len; i++)
-        res->doc_frequency_vec[i] = 0;
 
     // worker array
     res->term_frequency_vec_tmp =
@@ -249,6 +312,7 @@ struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
     res->term_pos =
         nmem_malloc(res->nmem, res->vec_len * sizeof(*res->term_pos));
 
+    relevance_clear(res);
     return res;
 }
 

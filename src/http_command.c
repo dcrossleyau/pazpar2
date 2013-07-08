@@ -114,7 +114,8 @@ int http_session_use(int delta)
     g_http_sessions += delta;
     sessions = g_http_sessions;
     yaz_mutex_leave(g_http_session_mutex);
-    yaz_log(YLOG_DEBUG, "%s sessions=%d", delta == 0 ? "" : (delta > 0 ? "INC" : "DEC"), sessions);
+    yaz_log(YLOG_DEBUG, "%s http_sessions=%d", delta == 0 ? "" :
+            (delta > 0 ? "INC" : "DEC"), sessions);
     return sessions;
 
 }
@@ -274,8 +275,8 @@ static void error(struct http_response *rs,
     rs->msg = nmem_strdup(c->nmem, msg);
     strcpy(rs->code, http_status);
 
-    wrbuf_printf(text, HTTP_COMMAND_RESPONSE_PREFIX "<error code=\"%d\" msg=\"%s\">", (int) code,
-               msg);
+    wrbuf_printf(text, HTTP_COMMAND_RESPONSE_PREFIX
+                 "<error code=\"%d\" msg=\"%s\">", (int) code, msg);
     if (addinfo)
         wrbuf_xmlputs(text, addinfo);
     wrbuf_puts(text, "</error>");
@@ -287,16 +288,17 @@ static void error(struct http_response *rs,
     http_send_response(c);
 }
 
-static void response_open_no_status(struct http_channel *c, const char *command)
+static void response_open_command(struct http_channel *c, const char *command)
 {
     wrbuf_rewind(c->wrbuf);
-    wrbuf_printf(c->wrbuf, "%s<%s>",
-                 HTTP_COMMAND_RESPONSE_PREFIX, command);
+    wrbuf_puts(c->wrbuf, HTTP_COMMAND_RESPONSE_PREFIX);
+    if (command)
+        wrbuf_printf(c->wrbuf, "<%s>", command);
 }
 
-static void response_open(struct http_channel *c, const char *command)
+static void response_open_ok(struct http_channel *c, const char *command)
 {
-    response_open_no_status(c, command);
+    response_open_command(c, command);
     wrbuf_puts(c->wrbuf, "<status>OK</status>");
 }
 
@@ -304,7 +306,8 @@ static void response_close(struct http_channel *c, const char *command)
 {
     struct http_response *rs = c->response;
 
-    wrbuf_printf(c->wrbuf, "</%s>", command);
+    if (command)
+        wrbuf_printf(c->wrbuf, "</%s>", command);
     rs->payload = nmem_strdup(c->nmem, wrbuf_cstr(c->wrbuf));
     http_send_response(c);
 }
@@ -412,7 +415,7 @@ static void cmd_exit(struct http_channel *c)
 {
     yaz_log(YLOG_WARN, "exit");
 
-    response_open(c, "exit");
+    response_open_ok(c, "exit");
     response_close(c, "exit");
     if (global_parameters.debug_mode)
         http_close_server(c->server);
@@ -469,7 +472,7 @@ static void cmd_init(struct http_channel *c)
     if (process_settings(s->psession, c->request, c->response) < 0)
         return;
 
-    response_open(c, "init");
+    response_open_ok(c, "init");
     wrbuf_printf(c->wrbuf, "<session>%d", sesid);
     if (c->server->server_id)
     {
@@ -479,8 +482,9 @@ static void cmd_init(struct http_channel *c)
     wrbuf_puts(c->wrbuf, "</session>"
                "<protocol>" PAZPAR2_PROTOCOL_VERSION "</protocol>");
 
-    wrbuf_printf(c->wrbuf, "<keepAlive>%d</keepAlive>\n", 1000 * ((s->psession->service->session_timeout >= 20) ?
-                                                                  (s->psession->service->session_timeout - 10) : 50));
+    wrbuf_printf(c->wrbuf, "<keepAlive>%d</keepAlive>\n",
+                 1000 * ((s->psession->service->session_timeout >= 20) ?
+                         (s->psession->service->session_timeout - 10) : 50));
     response_close(c, "init");
 }
 
@@ -513,7 +517,7 @@ static void cmd_settings(struct http_channel *c)
         if (!doc)
         {
             error(rs, PAZPAR2_MALFORMED_SETTING, 0);
-            release_session(c,s);
+            release_session(c, s);
             return;
         }
         root_n = xmlDocGetRootElement(doc);
@@ -522,7 +526,7 @@ static void cmd_settings(struct http_channel *c)
         if (ret)
         {
             error(rs, PAZPAR2_MALFORMED_SETTING, 0);
-            release_session(c,s);
+            release_session(c, s);
             return;
         }
     }
@@ -531,12 +535,13 @@ static void cmd_settings(struct http_channel *c)
         release_session(c, s);
         return;
     }
-    response_open(c, "settings");
+    response_open_ok(c, "settings");
     response_close(c, "settings");
     release_session(c, s);
 }
 
-static void termlist_response(struct http_channel *c, struct http_session *s, const char *cmd_status)
+static void termlist_response(struct http_channel *c, struct http_session *s,
+                              const char *cmd_status)
 {
     struct http_request *rq = c->request;
     const char *name    = http_argbyname(rq, "name");
@@ -550,7 +555,7 @@ static void termlist_response(struct http_channel *c, struct http_session *s, co
 
     status = session_active_clients(s->psession);
 
-    response_open_no_status(c, "termlist");
+    response_open_command(c, "termlist");
     /* new protocol add a status to response. Triggered by a status parameter */
     if (cmd_status != 0)
         wrbuf_printf(c->wrbuf, "<status>%s</status>\n", cmd_status);
@@ -575,7 +580,7 @@ static void termlist_result_ready(void *data)
         session_log(s->psession, c->http_sessions->log_level,
                     "termlist watch released");
         termlist_response(c, s, status);
-        release_session(c,s);
+        release_session(c, s);
     }
 }
 
@@ -642,10 +647,25 @@ size_t session_get_memory_status(struct session *session);
 static void session_status(struct http_channel *c, struct http_session *s)
 {
     size_t session_nmem;
-    wrbuf_printf(c->wrbuf, "<http_count>%u</http_count>\n", s->activity_counter);
-    wrbuf_printf(c->wrbuf, "<http_nmem>%zu</http_nmem>\n", nmem_total(s->nmem) );
+    wrbuf_printf(c->wrbuf, "<http_count>%u</http_count>\n",
+                 s->activity_counter);
+    wrbuf_printf(c->wrbuf, "<http_nmem>%zu</http_nmem>\n",
+                 nmem_total(s->nmem) );
     session_nmem = session_get_memory_status(s->psession);
     wrbuf_printf(c->wrbuf, "<session_nmem>%zu</session_nmem>\n", session_nmem);
+}
+
+static void cmd_service(struct http_channel *c)
+{
+    struct http_session *s = locate_session(c);
+    if (!s)
+        return;
+
+    response_open_command(c, 0);
+    if (s->psession->service->xml_node)
+        wrbuf_puts(c->wrbuf, s->psession->service->xml_node);
+    response_close(c, 0);
+    release_session(c, s);
 }
 
 static void cmd_session_status(struct http_channel *c)
@@ -654,14 +674,12 @@ static void cmd_session_status(struct http_channel *c)
     if (!s)
         return;
 
-    response_open(c, "session-status");
+    response_open_ok(c, "session-status");
     session_status(c, s);
     response_close(c, "session-status");
     release_session(c, s);
 }
 
-int sessions_count(void);
-int clients_count(void);
 #ifdef HAVE_RESULTSETS_COUNT
 int resultsets_count(void);
 #else
@@ -674,7 +692,7 @@ static void cmd_server_status(struct http_channel *c)
     int clients    = clients_count();
     int resultsets = resultsets_count();
 
-    response_open(c, "server-status");
+    response_open_ok(c, "server-status");
     wrbuf_printf(c->wrbuf, "\n  <sessions>%u</sessions>\n", sessions);
     wrbuf_printf(c->wrbuf, "  <clients>%u</clients>\n",   clients);
     /* Only works if yaz has been compiled with enabling of this */
@@ -703,19 +721,22 @@ static void cmd_server_status(struct http_channel *c)
     xmalloc_trav(0);
 }
 
-static void bytarget_response(struct http_channel *c, struct http_session *s, const char *cmd_status) {
+static void bytarget_response(struct http_channel *c, struct http_session *s,
+                              const char *cmd_status)
+{
     int count, i;
-    struct hitsbytarget *ht;
     struct http_request *rq = c->request;
     const char *settings = http_argbyname(rq, "settings");
     int version = get_version(rq);
-    ht = get_hitsbytarget(s->psession, &count, c->nmem);
+    struct hitsbytarget *ht = get_hitsbytarget(s->psession, &count, c->nmem);
+
     if (!cmd_status)
         /* Old protocol, always ok */
-        response_open(c, "bytarget");
-    else {
+        response_open_ok(c, "bytarget");
+    else
+    {
         /* New protocol, OK or WARNING (...)*/
-        response_open_no_status(c, "bytarget");
+        response_open_command(c, "bytarget");
         wrbuf_printf(c->wrbuf, "<status>%s</status>", cmd_status);
     }
 
@@ -738,7 +759,8 @@ static void bytarget_response(struct http_channel *c, struct http_session *s, co
         }
 
         wrbuf_printf(c->wrbuf, "<hits>" ODR_INT_PRINTF "</hits>\n", ht[i].hits);
-        wrbuf_printf(c->wrbuf, "<diagnostic>%d</diagnostic>\n", ht[i].diagnostic);
+        wrbuf_printf(c->wrbuf, "<diagnostic>%d</diagnostic>\n",
+                     ht[i].diagnostic);
         if (ht[i].diagnostic)
         {
             wrbuf_puts(c->wrbuf, "<message>");
@@ -750,10 +772,13 @@ static void bytarget_response(struct http_channel *c, struct http_session *s, co
             wrbuf_puts(c->wrbuf, "</addinfo>\n");
         }
 
-        wrbuf_printf(c->wrbuf, "<records>%d</records>\n", ht[i].records - ht[i].filtered);
-        if (version >= 2) {
+        wrbuf_printf(c->wrbuf, "<records>%d</records>\n",
+                     ht[i].records - ht[i].filtered);
+        if (version >= 2)
+        {
             wrbuf_printf(c->wrbuf, "<filtered>%d</filtered>\n", ht[i].filtered);
-            wrbuf_printf(c->wrbuf, "<approximation>" ODR_INT_PRINTF "</approximation>\n", ht[i].approximation);
+            wrbuf_printf(c->wrbuf, "<approximation>" ODR_INT_PRINTF
+                         "</approximation>\n", ht[i].approximation);
         }
         wrbuf_puts(c->wrbuf, "<state>");
         wrbuf_xmlputs(c->wrbuf, ht[i].state);
@@ -764,7 +789,8 @@ static void bytarget_response(struct http_channel *c, struct http_session *s, co
             wrbuf_puts(c->wrbuf, ht[i].settings_xml);
             wrbuf_puts(c->wrbuf, "</settings>\n");
         }
-        if (ht[i].suggestions_xml && ht[i].suggestions_xml[0]) {
+        if (ht[i].suggestions_xml && ht[i].suggestions_xml[0])
+        {
             wrbuf_puts(c->wrbuf, "<suggestions>");
             wrbuf_puts(c->wrbuf, ht[i].suggestions_xml);
             wrbuf_puts(c->wrbuf, "</suggestions>");
@@ -829,10 +855,9 @@ static void cmd_bytarget(struct http_channel *c)
             }
             else if (report_status)
                 status_message = "WARNING (Already blocked on bytarget)";
-            else {
+            else
                 session_log(s->psession, YLOG_WARN, "Ignoring bytarget block."
                             " Return current result.");
-            }
         }
         else
         {
@@ -849,7 +874,8 @@ static void cmd_bytarget(struct http_channel *c)
 }
 
 static void write_metadata(WRBUF w, struct conf_service *service,
-                           struct record_metadata **ml, int full, int indent)
+                           struct record_metadata **ml, unsigned flags,
+                           int indent)
 {
     int imeta;
 
@@ -857,7 +883,7 @@ static void write_metadata(WRBUF w, struct conf_service *service,
     {
         struct conf_metadata *cmd = &service->metadata[imeta];
         struct record_metadata *md;
-        if (!cmd->brief && !full)
+        if (!cmd->brief && !(flags & 1))
             continue;
         for (md = ml[imeta]; md; md = md->next)
         {
@@ -877,7 +903,10 @@ static void write_metadata(WRBUF w, struct conf_service *service,
             switch (cmd->type)
             {
                 case Metadata_type_generic:
-                    wrbuf_xmlputs(w, md->data.text.disp);
+                    if (md->data.text.snippet && (flags & 2))
+                        wrbuf_puts(w, md->data.text.snippet);
+                    else
+                        wrbuf_xmlputs(w, md->data.text.disp);
                     break;
                 case Metadata_type_year:
                     wrbuf_printf(w, "%d", md->data.number.min);
@@ -894,7 +923,8 @@ static void write_metadata(WRBUF w, struct conf_service *service,
 }
 
 static void write_subrecord(struct record *r, WRBUF w,
-        struct conf_service *service, int show_details)
+                            struct conf_service *service, unsigned flags,
+                            int indent)
 {
     const char *name = session_setting_oneval(
         client_get_database(r->client), PZ_NAME);
@@ -911,7 +941,7 @@ static void write_subrecord(struct record *r, WRBUF w,
     wrbuf_printf(w,  "%u", r->checksum);
     wrbuf_puts(w, "\">\n");
 
-    write_metadata(w, service, r->metadata, show_details, 2);
+    write_metadata(w, service, r->metadata, flags, indent);
     wrbuf_puts(w, " </location>\n");
 }
 
@@ -974,6 +1004,8 @@ static void show_record(struct http_channel *c, struct http_session *s)
     const char *offsetstr = http_argbyname(rq, "offset");
     const char *binarystr = http_argbyname(rq, "binary");
     const char *checksumstr = http_argbyname(rq, "checksum");
+    const char *snippets = http_argbyname(rq, "snippets");
+    unsigned flags = (snippets && *snippets == '1') ? 3 : 1;
 
     if (!s)
         return;
@@ -1011,7 +1043,7 @@ static void show_record(struct http_channel *c, struct http_session *s)
 
         if (checksumstr)
         {
-            long v = atol(checksumstr);
+            unsigned v = strtoul(checksumstr, 0, 10);
             for (i = 0; r; r = r->next)
                 if (v == r->checksum)
                     break;
@@ -1049,7 +1081,7 @@ static void show_record(struct http_channel *c, struct http_session *s)
     else
     {
         struct record *r;
-        response_open_no_status(c, "record");
+        response_open_command(c, "record");
         wrbuf_puts(c->wrbuf, "\n <recid>");
         wrbuf_xmlputs(c->wrbuf, rec->recid);
         wrbuf_puts(c->wrbuf, "</recid>\n");
@@ -1067,9 +1099,9 @@ static void show_record(struct http_channel *c, struct http_session *s)
         }
         wrbuf_printf(c->wrbuf, " <activeclients>%d</activeclients>\n",
                      session_active_clients(s->psession));
-        write_metadata(c->wrbuf, service, rec->metadata, 1, 1);
+        write_metadata(c->wrbuf, service, rec->metadata, flags, 1);
         for (r = rec->records; r; r = r->next)
-            write_subrecord(r, c->wrbuf, service, 2);
+            write_subrecord(r, c->wrbuf, service, flags, 2);
         response_close(c, "record");
     }
     show_single_stop(s->psession, rec);
@@ -1084,21 +1116,23 @@ static void cmd_record_ready(void *data)
         session_log(s->psession, c->http_sessions->log_level,
                     "record watch released");
         show_record(c, s);
-        release_session(c,s);
+        release_session(c, s);
     }
 }
 
 static void cmd_record(struct http_channel *c)
 {
     struct http_session *s = locate_session(c);
-    if (s) {
+    if (s)
+    {
         show_record(c, s);
-        release_session(c,s);
+        release_session(c, s);
     }
 }
 
 
-static void show_records(struct http_channel *c, struct http_session *s, int active)
+static void show_records(struct http_channel *c, struct http_session *s,
+                         int active)
 {
     struct http_request *rq = c->request;
     struct http_response *rs = c->response;
@@ -1108,6 +1142,8 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     const char *num = http_argbyname(rq, "num");
     const char *sort = http_argbyname(rq, "sort");
     int version = get_version(rq);
+    const char *snippets = http_argbyname(rq, "snippets");
+    unsigned flags = (snippets && *snippets == '1') ? 2 : 0;
 
     int startn = 0;
     int numn = 20;
@@ -1129,9 +1165,8 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
         numn = atoi(num);
 
     service = s->psession->service;
-    if (!sort) {
+    if (!sort)
         sort = service->default_sort;
-    }
     if (!(sp = reclist_parse_sortparms(c->nmem, sort, service)))
     {
         error(rs, PAZPAR2_MALFORMED_PARAMETER_VALUE, "sort");
@@ -1143,13 +1178,14 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
     if (!rl)
         return;
 
-    response_open(c, "show");
+    response_open_ok(c, "show");
     wrbuf_printf(c->wrbuf, "\n<activeclients>%d</activeclients>\n", active);
     wrbuf_printf(c->wrbuf, "<merged>%d</merged>\n", total);
     wrbuf_printf(c->wrbuf, "<total>" ODR_INT_PRINTF "</total>\n", total_hits);
-    if (version >= 2) {
-        wrbuf_printf(c->wrbuf, "<approximation>" ODR_INT_PRINTF "</approximation>\n", approx_hits);
-    }
+    if (version >= 2)
+        wrbuf_printf(c->wrbuf, "<approximation>" ODR_INT_PRINTF
+                     "</approximation>\n", approx_hits);
+
     wrbuf_printf(c->wrbuf, "<start>%d</start>\n", startn);
     wrbuf_printf(c->wrbuf, "<num>%d</num>\n", numn);
 
@@ -1161,9 +1197,9 @@ static void show_records(struct http_channel *c, struct http_session *s, int act
         struct conf_service *service = s->psession->service;
 
         wrbuf_puts(c->wrbuf, "<hit>\n");
-        write_metadata(c->wrbuf, service, rec->metadata, 0, 1);
+        write_metadata(c->wrbuf, service, rec->metadata, flags, 1);
         for (ccount = 0, p = rl[i]->records; p;  p = p->next, ccount++)
-            write_subrecord(p, c->wrbuf, service, 0); // subrecs w/o details
+            write_subrecord(p, c->wrbuf, service, flags, 2);
         wrbuf_printf(c->wrbuf, " <count>%d</count>\n", ccount);
 	if (strstr(sort, "relevance"))
         {
@@ -1200,7 +1236,7 @@ static void show_records_ready(void *data)
     else {
         /* some error message  */
     }
-    release_session(c,s);
+    release_session(c, s);
 }
 
 static void cmd_show(struct http_channel *c)
@@ -1211,35 +1247,35 @@ static void cmd_show(struct http_channel *c)
     const char *block = http_argbyname(rq, "block");
     const char *sort = http_argbyname(rq, "sort");
     const char *block_error = http_argbyname(rq, "report");
+    const char *mergekey = http_argbyname(rq, "mergekey");
+    const char *rank = http_argbyname(rq, "rank");
     struct conf_service *service = 0;
-
     struct reclist_sortparms *sp;
     int status;
     int report_error = 0;
-    if (block_error && !strcmp("1", block_error)) {
+
+    if (block_error && !strcmp("1", block_error))
         report_error = 1;
-    }
     if (!s)
         return;
-
     service = s->psession->service;
-    if (!sort) {
+    if (!sort)
         sort = service->default_sort;
-    }
-
     if (!(sp = reclist_parse_sortparms(c->nmem, sort, service)))
     {
         error(c->response, PAZPAR2_MALFORMED_PARAMETER_VALUE, "sort");
         release_session(c, s);
         return;
     }
-    session_sort(s->psession, sp);
+    session_sort(s->psession, sp, mergekey, rank);
 
     status = session_active_clients(s->psession);
 
     if (block)
     {
-        if (!strcmp(block, "preferred") && !session_is_preferred_clients_ready(s->psession) && reclist_get_num_records(s->psession->reclist) == 0)
+        if (!strcmp(block, "preferred")
+            && !session_is_preferred_clients_ready(s->psession)
+            && reclist_get_num_records(s->psession->reclist) == 0)
         {
             // if there is already a watch/block. we do not block this one
             if (session_set_watch(s->psession, SESSION_WATCH_SHOW_PREF,
@@ -1307,7 +1343,7 @@ static void cmd_ping(struct http_channel *c)
     struct http_session *s = locate_session(c);
     if (!s)
         return;
-    response_open(c, "ping");
+    response_open_ok(c, "ping");
     response_close(c, "ping");
     release_session(c, s);
 }
@@ -1323,6 +1359,8 @@ static void cmd_search(struct http_channel *c)
     const char *startrecs = http_argbyname(rq, "startrecs");
     const char *limit = http_argbyname(rq, "limit");
     const char *sort = http_argbyname(rq, "sort");
+    const char *mergekey = http_argbyname(rq, "mergekey");
+    const char *rank = http_argbyname(rq, "rank");
     enum pazpar2_error_code code;
     const char *addinfo = 0;
     struct reclist_sortparms *sp;
@@ -1344,9 +1382,9 @@ static void cmd_search(struct http_channel *c)
         return;
     }
     service = s->psession->service;
-    if (!sort) {
+    if (!sort)
         sort = service->default_sort;
-    }
+
     if (!(sp = reclist_parse_sortparms(c->nmem, sort, s->psession->service)))
     {
         error(c->response, PAZPAR2_MALFORMED_PARAMETER_VALUE, "sort");
@@ -1355,14 +1393,14 @@ static void cmd_search(struct http_channel *c)
     }
 
     code = session_search(s->psession, query, startrecs, maxrecs, filter, limit,
-                          &addinfo, sp);
+                          &addinfo, sp, mergekey, rank);
     if (code)
     {
         error(rs, code, addinfo);
         release_session(c, s);
         return;
     }
-    response_open(c, "search");
+    response_open_ok(c, "search");
     response_close(c, "search");
     release_session(c, s);
 }
@@ -1387,7 +1425,7 @@ static void cmd_stat(struct http_channel *c)
     	progress = (stat.num_clients  - clients) / (float)stat.num_clients;
     }
 
-    response_open_no_status(c, "stat");
+    response_open_command(c, "stat");
     wrbuf_printf(c->wrbuf, "\n <activeclients>%d</activeclients>\n", clients);
     wrbuf_printf(c->wrbuf, " <hits>" ODR_INT_PRINTF "</hits>\n", stat.num_hits);
     wrbuf_printf(c->wrbuf, " <records>%d</records>\n", stat.num_records);
@@ -1408,7 +1446,7 @@ static void cmd_info(struct http_channel *c)
     char yaz_version_str[20];
     char yaz_sha1_str[42];
 
-    response_open_no_status(c, "info");
+    response_open_command(c, "info");
     wrbuf_puts(c->wrbuf, "\n <version>\n");
     wrbuf_puts(c->wrbuf, "  <pazpar2");
 #ifdef PAZPAR2_VERSION_SHA1
@@ -1458,6 +1496,7 @@ struct {
     { "exit", cmd_exit },
     { "session-status", cmd_session_status },
     { "server-status", cmd_server_status },
+    { "service", cmd_service },
     { "ping", cmd_ping },
     { "record", cmd_record },
     { "info", cmd_info },

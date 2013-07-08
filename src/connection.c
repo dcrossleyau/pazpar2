@@ -513,7 +513,6 @@ int client_prep_connection(struct client *cl,
         {
             return 2;
         }
-        client_incref(cl);
         connection_release(co);
         co = 0;
     }

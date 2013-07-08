@@ -64,6 +64,36 @@ struct service_xslt
     struct service_xslt *next;
 };
 
+static char *xml_context(const xmlNode *ptr, char *res, size_t len)
+{
+    xmlAttr *attr = ptr->properties;
+    size_t off = len - 1;
+
+    res[off] = '\0';
+    for (; attr; attr = attr->next)
+    {
+        size_t l = strlen((const char *) attr->name);
+        if (off <= l + 1)
+            break;
+        off = off - l;
+        memcpy(res + off, attr->name, l);
+        res[--off] = '@';
+    } 
+    while (ptr && ptr->type == XML_ELEMENT_NODE)
+    {
+        size_t l = strlen((const char *) ptr->name);
+        if (off <= l + 1)
+            break;
+
+        off = off - l;
+        memcpy(res + off, ptr->name, l);
+        res[--off] = '/';
+
+        ptr = ptr->parent;
+    }
+    return res + off;
+}
+
 struct conf_service *service_init(struct conf_server *server,
                                          int num_metadata, int num_sortkeys,
                                          const char *service_id)
@@ -120,8 +150,7 @@ struct conf_service *service_init(struct conf_server *server,
         service->sortkeys
             = nmem_malloc(nmem,
                           sizeof(struct conf_sortkey) * service->num_sortkeys);
-
-
+    service->xml_node = 0;
     return service;
 }
 
@@ -597,15 +626,6 @@ static struct conf_service *service_create_static(struct conf_server *server,
             if (service_xslt_config(service, n))
                 return 0;
         }
-        else if (!strcmp((const char *) n->name, (const char *) "set"))
-        {
-            xmlChar *name= xmlGetProp(n, (xmlChar *) "name");
-            xmlChar *value = xmlGetProp(n, (xmlChar *) "value");
-            if (service->dictionary && name && value) {
-                yaz_log(YLOG_DEBUG, "service set: %s=%s (Not implemented)", (char *) name, (char *) value);
-                //service_aply_setting(service, name, value);
-            }
-        }
         else if (!strcmp((const char *) n->name, "rank"))
         {
             char *rank_cluster = (char *) xmlGetProp(n, (xmlChar *) "cluster");
@@ -683,7 +703,9 @@ static struct conf_service *service_create_static(struct conf_server *server,
         }
         else
         {
-            yaz_log(YLOG_FATAL, "Bad element: %s", n->name);
+            char tmp[80];
+            yaz_log(YLOG_FATAL, "Bad element: %s . Context: %s", n->name,
+                    xml_context(n, tmp, sizeof tmp));
             return 0;
         }
     }
@@ -719,6 +741,14 @@ static struct conf_service *service_create_static(struct conf_server *server,
                 }
             }
         }
+    }
+
+    {
+        xmlBufferPtr buf = xmlBufferCreate();
+        xmlNodeDump(buf, node->doc, node, 0, 0);
+        service->xml_node =
+            nmem_strdupn(service->nmem, (const char *) buf->content, buf->use);
+        xmlBufferFree(buf);
     }
     return service;
 }
@@ -782,7 +812,7 @@ static struct conf_server *server_create(struct conf_config *config,
     struct conf_server *server = nmem_malloc(nmem, sizeof(struct conf_server));
     xmlChar *server_id = xmlGetProp(node, (xmlChar *) "id");
 
-    server->host = 0;
+    server->host = "@";
     server->port = 0;
     server->proxy_host = 0;
     server->proxy_port = 0;
@@ -811,10 +841,12 @@ static struct conf_server *server_create(struct conf_config *config,
         {
             xmlChar *port = xmlGetProp(n, (xmlChar *) "port");
             xmlChar *host = xmlGetProp(n, (xmlChar *) "host");
+
             if (port)
-                server->port = atoi((const char *) port);
+                server->port = nmem_strdup(nmem, (const char *) port);
             if (host)
                 server->host = nmem_strdup(nmem, (const char *) host);
+
             xmlFree(port);
             xmlFree(host);
         }
@@ -917,6 +949,11 @@ static struct conf_server *server_create(struct conf_config *config,
             yaz_log(YLOG_FATAL, "Bad element: %s", n->name);
             return 0;
         }
+    }
+    if (!server->port)
+    {
+        yaz_log(YLOG_FATAL, "No listening port given");
+        return 0;
     }
     if (server->service)
     {
@@ -1139,28 +1176,27 @@ int config_start_listeners(struct conf_config *conf,
     conf->iochan_man = iochan_man_create(conf->no_threads);
     for (ser = conf->servers; ser; ser = ser->next)
     {
-        WRBUF w = wrbuf_alloc();
+        WRBUF w;
         int r;
 
         ser->iochan_man = conf->iochan_man;
         if (listener_override)
         {
-            wrbuf_puts(w, listener_override);
+            const char *cp = strrchr(listener_override, ':');
+            if (cp)
+            {
+                ser->host = nmem_strdupn(conf->nmem, listener_override,
+                                         cp - listener_override);
+                ser->port = nmem_strdup(conf->nmem, cp + 1);
+            }
+            else
+            {
+                ser->host = "@";
+                ser->port = nmem_strdup(conf->nmem, listener_override);
+            }
             listener_override = 0; /* only first server is overriden */
         }
-        else
-        {
-            if (ser->host)
-                wrbuf_puts(w, ser->host);
-            if (ser->port)
-            {
-                if (wrbuf_len(w))
-                    wrbuf_puts(w, ":");
-                wrbuf_printf(w, "%d", ser->port);
-            }
-        }
-        r = http_init(wrbuf_cstr(w), ser, record_fname);
-        wrbuf_destroy(w);
+        r = http_init(ser, record_fname);
         if (r)
             return -1;
 

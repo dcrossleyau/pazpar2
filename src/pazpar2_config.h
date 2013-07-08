@@ -134,6 +134,7 @@ struct conf_service
     CCL_bibset ccl_bibset;
     struct database *databases;
     struct conf_server *server;
+    char *xml_node;
 };
 
 int conf_service_metadata_field_id(struct conf_service *service, const char * name);
@@ -143,7 +144,7 @@ int conf_service_sortkey_field_id(struct conf_service *service, const char * nam
 struct conf_server
 {
     char *host;
-    int port;
+    char *port;
     char *proxy_host;
     int proxy_port;
     char *myurl;

@@ -10,7 +10,7 @@
  <md-author>Jack Collins</md-author>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="2788512872">
-  <md-title>How to program a<match> computer</match></md-title>
+  <md-title>How to program a computer</md-title>
   <md-author>Jack Collins</md-author>
   <md-test-usersetting>XXXXXXXXXX</md-test-usersetting>
   <md-test-usersetting-2>test-usersetting-2 data: 
@@ -18,7 +18,7 @@
  </location>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="2614320583">
-  <md-title>How to program a<match> computer</match></md-title>
+  <md-title>How to program a computer</md-title>
   <md-author>Jack Collins</md-author>
   <md-test-usersetting>XXXXXXXXXX</md-test-usersetting>
   <md-test-usersetting-2>test-usersetting-2 data: 
@@ -38,7 +38,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](2.400000) * idf[1](0.200671) (48160);
 score = relevance(48160);
  </relevance_info>
- <recid>content: title how to program a computer author jack collins medium book</recid>
+ <recid>content: title how to program a computer author jack collins</recid>
 </hit>
 <hit>
  <md-title>Computer science &amp; technology</md-title>
@@ -47,7 +47,7 @@ score = relevance(48160);
  <md-subject>Optical pattern recognition</md-subject>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="3659474317">
-  <md-title><match>Computer</match> science &amp; technology</md-title>
+  <md-title>Computer science &amp; technology</md-title>
   <md-title-remainder>proceedings of a workshop held at the National Bureau of Standards, Gaithersburg, MD, June 3-4, 1976</md-title-remainder>
   <md-date>1977</md-date>
   <md-subject>Optical pattern recognition</md-subject>
@@ -69,7 +69,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](2.000000) * idf[1](0.200671) (40134);
 score = relevance(40134);
  </relevance_info>
- <recid>content: title computer science technology author medium book</recid>
+ <recid>content: title computer science technology</recid>
 </hit>
 <hit>
  <md-title>The Computer Bible</md-title>
@@ -79,7 +79,7 @@ score = relevance(40134);
  <md-description>Vols. 2, 8: Missoula, Mont. : Published by Scholars Press for Biblical Research Associates</md-description>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="3136897450">
-  <md-title>The<match> Computer</match> Bible</md-title>
+  <md-title>The Computer Bible</md-title>
   <md-date>1973-1980</md-date>
   <md-subject>Bible. O.T</md-subject>
   <md-subject>Bible</md-subject>
@@ -100,7 +100,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](2.000000) * idf[1](0.200671) (40134);
 score = relevance(40134);
  </relevance_info>
- <recid>content: title the computer bible author medium book</recid>
+ <recid>content: title the computer bible</recid>
 </hit>
 <hit>
  <md-title>A plan for community college computer development</md-title>
@@ -110,7 +110,7 @@ score = relevance(40134);
  <md-description>Cover title</md-description>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="4182051184">
-  <md-title>A plan for community college<match> computer</match> development</md-title>
+  <md-title>A plan for community college computer development</md-title>
   <md-date>1971</md-date>
   <md-subject>Universities and colleges</md-subject>
   <md-subject>Community colleges</md-subject>
@@ -136,7 +136,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](0.857143) * idf[1](0.200671) (17200);
 score = relevance(17200);
  </relevance_info>
- <recid>content: title a plan for community college computer development author medium book</recid>
+ <recid>content: title a plan for community college computer development</recid>
 </hit>
 <hit>
  <md-title>Washington metropolitan area rail computer feasibility study;</md-title>
@@ -147,7 +147,7 @@ score = relevance(17200);
  <md-description>&quot;Contract DOT-UT-10003.&quot;</md-description>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="4007858895">
-  <md-title>Washington metropolitan area rail<match> computer</match> feasibility study</md-title>
+  <md-title>Washington metropolitan area rail computer feasibility study;</md-title>
   <md-title-remainder>final report</md-title-remainder>
   <md-date>1971</md-date>
   <md-author>Englund, Carl R</md-author>
@@ -171,7 +171,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](0.857143) * idf[1](0.200671) (17200);
 score = relevance(17200);
  </relevance_info>
- <recid>content: title washington metropolitan area rail computer feasibility study author englund carl r medium book</recid>
+ <recid>content: title washington metropolitan area rail computer feasibility study author englund carl r</recid>
 </hit>
 <hit>
  <md-title>The Puget Sound Region</md-title>
@@ -184,7 +184,7 @@ score = relevance(17200);
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="3311089739">
   <md-title>The Puget Sound Region</md-title>
-  <md-title-remainder>a portfolio of thematic<match> computer</match> maps</md-title-remainder>
+  <md-title-remainder>a portfolio of thematic computer maps</md-title-remainder>
   <md-date>1974</md-date>
   <md-author>Mairs, John W</md-author>
   <md-subject>Cartography</md-subject>
@@ -209,7 +209,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](0.833333) * idf[1](0.200671) (16722);
 score = relevance(16722);
  </relevance_info>
- <recid>content: title the puget sound region author mairs john w medium book</recid>
+ <recid>content: title the puget sound region author mairs john w</recid>
 </hit>
 <hit>
  <md-title>Computer processing of dynamic images from an Anger scintillation camera</md-title>
@@ -221,7 +221,7 @@ score = relevance(16722);
  <md-description>Includes bibliographical references and index</md-description>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="2962705161">
-  <md-title><match>Computer</match> processing of dynamic images from an Anger scintillation camera</md-title>
+  <md-title>Computer processing of dynamic images from an Anger scintillation camera</md-title>
   <md-title-remainder>the proceedings of a workshop</md-title-remainder>
   <md-date>1974</md-date>
   <md-subject>Radioisotope scanning</md-subject>
@@ -252,7 +252,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](0.600000) * idf[1](0.200671) (12040);
 score = relevance(12040);
  </relevance_info>
- <recid>content: title computer processing of dynamic images from an anger scintillation camera author medium book</recid>
+ <recid>content: title computer processing of dynamic images from an anger scintillation camera</recid>
 </hit>
 <hit>
  <md-title>The use of passwords for controlled access to computer resources</md-title>
@@ -261,7 +261,7 @@ score = relevance(12040);
  <md-subject>Computers</md-subject>
  <location id="z3950.indexdata.com/marc"
     name="Index Data MARC test server" checksum="3833666606">
-  <md-title>The use of passwords for controlled access to<match> computer</match> resources</md-title>
+  <md-title>The use of passwords for controlled access to computer resources</md-title>
   <md-date>1977</md-date>
   <md-author>Wood, Helen M</md-author>
   <md-subject>Computers</md-subject>
@@ -283,7 +283,7 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](0.600000) * idf[1](0.200671) (12040);
 score = relevance(12040);
  </relevance_info>
- <recid>content: title the use of passwords for controlled access to computer resources author wood helen m medium book</recid>
+ <recid>content: title the use of passwords for controlled access to computer resources author wood helen m</recid>
 </hit>
 <hit>
  <md-title>Reconstruction tomography in diagnostic radiology and nuclear medicine</md-title>
@@ -313,6 +313,6 @@ idf[1] = log(((1 + total(10))/termoccur(9));
 computer: relevance += 100000 * tf[1](0.000000) * idf[1](0.200671) (0);
 score = relevance(0);
  </relevance_info>
- <recid>content: title reconstruction tomography in diagnostic radiology and nuclear medicine author medium book</recid>
+ <recid>content: title reconstruction tomography in diagnostic radiology and nuclear medicine</recid>
 </hit>
 </show>

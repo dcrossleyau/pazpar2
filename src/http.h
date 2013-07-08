@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define HTTP_H
 
 #include <yaz/wrbuf.h>
+#include <yaz/timing.h>
 
 #include "eventl.h"
 // Generic I/O buffer
@@ -45,6 +46,7 @@ struct http_channel
     int keep_alive;
     NMEM nmem;
     WRBUF wrbuf;
+    yaz_timing_t yt;
     struct http_request *request;
     struct http_response *response;
     struct http_channel *next; // for freelist
@@ -104,8 +106,7 @@ void http_mutex_init(struct conf_server *server);
 void http_server_destroy(http_server_t hs);
 
 void http_set_proxyaddr(const char *url, struct conf_server *ser);
-int http_init(const char *addr, struct conf_server *ser,
-              const char *record_fname);
+int http_init(struct conf_server *ser, const char *record_fname);
 void http_close_server(struct conf_server *ser);
 void http_addheader(struct http_response *r,
                     const char *name, const char *value);

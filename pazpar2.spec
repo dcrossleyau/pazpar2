@@ -8,11 +8,11 @@ Group: Applications/Internet
 Vendor: Index Data ApS <info@indexdata.dk>
 Source: pazpar2-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-BuildRequires: libyaz4-devel >= 4.2.40
+BuildRequires: libyaz4-devel >= 4.2.58
 Packager: Adam Dickmeiss <adam@indexdata.dk>
 URL: http://www.indexdata.com/pazpar2
 Summary: pazpar2 daemon
-Requires: libyaz4 >= 4.2.40
+Requires: libyaz4 >= 4.2.58
 
 %description
 Pazpar2 is a high-performance, user interface-independent, data
@@ -80,6 +80,7 @@ cp etc/server.xml ${RPM_BUILD_ROOT}/etc/pazpar2/
 cp etc/default.xml ${RPM_BUILD_ROOT}/etc/pazpar2/services-available/
 cp etc/services/*.xml ${RPM_BUILD_ROOT}/etc/pazpar2/services-available/
 cp etc/settings/*.xml ${RPM_BUILD_ROOT}/etc/pazpar2/settings/
+cp -r etc/settings/mkc ${RPM_BUILD_ROOT}/etc/pazpar2/settings
 cp etc/*.xsl ${RPM_BUILD_ROOT}/etc/pazpar2/
 mkdir -p ${RPM_BUILD_ROOT}/etc/rc.d/init.d
 install -m755 rpm/pazpar2.init ${RPM_BUILD_ROOT}/etc/rc.d/init.d/pazpar2
@@ -96,11 +97,13 @@ rm -fr ${RPM_BUILD_ROOT}
 %{_sbindir}/pazpar2
 %dir %{_sysconfdir}/pazpar2
 %dir %{_sysconfdir}/pazpar2/settings
+%dir %{_sysconfdir}/pazpar2/settings/mkc
 %dir %{_sysconfdir}/pazpar2/services-enabled
 %dir %{_sysconfdir}/pazpar2/services-available
 %config %{_sysconfdir}/pazpar2/*.xml
 %config %{_sysconfdir}/pazpar2/*.xsl
 %config %{_sysconfdir}/pazpar2/settings/*.xml
+%config %{_sysconfdir}/pazpar2/settings/*/*.xml
 %config %{_sysconfdir}/pazpar2/services-available/*.xml
 %config %{_sysconfdir}/rc.d/init.d/pazpar2
 %config(noreplace) /etc/logrotate.d/pazpar2

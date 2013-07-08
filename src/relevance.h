@@ -32,11 +32,16 @@ struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
                                        struct ccl_rpn_node *query,
                                        int rank_cluster, double follow_factor,
                                        double lead_decay, int length_divide);
+void relevance_clear(struct relevance *r);
 void relevance_destroy(struct relevance **rp);
 void relevance_newrec(struct relevance *r, struct record_cluster *cluster);
 void relevance_countwords(struct relevance *r, struct record_cluster *cluster,
                           const char *words, const char *multiplier,
                           const char *name);
+int relevance_snippet(struct relevance *r,
+                      const char *words, const char *name,
+                      WRBUF w_snippet);
+
 void relevance_donerecord(struct relevance *r, struct record_cluster *cluster);
 
 void relevance_prepare_read(struct relevance *rel, struct reclist *rec);
