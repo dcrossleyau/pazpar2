@@ -65,7 +65,7 @@ struct work {
 
 static int log_level = YLOG_LOG;
 
-void perform_getaddrinfo(struct work *w)
+static void perform_getaddrinfo(struct work *w)
 {
     struct addrinfo hints, *res;
     char host[512], *cp;
@@ -177,7 +177,7 @@ static void getaddrinfo_start(iochan_man_t iochan_man)
 int host_getaddrinfo(struct host *host, iochan_man_t iochan_man)
 {
     struct work *w = xmalloc(sizeof(*w));
-    int use_thread = 0; /* =0 to disable threading entirely */
+    int use_thread = 1; /* =0 to disable threading entirely */
 
     w->hostport = host->tproxy ? host->tproxy : host->proxy;
     w->ipport = 0;
