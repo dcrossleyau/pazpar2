@@ -1,0 +1,18 @@
+Heikki's experiments with ranking
+
+Personal notes, likely to be out of date.
+
+Things to experiment with, and find out, and mess about
+
+Goals:
+ - Understand the ranking
+ - make a better ranking merging algorithm
+
+
+
+
+Tue 19-Nov-2013 Started this branch
+
+
+Wed 20-Nov-2013 Make a script that tests ranking against yaz-zserver
+(as that is the default config). Mostly to have a script to build on later.
