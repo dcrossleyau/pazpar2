@@ -101,6 +101,10 @@ struct reclist_sortparms *reclist_parse_sortparms(NMEM nmem, const char *parms,
             {
                 type = Metadata_sortkey_relevance;
             }
+            else if (!strcmp(parm, "relevance_h"))
+            {
+                type = Metadata_sortkey_relevance_h;
+            }
             else if (!strcmp(parm, "position"))
             {
                 type = Metadata_sortkey_position;
@@ -157,6 +161,9 @@ static int reclist_cmp(const void *p1, const void *p2)
         switch (s->type)
         {
         case Metadata_sortkey_relevance:
+            res = r2->relevance_score - r1->relevance_score;
+            break;
+        case Metadata_sortkey_relevance_h:
             res = r2->relevance_score - r1->relevance_score;
             break;
         case Metadata_sortkey_string:

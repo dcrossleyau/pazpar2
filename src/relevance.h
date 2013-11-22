@@ -44,7 +44,8 @@ int relevance_snippet(struct relevance *r,
 
 void relevance_donerecord(struct relevance *r, struct record_cluster *cluster);
 
-void relevance_prepare_read(struct relevance *rel, struct reclist *rec);
+void relevance_prepare_read(struct relevance *rel, struct reclist *rec,
+                            enum conf_sortkey_type type);
 
 #endif
 

@@ -20,8 +20,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #ifndef PAZPAR2_CONFIG_H
 #define PAZPAR2_CONFIG_H
 
-#include "normalize_cache.h"
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
+#include "normalize_cache.h"
 #include <yaz/nmem.h>
 #include <yaz/mutex.h>
 #include <yaz/ccl.h>
@@ -47,6 +49,7 @@ enum conf_metadata_merge {
 
 enum conf_sortkey_type {
     Metadata_sortkey_relevance,
+    Metadata_sortkey_relevance_h,   // Heikki's ranking
     Metadata_sortkey_numeric,       // Standard numerical sorting
     Metadata_sortkey_skiparticle,   // Skip leading article when sorting
     Metadata_sortkey_string,        // Flat string

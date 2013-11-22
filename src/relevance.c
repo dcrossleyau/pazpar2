@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <math.h>
 #include <stdlib.h>
 
+#include "pazpar2_config.h"
 #include "relevance.h"
 #include "session.h"
 
@@ -352,7 +353,8 @@ void relevance_donerecord(struct relevance *r, struct record_cluster *cluster)
 }
 
 // Prepare for a relevance-sorted read
-void relevance_prepare_read(struct relevance *rel, struct reclist *reclist)
+void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
+                            enum conf_sortkey_type type)
 {
     int i;
     float *idfvec = xmalloc(rel->vec_len * sizeof(float));
@@ -412,6 +414,8 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist)
         {
             wrbuf_printf(w, "score = relevance(%d);\n", relevance);
         }
+        if (0 && type == Metadata_sortkey_relevance_h)
+            relevance *= 2;
         rec->relevance_score = relevance;
     }
     reclist_leave(reclist);

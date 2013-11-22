@@ -1017,6 +1017,9 @@ static void info_service_metadata(struct conf_service *service, WRBUF w)
                     case Metadata_sortkey_relevance:
                         wrbuf_puts(w, "relevance");
                         break;
+                    case Metadata_sortkey_relevance_h:
+                        wrbuf_puts(w, "relevance_h");
+                        break;
                     case Metadata_sortkey_numeric:
                         wrbuf_puts(w, "numeric");
                         break;

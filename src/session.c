@@ -1314,9 +1314,10 @@ struct record_cluster **show_range_start(struct session *se,
     if (se->relevance)
     {
         for (spp = sp; spp; spp = spp->next)
-            if (spp->type == Metadata_sortkey_relevance)
+            if (spp->type == Metadata_sortkey_relevance
+                || spp->type == Metadata_sortkey_relevance_h)
             {
-                relevance_prepare_read(se->relevance, se->reclist);
+                relevance_prepare_read(se->relevance, se->reclist, spp->type);
                 break;
             }
         for (l = se->clients_active; l; l = l->next) {
