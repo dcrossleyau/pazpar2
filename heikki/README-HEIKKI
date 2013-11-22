@@ -16,3 +16,5 @@ Tue 19-Nov-2013 Started this branch
 
 Wed 20-Nov-2013 Make a script that tests ranking against yaz-zserver
 (as that is the default config). Mostly to have a script to build on later.
+
+Thu 21-Nov-2013. Start my own complete config
