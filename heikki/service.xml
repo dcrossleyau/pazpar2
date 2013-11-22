@@ -3,6 +3,7 @@
   <timeout session="60" z3950_operation="30" z3950_session="180"/>
   
   <settings src="ztest.xml"/>
+  <settings src="opencontent.xml"/>
   
   <icu_chain id="relevance" locale="en">
     <transform rule="[:Control:] Any-Remove"/>

@@ -12,6 +12,7 @@ then
   exit
 fi
 
+URL="http://localhost:9017/"
 CFG="test1.cfg"
 
 PZ="../src/pazpar2"
@@ -26,7 +27,7 @@ rm -f *.out *.log
 $PZ -f $CFG  -l pz2.log -p $PIDFILE &
 sleep 0.2 # make sure it has time to start
 echo "Init"
-curl -s "http://localhost:9017/?command=init" > init.out
+curl -s "$URL?command=init" > init.out
 SESSION=`xml_grep --text_only "//session" init.out `
 # cat init.out; echo
 echo "Got session $SESSION"
@@ -38,14 +39,35 @@ QRY="query=computer"
 #SEARCH="command=search$SES&$QRY"
 SEARCH="command=search$SES&$QRY&sort=relevance"
 echo $SEARCH
-curl -s "http://localhost:9017/?$SEARCH" > search.out
+curl -s "$URL?$SEARCH" > search.out
 cat search.out | grep search
 echo
 
-SHOW="command=show$SES&sort=relevance"
+STAT="command=stat&$SES"
+echo "" > stat.out
+LOOPING=1
+while [ $LOOPING = 1 ]
+do
+  sleep 0.5
+  curl -s "$URL?$STAT" > stat.out
+  ACT=`xml_grep --text_only "//activeclients" stat.out`
+  HIT=`xml_grep --text_only "//hits" stat.out`
+  REC=`xml_grep --text_only "//records" stat.out`
+  echo "$ACT $HIT $REC"
+  if grep -q "<activeclients>0</activeclients>" stat.out
+  then
+    LOOPING=0
+  fi
+  echo >> stats.out
+  cat stat.out >> stats.out
+done
+
+
+SHOW="command=show$SES&sort=relevance_h&start=0&num=1000"
 echo $SHOW
 curl -s "http://localhost:9017/?$SHOW" > show.out
-grep "relevance" show.out | grep += | grep -v "(0)"
+#grep "relevance" show.out | grep += | grep -v "(0)"
+grep "round-robin" show.out
 echo
 
 echo "All done"

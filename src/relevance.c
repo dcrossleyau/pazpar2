@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "pazpar2_config.h"
 #include "relevance.h"
 #include "session.h"
+#include "client.h"
 
 #ifdef WIN32
 #define log2(x) (log(x)/log(2))
@@ -358,6 +359,12 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
 {
     int i;
     float *idfvec = xmalloc(rel->vec_len * sizeof(float));
+    int n_clients = clients_count();
+    struct client * clients[n_clients];
+    yaz_log(YLOG_LOG,"round-robin: have %d clients", n_clients);
+    for (i = 0; i < n_clients; i++)
+        clients[i] = 0;
+
 
     reclist_enter(reclist);
     // Calculate document frequency vector for each term.
@@ -414,8 +421,34 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
         {
             wrbuf_printf(w, "score = relevance(%d);\n", relevance);
         }
-        if (0 && type == Metadata_sortkey_relevance_h)
-            relevance *= 2;
+        // Experimental round-robin
+        // Overwrites the score calculated above, but I keep it there to
+        // get the log entries
+        if (type == Metadata_sortkey_relevance_h) {
+            struct record *record;
+            int thisclient = 0;
+            struct record *bestrecord = 0;
+            int nclust = 0;
+            for (record = rec->records; record; record = record->next) {
+                if ( bestrecord == 0 || bestrecord->position < record->position )
+                    bestrecord = record;
+                nclust++;
+            }
+            while ( clients[thisclient] != 0
+                    && clients[thisclient] != bestrecord->client )
+                thisclient++;
+            if ( clients[thisclient] == 0 )
+            {
+                yaz_log(YLOG_LOG,"round-robin: found new client at %d: p=%p\n", thisclient, bestrecord->client);
+                clients[thisclient] = bestrecord->client;
+            }
+
+            relevance = -(bestrecord->position * n_clients + thisclient) ;
+            wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d score=%d\n",
+                         bestrecord->position, thisclient, nclust, relevance );
+            yaz_log(YLOG_LOG,"round-robin score: pos=%d client=%d ncl=%d score=%d",
+                         bestrecord->position, thisclient, nclust, relevance );
+        }
         rec->relevance_score = relevance;
     }
     reclist_leave(reclist);

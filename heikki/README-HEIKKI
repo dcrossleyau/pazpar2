@@ -18,3 +18,23 @@ Wed 20-Nov-2013 Make a script that tests ranking against yaz-zserver
 (as that is the default config). Mostly to have a script to build on later.
 
 Thu 21-Nov-2013. Start my own complete config
+
+Fri 22-Nov-2013. Adam defined a new sort type, relevance_h, and put it place
+in the code. Now I have a place to implement my stuff. Relevant places:
+ pazpar2_config.c:1020  - minor
+ session.c:1318 - call relevance_prepare_read also for my type
+ reclists.c:104 - parse params
+ reclists.c:166 - compare function (for quicksort)
+ relevance.c:417 - calculate score
+         (same function as for relevance, but with extra arg for type)
+
+The compare function compares positions, when sorting by Metadata_sortkey_position
+This loops through the records (in the cluster) and finds the smallest rec->pos
+and then compares those.
+
+Next: See if I can implement a round robin.
+ - clients.h declares int clients_count(void)
+ - rec->client is a pointer to the client, but we don't have an ordinal from that
+   - keep an array of structs with the pointer, and locate the client number that way
+ - robin-score = pos * n_clients + client_num
+
