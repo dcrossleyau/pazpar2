@@ -1,28 +1,37 @@
 #!/bin/bash
 #
-# Simple script (and config) to get pz2 to run against yaz-ztest, and 
+# Simple script (and config) to get pz2 to run against DBC's OpenSearch, and
 # calculate rankings. See how they differ for different queries
 #
-# (uses curl and xml-twig-tools)
 
 if [ "$1" == "clean" ]
 then
   echo "Cleaning up"
-  rm -f $PIDFILE $YAZPIDFILE *.out *.log *~ 
+  rm -f $PIDFILE $YAZPIDFILE *.out *.log *.data *~ 
   exit
 fi
+killall pazpar2 dbc-opensearch-gw
+
+rm -f *.out *.log
 
 URL="http://localhost:9017/"
-CFG="test1.cfg"
+CFG="test2.cfg"
 
-PZ="../src/pazpar2"
+PZ="../../src/pazpar2"
+if [ ! -x $PZ ]
+then
+  echo "$PZ2 not executable. Panic"
+  exit 1
+fi
 
 PIDFILE=pz2.pid
 
-YAZPIDFILE=yaz-ztest.pid
-yaz-ztest -p $YAZPIDFILE -l yaz-ztest.log &
+# Start the gateway.
+  ./dbc-opensearch-gw.pl -1 \
+      -c dbc-opensearch-gw.cfg \
+      -l dbc-opensearch-gw.log \
+      @:9994 &
 
-rm -f *.out *.log
 
 $PZ -f $CFG  -l pz2.log -p $PIDFILE &
 sleep 0.2 # make sure it has time to start
@@ -34,14 +43,22 @@ echo "Got session $SESSION"
 SES="&session=$SESSION"
 
 
-QRY="query=computer"
+if [ -z "$1" ]
+then
+  Q="computer"
+else
+  Q=$1
+fi
+QRY=`echo $Q | sed 's/ /+/g' `
+
 #SEARCH="command=search$SES&$QRY&rank=1&sort=relevance"
 #SEARCH="command=search$SES&$QRY"
-SEARCH="command=search$SES&$QRY&sort=relevance"
+SEARCH="command=search$SES&query=$QRY&sort=relevance"
 echo $SEARCH
 curl -s "$URL?$SEARCH" > search.out
 cat search.out | grep search
 echo
+sleep 0.5 # let the search start working
 
 STAT="command=stat&$SES"
 echo "" > stat.out
@@ -67,25 +84,37 @@ SHOW="command=show$SES&sort=relevance_h&start=0&num=100"
 echo $SHOW
 curl -s "http://localhost:9017/?$SHOW" > show.out
 #grep "relevance" show.out | grep += | grep -v "(0)"
-grep "round-robin" show.out
+#grep "round-robin" show.out
+grep '^ <md-title>' show.out | head -11
+grep 'Received' dbc-opensearch-gw.log | head -1 >> titles.out
+grep '^ <md-title>' show.out >> titles.out
 
 # Plot it
+DF=`echo $QRY | sed 's/@//g' | sed 's/[+"]/_/g' | sed s"/'//g "`
 grep "round-robin" show.out |
   cut -d' ' -f 6,7 |
   sed 's/[^0-9 ]//g' |
-  awk '{print FNR,$0}'> plot.data
+  awk '{print FNR,$0}'> $DF.data
+
+
 
 echo '\
   set term png
   set out "plot.png"
-  plot "plot.data" using 1:2  with points  title "tf/idf", \
-       "plot.data" using 1:($3*300)  with points  title "round-robin"
- ' | gnuplot
+  set yrange [0:300000]
+  plot \' > plot.cmd
+for F in *.data
+do
+  BF=`basename $F .data`
+  echo -n " \"$F\" using 1:2  with points  title \"$BF\", " >> plot.cmd
+done
+echo "0 notitle" >> plot.cmd
+
+gnuplot < plot.cmd
 
 echo
 
 echo "All done"
 kill `cat $PIDFILE`
-kill `cat $YAZPIDFILE`
-rm -f $PIDFILE $YAZPIDFILE
+rm -f $PIDFILE 
 

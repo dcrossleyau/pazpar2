@@ -1,0 +1,189 @@
+# Kopieret fra drift-danbib.zpunkt til brønd_3 mapning til bibliotek.dk 18/9-2013 BDM
+# Subset of bib-1 attributes map to CCL qualifiers
+# $Id: ccl2rpn.danbib.search.zpunkt,v 1.11 2011-08-02 10:01:42 bdm Exp $
+
+dkcclterm.ti            ti   BIB1,u=4     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lti         lti  BIB1,u=4     r=3   p=1   s=1    t=r     c=3
+dkcclterm.se            se   BIB1,u=5     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lse         lse  BIB1,u=5     r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ut           ut   BIB1,u=6     r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lut        lut  BIB1,u=6     r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ib           ib   BIB1,u=7     r=3   p=3   s=1    t=l,r   c=2
+*dkcclterm.in           in   BIB1,u=8     r=3   p=3   s=1    t=l,r   c=2
+dkcclterm.nl            nl   BIB1,u=9     r=3   p=3   s=103  t=l,r   c=2
+dkcclterm.id            id   BIB1,u=12    r=3   p=3   s=103  t=l,r   c=2        #OBS - søgekode lid i bibliotek.dk classic
+*dkcclphrase.ddc        ddc  BIB1,u=13    r=3   p=1   s=1    t=r     c=3
+*dkcclphrase.udk        udk  BIB1,u=14    r=3   p=1   s=1    t=r     c=3
+*dkcclphrase.lcc        lcc  BIB1,u=16    r=3   p=1   s=1    t=r     c=3
+*dkcclphrase.nlm        nlm  BIB1,u=17    r=3   p=1   s=1    t=r     c=3
+*dkcclphrase.nal        nal  BIB1,u=18    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.kl           kl   BIB1,u=20    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lkl        lkl  BIB1,u=20    r=3   p=1   s=1    t=r     c=3
+dkcclterm.em            em   BIB1,u=21    r=3   p=3   s=pw   t=l,r   c=1        #søger ikke umiddelbart som frase med proximity i broenden
+dkcclterm.em            emne   BIB1,u=21    r=3   p=3   s=2    t=l,r   c=1   #søgning fra tekstbokse med 'and'-søgning
+dkcclphrase.lem         lem  BIB1,u=21    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ms           ms   BIB1,u=25    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lms        lms  BIB1,u=25    r=3   p=1   s=1    t=r     c=3
+dkcclterm.år            år   BIB1,u=31    r=o   p=3   s=4    t=l,r   c=2        #ved ikke hvordan man udnytter relation r=1, r=3 eller r=5 i brønden
+Specialstruktur for dfa         år_før   BIB1,u=31    r=1   p=3   s=4    t=l,r   c=1   #fra tekstbokse
+Specialstruktur for dfa         år_lig   BIB1,u=31    r=3   p=3   s=4    t=l,r   c=1   #fra tekstbokse
+Specialstruktur for dfa         år_efter BIB1,u=31    r=5   p=3   s=4    t=l,r   c=1   #fra tekstbokse
+*dkcclterm.nt           nt   BIB1,u=33    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lnt        lnt  BIB1,u=33    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.pa           pa   BIB1,u=35    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lpa        lpa  BIB1,u=35    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.tt           tt   BIB1,u=42    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.ltt        ltt  BIB1,u=42    r=3   p=1   s=1    t=r     c=3
+Specialindex til limiter        spr  BIB1,u=54    r=3   p=3   s=1    t=l,r   c=2  #=E9t sprog pr. post - struktur 1 ikke defineret i DanZig - lige nu term.primaryLanguage, som sikkert ændrer indhold til flere hovedsprog senere
+dkcclterm.sp            sp   BIB1,u=54    r=3   p=3   s=2    t=l,r   c=2  #alle sprog - svarer til struktur 2 i DanZig
+dkcclterm.ul            ul   BIB1,u=55    r=3   p=3   s=2    t=l,r   c=2
+Kun postejer fra 001b   owner_id   BIB1,u=56  r=3   p=3    s=2    t=l,r   c=1 #use-attribut 56 refererer til ln (DBC1 1=6) i danZIG
+Kun postejer fra 001b   lok  BIB1,u=56    r=3   p=3   s=2    t=l,r   c=1        #lok er defineret som langord til DAN1 1=11 i praksisregler
+dkcclterm.pu            pu   BIB1,u=59    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclterm.co           co   BIB1,u=60    r=3   p=3   s=2    t=l,r   c=2
+dkcclterm.no            no   BIB1,u=63    r=3   p=3   s=pw   t=l,r   c=1
+Specialindex til limiter        mp_id   BIB1,u=1001  r=3   p=3    s=2    t=l,r   c=1 #BRUG ma i stedet da 2-bogstavskoder i stedet for 4
+Specialindex til limiter        kat  BIB1,u=1001  r=3   p=3   s=2    t=l,r   c=1
+dkcclterm.fo            fo   BIB1,u=1003  r=3   p=3   s=101  t=l,r   c=1        #Afviger i dfa classic fra Praksisregler, da uden *c
+dkcclterm.fo            forfatter   BIB1,u=1003  r=3   p=3   s=102  t=l,r   c=1   #Til tekstboksene. I target er s=102 defineret som uordnet, ok i brønden?
+dkcclphrase.lfo         lfo  BIB1,u=1003  r=3   p=1   s=101  t=r     c=2        #Afviger i dfa classic fra Praksisregler, da uden *c
+*dkcclterm.pe           pe   BIB1,u=1004  r=3   p=3   s=101  t=l,r   c=1
+*dkcclphrase.lpe        lpe  BIB1,u=1004  r=3   p=1   s=101  t=r     c=2
+*dkcclterm.ko           ko   BIB1,u=1005  r=3   p=3   s=101  t=l,r   c=1
+*dkcclphrase.lko        lko  BIB1,u=1005  r=3   p=1   s=101  t=r     c=2
+dkcclterm.is            is   BIB1,u=1007  r=3   p=3   s=1    t=l,r   c=2
+dkcclterm.ep            ep   BIB1,u=1009  r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lep         lep  BIB1,u=1009  r=3   p=1   s=1    t=r     c=3
+dkcclterm.op            op   BIB1,u=1011  r=3   p=3   s=2    t=l,r   c=1
+dkcclterm.aj            aj   BIB1,u=1012  r=3   p=3   s=2    t=l,r   c=1
+term.default            default_id BIB1,u=1016   r=3   p=3   s=pw   t=l,r   c=1 #dannet af DKABM-data (forskel dfa classic og danbib: fb i stedet for id)
+term.default            term BIB1,u=1016  r=3   p=3   s=pw   t=l,r   c=1        #alle 3 ender med samme udfald da umiddelbart ingen proximity
+term.default            fritekst BIB1,u=1016   r=3   p=3   s=2    t=l,r   c=1   #søgning fra tekstbokse med 'and'-søgning
+dkcclterm.fl            fl   BIB1,u=1018  r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.km            km   BIB1,u=1024  r=3   p=3   s=2    t=l,r   c=2
+*dkcclterm.rt           rt   BIB1,u=1026  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lrt        lrt  BIB1,u=1026  r=3   p=1   s=1    t=r     c=2
+dkcclterm.ma            mk   BIB1,u=1031  r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.ma            ma   BIB1,u=1031  r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.ma            mat  BIB1,u=1031  r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.ww            ww   BIB1,u=1032  r=3   p=3   s=1    t=l,r   c=2
+dkcclterm.vp            vp   BIB1,u=1033  r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.vp            vært   BIB1,u=1033  r=3   p=3   s=2    t=l,r   c=1   #søgning fra tekstbokse med 'and'-søgning
+dkcclphrase.lvp         lvp  BIB1,u=1033  r=3   p=1   s=1    t=r     c=3
+dkcclterm.cl            cl   BIB1,u=1040  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lcl        lcl  BIB1,u=1040  r=3   p=1   s=1    t=r     c=3
+dkcclterm.ek            ek   BIB1,u=1074  r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lek         lek  BIB1,u=1074  r=3   p=1   s=1    t=r     c=3
+*dkcclterm.uk           uk   BIB1,u=1080  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.luk        luk  BIB1,u=1080  r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ac           ac   BIB1,u=1085  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lac        lac  BIB1,u=1085  r=3   p=1   s=1    t=r     c=3
+*dkcclterm.cp           cp   BIB1,u=1086  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lcp        lcp  BIB1,u=1086  r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ed           ed   BIB1,u=1087  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.led        led  BIB1,u=1087  r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ag           ag   BIB1,u=1088  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lag        lag  BIB1,u=1088  r=3   p=1   s=1    t=r     c=3
+*dkcclphrase.bcm        bcm  BIB1,u=1089  r=3   p=1   s=1    t=r     c=3
+*dkcclphrase.dbk        dbk  BIB1,u=1090  r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ic           ic   BIB1,u=1091  r=3   p=3   s=1    t=l,r   c=2
+*dkcclterm.im           im   BIB1,u=1092  r=3   p=3   s=1    t=l,r   c=2
+*dkcclterm.ir           ir   BIB1,u=1093  r=3   p=3   s=1    t=l,r   c=2
+dkcclterm.ou            ou   BIB1,u=1095  r=3   p=3   s=pw   t=l,r   c=2
+*dkcclterm.st           st   BIB1,u=1096  r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lst        lst  BIB1,u=1096  r=3   p=1   s=1    t=r     c=3
+dkcclterm.br            br   BIB1,u=1157  r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lbr         lbr  BIB1,u=1157  r=3   p=1   s=1    t=r     c=3
+dkcclterm.oc            oc   BIB1,u=1211  r=3   p=3   s=103  t=l,r   c=2
+dkcclterm.bc            bc   BIB1,u=1214  r=3   p=3   s=1    t=l,r   c=2   #producentens stregkode (023a)- nu med i danZIG
+*dkcclterm.au           au   DAN1,u=1     r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lau        lau  DAN1,u=1     r=3   p=1   s=1    t=r     c=3
+dkcclterm.ke            ke   DAN1,u=2     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lke         lke  DAN1,u=2     r=3   p=1   s=1    t=r     c=3
+dkcclterm.db            db   DAN1,u=3     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.ldb         ldb  DAN1,u=3     r=3   p=1   s=1    t=r     c=3
+dkcclterm.df            df   DAN1,u=4     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.ldf         ldf  DAN1,u=4     r=3   p=1   s=1    t=r     c=3
+dkcclterm.ds            ds   DAN1,u=5     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lds         lds  DAN1,u=5     r=3   p=1   s=1    t=r     c=3
+dkcclterm.me            me   DAN1,u=6     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lme         lme  DAN1,u=6     r=3   p=1   s=1    t=r     c=3
+dkcclterm.fm            fm   DAN1,u=7     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lfm         lfm  DAN1,u=7     r=3   p=1   s=1    t=r     c=3
+dkcclterm.nb            nb   DAN1,u=8     r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lnb         lnb  DAN1,u=8     r=3   p=1   s=1    t=r     c=3
+dkcclterm.po            po   DAN1,u=9     r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.po            person   DAN1,u=9  r=3   p=3   s=102  t=l,r   c=1   #Til tekstboksene. I target er s=102 defineret som uordnet
+dkcclphrase.lpo         lpo  DAN1,u=9     r=3   p=1   s=101  t=r     c=3        #OBS struktur 1 i dfa classic
+dkcclterm.dk            dk   DAN1,u=10    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.ldk        ldk  DAN1,u=10    r=3   p=1   s=1    t=r     c=3
+dkcclterm.ok            ok   DAN1,u=11    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lok        lok  DAN1,u=11     r=3   p=1   s=1    t=r     c=3       #NYT index i broenden - ikke medtaget i libv3, da brugt til BIB1 1:56
+*dkcclterm.gd           gd   DAN1,u=12    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lgd        lgd  DAN1,u=12    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.fg           fg   DAN1,u=13    r=3   p=3   s=pw   t=l,r   c=2
+dkcclterm.kk            kk   DAN1,u=14    r=3   p=3   s=pw   t=l,r   c=2
+dkcclterm.ix            ix   DAN1,u=15    r=3   p=3   s=pw   t=l,r   c=2
+dkcclterm.nm            nm   DAN1,u=16    r=3   p=3   s=pw   t=l,r   c=2
+*dkcclterm.nr           nr   DAN1,u=17    r=3   p=3   s=pw   t=l,r   c=2
+*dkcclterm.en           en   DAN1,u=18    r=3   p=3   s=pw   t=l,r   c=2
+*dkcclterm.tf           tf   DAN1,u=19    r=3   p=3   s=pw   t=l,r   c=2
+dkcclphrase.lvx         lvx  DAN1,u=20    r=3   p=1   s=1    t=r     c=3
+dkcclterm.bs            bs   DAN1,u=21    r=3   p=3   s=pw   t=l,r   c=2
+*dkcclterm.ef           ef   DAN1,u=22    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lef        lef  DAN1,u=22    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.es           es   DAN1,u=23    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.les        les  DAN1,u=23    r=3   p=1   s=1    t=r     c=3
+dkcclterm.mo            mo   DAN1,u=24    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclterm.fv           fv   DAN1,u=25    r=3   p=3   s=pw   t=l,r   c=2
+dkcclterm.fb            fb   DAN1,u=26    r=3   p=3   s=pw   t=l,r   c=2
+term.creator            personer   DAN1,u=26    r=3   p=3   s=888   t=l,r   c=1 #DKABM svarende til join for fo+fb+no til filmsøg i tekstboks m 'and'-søgning
+dkcclterm.ts            ts   DAN1,u=27    r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lts         lts  DAN1,u=27    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ar           ar   DAN1,u=36    r=3   p=3   s=2    t=l,r   c=2        #NYT index i broenden - ikke medtaget i libv3, da DBC1 1:211-1:214 udfoldet i stedet - betyder, at de enkelte målgruppesystemer ikke kan søges enkeltvis i brønden fx. kun pegi
+*dkcclterm.ej           ej   DAN1,u=37    r=3   p=3   s=2    t=l,r   c=1
+dkcclterm.hm            hm   DAN1,u=38    r=3   p=3   s=pw   t=l,r   c=2   # hovedmateriale fra 009 *g
+*dkcclterm.ht           ht   DAN1,u=39    r=3   p=3   s=pw   t=l,r   c=1
+*dkcclphrase.lht        lht  DAN1,u=39    r=3   p=1   s=1    t=r     c=3
+*dkcclterm.ip           ip   DAN1,u=40    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.ka            ka   DAN1,u=41    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.kg            kg   DAN1,u=42    r=3   p=3   s=pw   t=l,r   c=1        # primært til Promat til konsulentgruppering
+dkcclterm.kr            kr   DAN1,u=43    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.kx            kx   DAN1,u=44    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.ld            ld   DAN1,u=45    r=3   p=3   s=103  t=l,r   c=2        #brugt i stedet for DBC1 1=62. Completeness c=1 i dfa classic
+dkcclterm.ns            ns   DAN1,u=46    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.sf            sf   DAN1,u=47    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.so            so   DAN1,u=48    r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lso         lso  DAN1,u=48    r=3   p=1   s=1    t=r     c=3
+dkcclterm.kn            kn   DAN1,u=49    r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lkn         lkn  DAN1,u=49    r=3   p=1   s=1    t=r     c=3
+dkcclterm.uu            uu   DAN1,u=50    r=3   p=3   s=pw   t=l,r   c=1
+dkcclphrase.lff         lff  DAN1,u=51    r=3   p=1   s=101  t=r     c=2
+dkcclterm.ll            ll   DAN1,u=52    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.nv            nv   DAN1,u=53    r=3   p=3   s=pw   t=l,r   c=1
+dkcclterm.tg            tg   DAN1,u=54    r=3   p=3   s=pw   t=l,r   c=1        #c=2 i DanZIG - har bedt LEA om at rette 2/8-2011
+dkcclterm.ln            ln   DBC1,u=6     r=3   p=3   s=2    t=l,r   c=1        #officiel use-attribut BIB1 1=56, men hos os kun til 001 *b
+term.reviewer           rc   DBC1,u=8     r=3   p=3   s=pw   t=l,r   c=1        #fra DKABM
+phrase.reviewer         lrc  DBC1,u=8     r=3   p=1   s=1    t=r     c=2        #fra DKABM
+term.reviewedCreator    rf   DBC1,u=9     r=3   p=3   s=pw   t=l,r   c=1        #fra DKABM
+phrase.reviewedCreator  lrf  DBC1,u=9     r=3   p=1   s=1    t=r     c=2        #fra DKABM
+term.reviewedTitle      ri   DBC1,u=10    r=3   p=3   s=pw   t=l,r   c=1        #fra DKABM
+phrase.reviewedTitle    lri  DBC1,u=10    r=3   p=1   s=1    t=r     c=3        #fra DKABM
+Intet index             pi   DBC1,u=15    r=3   p=3   s=pw   t=l,r   c=1        #overhovedet noget indhold?
+Intet index             iv   DBC1,u=17    r=3   p=3   s=1    t=l,r   c=2
+#u=63-64 kun brugt i dfa-basen:
+Intet index             tj   DBC1,u=64    r=3   p=3   s=pw   t=l,r   c=1  #titelregister uden felt 526 - bliver måske muligt med term.title
+Specialstruktur på target       titel DBC1,u=64    r=3   p=3   s=2    t=l,r   c=1  #søgning på titel fra tekstbokse med 'and'-søgning
+Intet index             ltj  DBC1,u=64    r=3   p=1   s=1    t=r     c=3
+Intet index             n50  DBC1,u=140   r=3   p=3   s=2    t=l,r   c=1
+#u=141-142 kun brugt i dfa-basen:
+Intet index             bo   DBC1,u=141   r=3   p=3   s=2    t=l,r   c=1
+Intet index             mm   DBC1,u=142   r=3   p=3   s=pw   t=l,r   c=1
+Intet index             lmm  DBC1,u=142   r=3   p=1   s=1    t=r     c=3
+Intet cclindex          ra   DBC1,u=211   r=3   p=3   s=pw   t=l,r   c=1        #evt. term.audience (dkdcplus:age) men kun som afgrænsning
+Intet cclindex          rb   DBC1,u=212   r=3   p=3   s=pw   t=l,r   c=1        #evt. term.audience (dkdcplus:medieraad) men kun som afgrænsning
+Intet index             rd   DBC1,u=213   r=3   p=3   s=pw   t=l,r   c=1
+Intet cclindex          rp   DBC1,u=214   r=3   p=3   s=pw   t=l,r   c=1        #evt. term.audience (dkdcplus:pegi) men kun som afgrænsning
+Intet index             n51  DBC1,u=215   r=3   p=3   s=2    t=l,r   c=1
+term.primaryLanguage    hs   DBC1,u=217   r=3   p=3   s=pw   t=l,r   c=2     #hovedsprog (ikke endnu i danZig) - evt. term.primaryLanguage, der sikkert udvides til at rumme 041 *a og *p
+Intet index             wcx  DBC1,u=224   r=3   p=3   s=pw   t=l,r   c=1        #kun i dfa classic til oclc-numre
