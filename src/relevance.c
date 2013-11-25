@@ -442,10 +442,10 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 yaz_log(YLOG_LOG,"round-robin: found new client at %d: p=%p\n", thisclient, bestrecord->client);
                 clients[thisclient] = bestrecord->client;
             }
-
+            int tfrel = relevance;
             relevance = -(bestrecord->position * n_clients + thisclient) ;
-            wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d score=%d\n",
-                         bestrecord->position, thisclient, nclust, relevance );
+            wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d tfscore=%d score=%d\n",
+                         bestrecord->position, thisclient, nclust, tfrel, relevance );
             yaz_log(YLOG_LOG,"round-robin score: pos=%d client=%d ncl=%d score=%d",
                          bestrecord->position, thisclient, nclust, relevance );
         }

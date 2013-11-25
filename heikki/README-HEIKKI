@@ -38,3 +38,12 @@ Next: See if I can implement a round robin.
    - keep an array of structs with the pointer, and locate the client number that way
  - robin-score = pos * n_clients + client_num
 
+relevance_new_rec is called every time a new record pops up. One or more to count_word,
+exactly one to done_rec. That's where I can compare to the ranking of the previous
+record. struct_relevance is one structure I have for myself, global (for the user
+session), so I can keep my stuff in there, possibly an array of things for each target.
+
+I should also add stuff directly to the client, and to the record, as I need.
+
+Next: Plot the tf/idf scores against round-robin sorted order. Will be messy,
+but later when we get a target that returns sorted records, it will make sense.

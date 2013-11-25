@@ -63,11 +63,25 @@ do
 done
 
 
-SHOW="command=show$SES&sort=relevance_h&start=0&num=1000"
+SHOW="command=show$SES&sort=relevance_h&start=0&num=100"
 echo $SHOW
 curl -s "http://localhost:9017/?$SHOW" > show.out
 #grep "relevance" show.out | grep += | grep -v "(0)"
 grep "round-robin" show.out
+
+# Plot it
+grep "round-robin" show.out |
+  cut -d' ' -f 6,7 |
+  sed 's/[^0-9 ]//g' |
+  awk '{print FNR,$0}'> plot.data
+
+echo '\
+  set term png
+  set out "plot.png"
+  plot "plot.data" using 1:2  with points  title "tf/idf", \
+       "plot.data" using 1:($3*300)  with points  title "round-robin"
+ ' | gnuplot
+
 echo
 
 echo "All done"
