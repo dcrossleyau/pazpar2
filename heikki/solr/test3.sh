@@ -7,15 +7,15 @@
 if [ "$1" == "clean" ]
 then
   echo "Cleaning up"
-  rm -f $PIDFILE $YAZPIDFILE *.out *.log *.data *~ 
+  rm -f $PIDFILE $YAZPIDFILE *.out *.log *.data *~ plot.cmd
   exit
 fi
-killall pazpar2 dbc-opensearch-gw
+killall pazpar2 
 
 rm -f *.out *.log
 
 URL="http://localhost:9017/"
-CFG="test2.cfg"
+CFG="test3.cfg"
 
 PZ="../../src/pazpar2"
 if [ ! -x $PZ ]
@@ -25,13 +25,6 @@ then
 fi
 
 PIDFILE=pz2.pid
-
-# Start the gateway.
-  ./dbc-opensearch-gw.pl -1 \
-      -c dbc-opensearch-gw.cfg \
-      -l dbc-opensearch-gw.log \
-      @:9994 &
-
 
 $PZ -f $CFG  -l pz2.log -p $PIDFILE &
 sleep 0.2 # make sure it has time to start

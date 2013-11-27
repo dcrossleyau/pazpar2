@@ -47,3 +47,18 @@ I should also add stuff directly to the client, and to the record, as I need.
 
 Next: Plot the tf/idf scores against round-robin sorted order. Will be messy,
 but later when we get a target that returns sorted records, it will make sense.
+
+
+Wed 27-Nov
+Setting up multiple SOLR targets in the same pazpar2
+ - Add #999 to the z-urls, so pazpar2 won't merge them. Different number for each
+
+This URL shows the databases, with their numbers
+http://lui.indexdata.com/solr/select?q=database:*&facet=true&facet.method=fc&facet.field=author_exact&facet.field=subject_exact&facet.field=date&facet.field=medium_exact&facet.field=database&rows=0&facet.mincount=1
+
+Add this to the target defs
+<set name="pz:extra_args" value="fq=database:4902">
+
+After this, it should be possible to get records from different databases, some
+with many records, some with a few. This is a good testing ground for merging
+rankings! Test first with a round-robin, and plot the scores.
