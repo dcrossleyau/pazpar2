@@ -62,3 +62,13 @@ Add this to the target defs
 After this, it should be possible to get records from different databases, some
 with many records, some with a few. This is a good testing ground for merging
 rankings! Test first with a round-robin, and plot the scores.
+
+Thu 28-Nov
+Ok, I can now merge a number of SOLR databases (harvest jobs), and plot their rankings
+as solr gives them, in the order of different merge strategies
+Next: Add the normalizing merge strategy. Then plot different strategies against different queries
+Write a conclusion, and consider this plotting job done
+
+
+
+

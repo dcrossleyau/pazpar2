@@ -42,9 +42,18 @@ then
 else
   Q=$1
 fi
+
+if [ -z "$2" ]
+then
+  HEADLINE="$Q"
+else
+  HEADLINE="$2: $Q"
+fi
+
 QRY=`echo $Q | sed 's/ /+/g' `
 
-SORT="sort=score"
+#SORT="sort=score"
+SORT="sort=relevance_h"
 #SEARCH="command=search$SES&$QRY&rank=1&sort=relevance"
 #SEARCH="command=search$SES&$QRY"
 #SEARCH="command=search$SES&query=$QRY&sort=relevance"
@@ -80,9 +89,30 @@ echo $SHOW
 curl -s "http://localhost:9017/?$SHOW" > show.out
 #grep "relevance" show.out | grep += | grep -v "(0)"
 #grep "round-robin" show.out
-grep '^ <md-title>' show.out | head -11
-grep 'Received' dbc-opensearch-gw.log | head -1 >> titles.out
-grep '^ <md-title>' show.out >> titles.out
+
+# Plot the lines created by the code
+grep plotline show.out > scores.data
+echo "Client numbers"
+cat scores.data | cut -d' ' -f2 | sort -u
+head -10 scores.data
+
+echo "
+  set term png
+  set out \"plot.png\"
+  set title \"$HEADLINE\"
+" > plot.cmd
+echo '
+  plot "scores.data" using 0:($2==0?$6:1/0) with points title "db-1", \
+       "scores.data" using 0:($2==1?$6:1/0) with points title "db-2", \
+       "scores.data" using 0:($2==2?$6:1/0) with points title "db-3", \
+       "scores.data" using 0:($2==3?$6:1/0) with points title "db-4", \
+       "scores.data" using 0:($2==4?$6:1/0) with points title "db-5", \
+       "scores.data" using 0:($2==5?$6:1/0) with points title "db-6" \
+' >> plot.cmd
+cat plot.cmd | gnuplot
+
+
+exit 1 # The old plotting code
 
 # Plot it
 DF=`echo $QRY | sed 's/@//g' | sed 's/[+"]/_/g' | sed s"/'//g "`

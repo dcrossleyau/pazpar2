@@ -1,8 +1,33 @@
 <!-- Solr target -->
-<settings target="LUI Solr Test">
-  <set name="pz:name"  value="LUI Solr Test" />
-  <set name="pz:url"   value="lui.indexdata.com/solr" />
+<!-- General settings for all the solr targets in this test -->
+<settings target="*">
 
+  <!-- Individual databases in the solr system -->
+  <set target="lui.indexdata.com/solr#3902" name="pz:name"  value="Solr base 3902 (25m)" />
+  <set target="lui.indexdata.com/solr#3902" name="pz:url"   value="lui.indexdata.com/solr#3902" />
+  <set target="lui.indexdata.com/solr#3902" name="pz:extra_args" value="fq=database:3902" />
+      
+  <set target="lui.indexdata.com/solr#5802" name="pz:name"  value="Solr base 5802 (7m)" />
+  <set target="lui.indexdata.com/solr#5802" name="pz:url"   value="lui.indexdata.com/solr#5802" />
+  <set target="lui.indexdata.com/solr#5802" name="pz:extra_args" value="fq=database:5802" />
+
+  <set target="lui.indexdata.com/solr#3602" name="pz:name"  value="Solr base 3602 (4m)" />
+  <set target="lui.indexdata.com/solr#3602" name="pz:url"   value="lui.indexdata.com/solr#3602" />
+  <set target="lui.indexdata.com/solr#3602" name="pz:extra_args" value="fq=database:3602" />
+
+  <set target="lui.indexdata.com/solr#6202" name="pz:name"  value="Solr base 6202 (1.6m)" />
+  <set target="lui.indexdata.com/solr#6202" name="pz:url"   value="lui.indexdata.com/solr#6202" />
+  <set target="lui.indexdata.com/solr#6202" name="pz:extra_args" value="fq=database:6202" />
+
+  <set target="lui.indexdata.com/solr#4905" name="pz:name"  value="Solr base 4905 (100k)" />
+  <set target="lui.indexdata.com/solr#4905" name="pz:url"   value="lui.indexdata.com/solr#4905" />
+  <set target="lui.indexdata.com/solr#4905" name="pz:extra_args" value="fq=database:4905" />
+
+  <set target="lui.indexdata.com/solr#6103" name="pz:name"  value="Solr base 6103 (1k)" />
+  <set target="lui.indexdata.com/solr#6103" name="pz:url"   value="lui.indexdata.com/solr#6103" />
+  <set target="lui.indexdata.com/solr#6103" name="pz:extra_args" value="fq=database:6103" />
+
+   <!-- General settings for them all -->
   <set name="pz:limitmap:author"  value="rpn:@attr 1=author_exact 6=3" />
   <set name="pz:limitmap:subject" value="rpn:@attr 1=subject_exact" />
   <set name="pz:limitmap:date"    value="rpn:@attr 1=date @attr 6=3" />

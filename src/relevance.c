@@ -353,6 +353,19 @@ void relevance_donerecord(struct relevance *r, struct record_cluster *cluster)
     r->doc_frequency_vec[0]++;
 }
 
+static const char *getfield(struct record *bestrecord, const char *tag)
+{
+    struct session *se = client_get_session(bestrecord->client);
+    int md_field_id = conf_service_metadata_field_id(se->service, tag);
+    struct record_metadata *md = 0;
+    if (md_field_id <0)
+        return "";
+    md = bestrecord->metadata[md_field_id];
+    if ( md) 
+        return md->data.text.disp;
+    return "";
+}
+
 // Prepare for a relevance-sorted read
 void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                             enum conf_sortkey_type type)
@@ -429,11 +442,13 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             int thisclient = 0;
             struct record *bestrecord = 0;
             int nclust = 0;
+            // Find the best record in a cluster - the one with lowest position
             for (record = rec->records; record; record = record->next) {
                 if ( bestrecord == 0 || bestrecord->position < record->position )
                     bestrecord = record;
-                nclust++;
+                nclust++; // and count them all, for logging
             }
+            // find the client number for the record (we only have a pointer
             while ( clients[thisclient] != 0
                     && clients[thisclient] != bestrecord->client )
                 thisclient++;
@@ -442,12 +457,32 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 yaz_log(YLOG_LOG,"round-robin: found new client at %d: p=%p\n", thisclient, bestrecord->client);
                 clients[thisclient] = bestrecord->client;
             }
-            int tfrel = relevance;
-            relevance = -(bestrecord->position * n_clients + thisclient) ;
+            // Calculate a round-robin score
+            int tfrel = relevance; // keep the old tf/idf score
+            int robinscore = -(bestrecord->position * n_clients + thisclient) ;
             wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d tfscore=%d score=%d\n",
                          bestrecord->position, thisclient, nclust, tfrel, relevance );
             yaz_log(YLOG_LOG,"round-robin score: pos=%d client=%d ncl=%d score=%d",
                          bestrecord->position, thisclient, nclust, relevance );
+
+            // Check if the record has a score field
+            const char *score = getfield(bestrecord,"score");
+            int solrscore = 10000.0 * atof(score);
+            const char *id = getfield(bestrecord, "id");
+            // clear the id, we only want the first numerical part
+            char idbuf[64];
+            i=0;
+            while( id[i] >= '0' && id[i] <= '9' ) {
+                idbuf[i] = id[i];
+                i++;
+            }
+            idbuf[i] = '\0';
+            
+            const char *title = getfield(bestrecord, "title");
+            wrbuf_printf(w,"plotline: %d %d %d %d %d # %s %s\n",
+                            thisclient, bestrecord->position,
+                            tfrel, robinscore, solrscore, idbuf, title );
+            relevance = solrscore;
         }
         rec->relevance_score = relevance;
     }
