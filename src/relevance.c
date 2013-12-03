@@ -382,6 +382,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
     float *idfvec = xmalloc(rel->vec_len * sizeof(float));
     int n_clients = clients_count();
     struct client * clients[n_clients];
+    int clusternumber = 0;
     yaz_log(YLOG_LOG,"round-robin: have %d clients", n_clients);
     for (i = 0; i < n_clients; i++)
         clients[i] = 0;
@@ -409,6 +410,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
         struct record_cluster *rec = reclist_read_record(reclist);
         if (!rec)
             break;
+        clusternumber++;
         w = rec->relevance_explain2;
         wrbuf_rewind(w);
         wrbuf_puts(w, "relevance = 0;\n");
@@ -493,7 +495,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 for (record = rec->records; record; record = record->next, i++) {
                     scores[i] = atof( getfield(record,"score") );
                     yaz_log(YLOG_LOG,"mergescore %d: %f", i, scores[i] );
-                    wrbuf_printf(w,"mergeplot %d: %f\n", record->position, 10000*scores[i] );
+                    wrbuf_printf(w,"mergeplot %d: %f x\n", clusternumber, 10000*scores[i] );
                 }
                 qsort(scores, nclust, sizeof(float), sort_float );
                 for (i = 0; i<nclust; i++) {
@@ -502,6 +504,9 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                     wrbuf_printf(w,"Sorted mergescore %d: %f makes %f\n", i, scores[i], s );
                 }
                 mergescore = s * 10000;
+                wrbuf_printf(w,"mergeplot %d: x %d \n", clusternumber, mergescore );
+                // TODO - Should not use bestrecord->position, but something from rec that
+                // corresponds to the hit number, for plotting.
             } // merge score
             id = getfield(bestrecord, "id");
             // clear the id, we only want the first numerical part
