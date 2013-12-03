@@ -366,6 +366,14 @@ static const char *getfield(struct record *bestrecord, const char *tag)
     return "";
 }
 
+// Helper to compare floats, for qsort
+static int sort_float(const void *x, const void *y)
+{
+    const float *fx = x;
+    const float *fy = y;
+    return *fx - *fy;
+}
+
 // Prepare for a relevance-sorted read
 void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                             enum conf_sortkey_type type)
@@ -442,6 +450,14 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             int thisclient = 0;
             struct record *bestrecord = 0;
             int nclust = 0;
+            int tfrel = relevance; // keep the old tf/idf score
+            int robinscore = 0;
+            int solrscore = 0;
+            const char *score;
+            const char *id;
+            const char *title;
+            char idbuf[64];
+            int mergescore = 0;
             // Find the best record in a cluster - the one with lowest position
             for (record = rec->records; record; record = record->next) {
                 if ( bestrecord == 0 || bestrecord->position < record->position )
@@ -458,19 +474,37 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 clients[thisclient] = bestrecord->client;
             }
             // Calculate a round-robin score
-            int tfrel = relevance; // keep the old tf/idf score
-            int robinscore = -(bestrecord->position * n_clients + thisclient) ;
+            robinscore = -(bestrecord->position * n_clients + thisclient) ;
             wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d tfscore=%d score=%d\n",
                          bestrecord->position, thisclient, nclust, tfrel, relevance );
             yaz_log(YLOG_LOG,"round-robin score: pos=%d client=%d ncl=%d score=%d",
                          bestrecord->position, thisclient, nclust, relevance );
 
             // Check if the record has a score field
-            const char *score = getfield(bestrecord,"score");
-            int solrscore = 10000.0 * atof(score);
-            const char *id = getfield(bestrecord, "id");
+            score = getfield(bestrecord,"score");
+            solrscore = 10000.0 * atof(score);
+            
+            // If we have a score in the best record, we probably have in them all
+            // and we can try to merge scores
+            if ( *score ) {
+                float scores[nclust];
+                float s = 0.0;
+                int i=0;
+                for (record = rec->records; record; record = record->next, i++) {
+                    scores[i] = atof( getfield(record,"score") );
+                    yaz_log(YLOG_LOG,"mergescore %d: %f", i, scores[i] );
+                    wrbuf_printf(w,"mergeplot %d: %f\n", record->position, 10000*scores[i] );
+                }
+                qsort(scores, nclust, sizeof(float), sort_float );
+                for (i = 0; i<nclust; i++) {
+                    s += scores[i] / (i+1);
+                    yaz_log(YLOG_LOG,"Sorted mergescore %d: %f makes %f", i, scores[i], s );
+                    wrbuf_printf(w,"Sorted mergescore %d: %f makes %f\n", i, scores[i], s );
+                }
+                mergescore = s * 10000;
+            } // merge score
+            id = getfield(bestrecord, "id");
             // clear the id, we only want the first numerical part
-            char idbuf[64];
             i=0;
             while( id[i] >= '0' && id[i] <= '9' ) {
                 idbuf[i] = id[i];
@@ -478,11 +512,11 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             }
             idbuf[i] = '\0';
             
-            const char *title = getfield(bestrecord, "title");
-            wrbuf_printf(w,"plotline: %d %d %d %d %d # %s %s\n",
+            title = getfield(bestrecord, "title");
+            wrbuf_printf(w,"plotline: %d %d %d %d %d %d # %s %s\n",
                             thisclient, bestrecord->position,
-                            tfrel, robinscore, solrscore, idbuf, title );
-            relevance = solrscore;
+                            tfrel, robinscore, solrscore, mergescore, idbuf, title );
+            relevance = mergescore;
         }
         rec->relevance_score = relevance;
     }

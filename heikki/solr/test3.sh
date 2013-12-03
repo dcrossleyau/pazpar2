@@ -96,6 +96,8 @@ echo "Client numbers"
 cat scores.data | cut -d' ' -f2 | sort -u
 head -10 scores.data
 
+exit 1
+
 echo "
   set term png
   set out \"plot.png\"
@@ -112,33 +114,6 @@ echo '
 cat plot.cmd | gnuplot
 
 
-exit 1 # The old plotting code
-
-# Plot it
-DF=`echo $QRY | sed 's/@//g' | sed 's/[+"]/_/g' | sed s"/'//g "`
-grep "round-robin" show.out |
-  cut -d' ' -f 6,7 |
-  sed 's/[^0-9 ]//g' |
-  awk '{print FNR,$0}'> $DF.data
-
-
-
-echo '\
-  set term png
-  set out "plot.png"
-  #set yrange [0:300000]
-  set logscale y
-  plot \' > plot.cmd
-for F in *.data
-do
-  BF=`basename $F .data | sed 's/_/ /g' `
-  echo -n " \"$F\" using 1:2  with points  title \"$BF\", " >> plot.cmd
-done
-echo "0 notitle" >> plot.cmd
-
-gnuplot < plot.cmd
-
-echo
 
 echo "All done"
 kill `cat $PIDFILE`
