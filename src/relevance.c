@@ -426,9 +426,9 @@ static int sort_float(const void *x, const void *y)
     const float *fx = x;
     const float *fy = y;
     //yaz_log(YLOG_LOG,"sorting %f and %f", *fx, *fy);  // ###
-    if ( *fx > *fy )
-        return 1;
     if ( *fx < *fy )
+        return 1;
+    if ( *fx > *fy )
         return -1;
     return 0;   // do not return *fx-*fy, it is often too close to zero.
 }
@@ -526,7 +526,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             // Calculate a round-robin score
             robinscore = -(bestrecord->position * n_clients + norm->num) ;
             wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d tfscore=%d score=%d\n",
-                         bestrecord->position, norm->num, nclust, tfrel, relevance );
+                         bestrecord->position, norm->num, nclust, tfrel, robinscore );
             yaz_log(YLOG_LOG,"round-robin score: pos=%d client=%d ncl=%d score=%d",
                          bestrecord->position, norm->num, nclust, relevance );
 
@@ -562,8 +562,9 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 { // have more than one record
                     for (record = rec->records; record; record = record->next, i++)
                     {
-                        scores[i] = atof( getfield(record,"score") );
-                        yaz_log(YLOG_LOG,"mergescore %d: %f", i, scores[i] );
+                        const char *scorefld = getfield(record,"score");
+                        scores[i] = atof( scorefld );
+                        yaz_log(YLOG_LOG,"mergescore %d: %s", i, scorefld );
                         wrbuf_printf(w,"mergeplot %d  %f x\n", clusternumber, 10000*scores[i] );
                     }
                     qsort(scores, nclust, sizeof(float), sort_float );
