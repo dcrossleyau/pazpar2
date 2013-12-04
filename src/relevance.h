@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 struct relevance;
 struct record_cluster;
 struct reclist;
+enum conf_sortkey_type;
 
 struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
                                        struct ccl_rpn_node *query,
