@@ -97,7 +97,23 @@ echo "Client numbers"
 cat scores.data | cut -d' ' -f2 | sort -u
 head -10 scores.data
 
-exit 1
+grep mergeplot show.out > merge.tmp
+LINENUMBER="1"
+LAST=""
+echo "0 0 0" > merge.data
+for lno in `cat merge.tmp | cut -d ' ' -f2`
+do
+  if [ "$lno" != "$LAST" ]
+  then
+    echo "Found line $lno at $LINENUMBER"
+    grep "mergeplot $lno " merge.tmp | sed "s/mergeplot/$LINENUMBER/" >> merge.data
+    LAST=$lno
+    LINENUMBER=$(($LINENUMBER + 1))
+  fi
+done
+echo "$LINENUMBER 0 0 0" >> merge.data
+
+#exit 1
 
 T1=`grep ": 1 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
 T2=`grep ": 2 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
@@ -119,6 +135,16 @@ echo "
 " > plot.cmd
 cat plot.cmd | gnuplot
 
+echo "
+  set term png
+  set out \"cluster.png\"
+  set title \"$HEADLINE\"
+  plot \"merge.data\" using 1:3 with points title \"records\", \
+       \"merge.data\" using 1:4 with points title \"merged score\", \
+       \"merge.data\" using 1:5 with points title \"sum score\", \
+       \"merge.data\" using 1:6 with points title \"avg score\"
+" > plot.cmd
+cat plot.cmd | gnuplot
 
 
 echo "All done"

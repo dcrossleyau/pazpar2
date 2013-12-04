@@ -510,7 +510,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             int tfrel = relevance; // keep the old tf/idf score
             int robinscore = 0;
             int solrscore = 0;
-            int normscore;
+            int normscore = 0;
             const char *score;
             const char *id;
             const char *title;
@@ -542,20 +542,21 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 i++;
             }
             idbuf[i] = '\0';
-            if ( norm->count )
+            if ( norm->count && *score )
             {
                 //float avg = norm->sum / norm->count;
                 normscore = 10000.0 * (  atof(score) / norm->max );
                 wrbuf_printf(w, "normscore: score(%s) / max(%f) *10000 = %d\n",
                         score, norm->max, normscore);
             } else
-                yaz_log(YLOG_LOG, "normscore: no count, can not normalize %s ", score );
+                yaz_log(YLOG_LOG, "normscore: no count, can not normalize score '%s' ", score );
 
             // If we have a score in the best record, we probably have in them all
             // and we can try to merge scores
             if ( *score ) {
                 float scores[nclust];
                 float s = 0.0;
+                float sum = 0.0;
                 int i=0;
                 if ( rec->records && rec->records->next ) 
                 { // have more than one record
@@ -563,7 +564,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                     {
                         scores[i] = atof( getfield(record,"score") );
                         yaz_log(YLOG_LOG,"mergescore %d: %f", i, scores[i] );
-                        wrbuf_printf(w,"mergeplot %d: %f x\n", clusternumber, 10000*scores[i] );
+                        wrbuf_printf(w,"mergeplot %d  %f x\n", clusternumber, 10000*scores[i] );
                     }
                     qsort(scores, nclust, sizeof(float), sort_float );
                     for (i = 0; i<nclust; i++)
@@ -571,16 +572,18 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                         yaz_log(YLOG_LOG,"Sorted mergescore %d: %f + %f/%d = %f", i, s,scores[i],i+1, s+scores[i] / (i+1) );
                         wrbuf_printf(w,"Sorted mergescore %d: %f + %f/%d = %f\n",  i, s,scores[i],i+1, s+scores[i] / (i+1));
                         s += scores[i] / (i+1);
+                        sum += scores[i];
                     }
                     mergescore = s * 10000;
+                    wrbuf_printf(w,"mergeplot %d  x %d %f %f %d\n", clusternumber, mergescore,
+                        10000.0*sum, 10000.0*sum/nclust, nclust );
+                    yaz_log(YLOG_LOG,"mergeplot %d  x %d %f %f %d", clusternumber, mergescore,
+                        10000.0*sum, 10000.0*sum/nclust, nclust );
                 }
                 else
-                { // only one record, take the easy way out of merging
+                { // only one record, take the easy way out of merging (and don't bother plotting)
                     mergescore = atof( score ) * 10000;
                 }
-                wrbuf_printf(w,"mergeplot %d: x %d \n", clusternumber, mergescore );
-                // TODO - Should not use bestrecord->position, but something from rec that
-                // corresponds to the hit number, for plotting.
             } // merge score
             id = getfield(bestrecord, "id");
             // clear the id, we only want the first numerical part
