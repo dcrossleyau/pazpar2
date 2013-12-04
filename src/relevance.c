@@ -420,6 +420,19 @@ void relevance_donerecord(struct relevance *r, struct record_cluster *cluster)
 }
 
 
+// Helper to compare floats, for qsort
+static int sort_float(const void *x, const void *y)
+{
+    const float *fx = x;
+    const float *fy = y;
+    //yaz_log(YLOG_LOG,"sorting %f and %f", *fx, *fy);  // ###
+    if ( *fx > *fy )
+        return 1;
+    if ( *fx < *fy )
+        return -1;
+    return 0;   // do not return *fx-*fy, it is often too close to zero.
+}
+
 // Prepare for a relevance-sorted read
 void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                             enum conf_sortkey_type type)
@@ -427,6 +440,8 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
     int i;
     float *idfvec = xmalloc(rel->vec_len * sizeof(float));
     int n_clients = clients_count();
+    int clusternumber = 0;
+    yaz_log(YLOG_LOG,"round-robin: have %d clients", n_clients);
 
     reclist_enter(reclist);
     // Calculate document frequency vector for each term.
@@ -450,6 +465,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
         struct record_cluster *rec = reclist_read_record(reclist);
         if (!rec)
             break;
+        clusternumber++;
         w = rec->relevance_explain2;
         wrbuf_rewind(w);
         wrbuf_puts(w, "relevance = 0;\n");
@@ -491,10 +507,15 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             struct normalizing *norm;
             struct record *bestrecord = 0;
             int nclust = 0;
-            int tfrel = relevance; // keep the old tf/idf score;
-            int robinscore;
-            int solrscore;
+            int tfrel = relevance; // keep the old tf/idf score
+            int robinscore = 0;
+            int solrscore = 0;
             int normscore;
+            const char *score;
+            const char *id;
+            const char *title;
+            char idbuf[64];
+            int mergescore = 0;
             // Find the best record in a cluster - the one with lowest position
             for (record = rec->records; record; record = record->next) {
                 if ( bestrecord == 0 || bestrecord->position < record->position )
@@ -510,33 +531,71 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                          bestrecord->position, norm->num, nclust, relevance );
 
             // Check if the record has a score field
-            {
-                const char *score = getfield(bestrecord,"score");
-                const char *id = getfield(bestrecord, "id");
-                const char *title = getfield(bestrecord, "title");
-                // clear the id, we only want the first numerical part
-                char idbuf[64];
-                solrscore = 10000.0 * atof(score);
-                i=0;
-                while( id[i] >= '0' && id[i] <= '9' ) {
-                    idbuf[i] = id[i];
-                    i++;
-                }
-                idbuf[i] = '\0';
-                if ( norm->count )
-                {
-                    float avg = norm->sum / norm->count;
-                    normscore = 10000.0 * (  atof(score) / norm->max );
-                    wrbuf_printf(w, "normscore: score(%s) / max(%f) *10000 = %d\n",
-                          score, norm->max, normscore);
-                } else
-                    yaz_log(YLOG_LOG, "normscore: no count, can not normalize %s ", score );
-
-                wrbuf_printf(w,"plotline: %d %d %d %d %d %d # %s %s\n",
-                                norm->num, bestrecord->position,
-                                tfrel, robinscore, solrscore, normscore, idbuf, title );
+            score = getfield(bestrecord,"score");
+            id = getfield(bestrecord, "id");
+            title = getfield(bestrecord, "title");
+            solrscore = 10000.0 * atof(score);
+            // clear the id, we only want the first numerical part
+            i=0;
+            while( id[i] >= '0' && id[i] <= '9' ) {
+                idbuf[i] = id[i];
+                i++;
             }
-            relevance = normscore; // ###
+            idbuf[i] = '\0';
+            if ( norm->count )
+            {
+                //float avg = norm->sum / norm->count;
+                normscore = 10000.0 * (  atof(score) / norm->max );
+                wrbuf_printf(w, "normscore: score(%s) / max(%f) *10000 = %d\n",
+                        score, norm->max, normscore);
+            } else
+                yaz_log(YLOG_LOG, "normscore: no count, can not normalize %s ", score );
+
+            // If we have a score in the best record, we probably have in them all
+            // and we can try to merge scores
+            if ( *score ) {
+                float scores[nclust];
+                float s = 0.0;
+                int i=0;
+                if ( rec->records && rec->records->next ) 
+                { // have more than one record
+                    for (record = rec->records; record; record = record->next, i++)
+                    {
+                        scores[i] = atof( getfield(record,"score") );
+                        yaz_log(YLOG_LOG,"mergescore %d: %f", i, scores[i] );
+                        wrbuf_printf(w,"mergeplot %d: %f x\n", clusternumber, 10000*scores[i] );
+                    }
+                    qsort(scores, nclust, sizeof(float), sort_float );
+                    for (i = 0; i<nclust; i++)
+                    {
+                        yaz_log(YLOG_LOG,"Sorted mergescore %d: %f + %f/%d = %f", i, s,scores[i],i+1, s+scores[i] / (i+1) );
+                        wrbuf_printf(w,"Sorted mergescore %d: %f + %f/%d = %f\n",  i, s,scores[i],i+1, s+scores[i] / (i+1));
+                        s += scores[i] / (i+1);
+                    }
+                    mergescore = s * 10000;
+                }
+                else
+                { // only one record, take the easy way out of merging
+                    mergescore = atof( score ) * 10000;
+                }
+                wrbuf_printf(w,"mergeplot %d: x %d \n", clusternumber, mergescore );
+                // TODO - Should not use bestrecord->position, but something from rec that
+                // corresponds to the hit number, for plotting.
+            } // merge score
+            id = getfield(bestrecord, "id");
+            // clear the id, we only want the first numerical part
+            i=0;
+            while( id[i] >= '0' && id[i] <= '9' ) {
+                idbuf[i] = id[i];
+                i++;
+            }
+            idbuf[i] = '\0';
+            
+            title = getfield(bestrecord, "title");
+            wrbuf_printf(w,"plotline: %d %d %d %d %d %d %d # %s %s\n",
+                            norm->num, bestrecord->position,
+                            tfrel, robinscore, solrscore, normscore, mergescore, idbuf, title );
+            relevance = mergescore;
         }
         rec->relevance_score = relevance;
     }
