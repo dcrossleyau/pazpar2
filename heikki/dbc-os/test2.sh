@@ -136,13 +136,14 @@ echo "
   set term png
   set out \"cluster.png\"
   set title \"$Q\"
-  set yrange [0:20000]
+  #set yrange [0:5000]
   plot \"merge.data\" using 1:3 with points title \"records\", \
-       \"merge.data\" using 1:4 with points title \"merged score\", \
-       \"merge.data\" using 1:5 with points title \"sum score\", \
        \"merge.data\" using 1:6 with points title \"avg score\"
 " > plot.cmd
 cat plot.cmd | gnuplot
+
+       #\"merge.data\" using 1:4 with points title \"merged score\", \
+       #\"merge.data\" using 1:5 with points title \"sum score\", \
 
 echo
 

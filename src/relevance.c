@@ -593,6 +593,10 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
                 else
                 { // only one record, take the easy way out of merging (and don't bother plotting)
                     mergescore = atof( score ) * 10000;
+                    wrbuf_printf(w,"mergeplot %d  x %d %f %f %d\n", clusternumber, mergescore,
+                        1.0*mergescore, 1.0*mergescore, nclust );
+                    yaz_log(YLOG_LOG,"mergeplot %d  x %d %f %f %d", clusternumber, mergescore,
+                        1.0*mergescore, 1.0*mergescore, nclust );
                 }
             } // merge score
             id = getfield(bestrecord, "id");
@@ -608,7 +612,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             wrbuf_printf(w,"plotline: %d %d %d %d %d %d %d # %s %s\n",
                             norm->num, bestrecord->position,
                             tfrel, robinscore, solrscore, normscore, mergescore, idbuf, title );
-            relevance = mergescore;
+            relevance = normscore;
         }
         rec->relevance_score = relevance;
     }
