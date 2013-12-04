@@ -47,6 +47,18 @@ struct relevance
     double lead_decay;
     int length_divide;
     NMEM nmem;
+    struct normalizing *norm;
+};
+
+// Structure to keep data for normalizing scores from one client
+struct normalizing
+{
+    int num;
+    float sum;
+    float max;
+    int count;
+    struct client *client;
+    struct normalizing *next;
 };
 
 struct word_entry {
@@ -56,6 +68,29 @@ struct word_entry {
     char *ccl_field;
     struct word_entry *next;
 };
+
+// Find the normalizing entry for this client, or create one if not there
+struct normalizing *findnorm( struct relevance *rel, struct client* client)
+{
+    struct normalizing *n = rel->norm;
+    while (n) {
+        if (n->client == client )
+            return n;
+        n = n->next;
+    }
+    n = nmem_malloc(rel->nmem, sizeof(struct normalizing) );
+    if ( rel->norm )
+        n->num = rel->norm->num +1;
+    else
+        n->num = 1;
+    n->sum = 0.0;
+    n->count = 0;
+    n->max = 0.0;
+    n->client = client;
+    n->next = rel->norm;
+    rel->norm = n;
+    return n;
+}
 
 static struct word_entry *word_entry_match(struct relevance *r,
                                            const char *norm_str,
@@ -307,6 +342,8 @@ struct relevance *relevance_create_ccl(pp2_charset_fact_t pft,
         nmem_malloc(res->nmem, res->vec_len * sizeof(*res->term_pos));
 
     relevance_clear(res);
+
+    res->norm = 0; 
     return res;
 }
 
@@ -342,17 +379,6 @@ void relevance_newrec(struct relevance *r, struct record_cluster *rec)
     }
 }
 
-void relevance_donerecord(struct relevance *r, struct record_cluster *cluster)
-{
-    int i;
-
-    for (i = 1; i < r->vec_len; i++)
-        if (cluster->term_frequency_vec[i] > 0)
-            r->doc_frequency_vec[i]++;
-
-    r->doc_frequency_vec[0]++;
-}
-
 static const char *getfield(struct record *bestrecord, const char *tag)
 {
     struct session *se = client_get_session(bestrecord->client);
@@ -361,10 +387,38 @@ static const char *getfield(struct record *bestrecord, const char *tag)
     if (md_field_id <0)
         return "";
     md = bestrecord->metadata[md_field_id];
-    if ( md) 
+    if ( md)
         return md->data.text.disp;
     return "";
 }
+
+void relevance_donerecord(struct relevance *r, struct record_cluster *cluster)
+{
+    int i;
+    
+    // Find the best record in a cluster - the one with lowest position
+    // (in this proto. Later, find a better one)
+    struct record *bestrecord = 0;
+    struct record *record;
+    struct normalizing *n;
+    float score;
+    for (record = cluster->records; record; record = record->next) 
+        if ( bestrecord == 0 || bestrecord->position < record->position )
+            bestrecord = record;
+    n = findnorm(r,bestrecord->client);
+    n->count ++;
+    score = atof( getfield(bestrecord,"score") );
+    n->sum += score;
+    if ( n->max < score )
+        n->max = score;
+
+    for (i = 1; i < r->vec_len; i++)
+        if (cluster->term_frequency_vec[i] > 0)
+            r->doc_frequency_vec[i]++;
+
+    r->doc_frequency_vec[0]++;
+}
+
 
 // Prepare for a relevance-sorted read
 void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
@@ -373,11 +427,6 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
     int i;
     float *idfvec = xmalloc(rel->vec_len * sizeof(float));
     int n_clients = clients_count();
-    struct client * clients[n_clients];
-    yaz_log(YLOG_LOG,"round-robin: have %d clients", n_clients);
-    for (i = 0; i < n_clients; i++)
-        clients[i] = 0;
-
 
     reclist_enter(reclist);
     // Calculate document frequency vector for each term.
@@ -439,50 +488,55 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
         // get the log entries
         if (type == Metadata_sortkey_relevance_h) {
             struct record *record;
-            int thisclient = 0;
+            struct normalizing *norm;
             struct record *bestrecord = 0;
             int nclust = 0;
+            int tfrel = relevance; // keep the old tf/idf score;
+            int robinscore;
+            int solrscore;
+            int normscore;
             // Find the best record in a cluster - the one with lowest position
             for (record = rec->records; record; record = record->next) {
                 if ( bestrecord == 0 || bestrecord->position < record->position )
                     bestrecord = record;
                 nclust++; // and count them all, for logging
             }
-            // find the client number for the record (we only have a pointer
-            while ( clients[thisclient] != 0
-                    && clients[thisclient] != bestrecord->client )
-                thisclient++;
-            if ( clients[thisclient] == 0 )
-            {
-                yaz_log(YLOG_LOG,"round-robin: found new client at %d: p=%p\n", thisclient, bestrecord->client);
-                clients[thisclient] = bestrecord->client;
-            }
+            norm = findnorm(rel, bestrecord->client);
             // Calculate a round-robin score
-            int tfrel = relevance; // keep the old tf/idf score
-            int robinscore = -(bestrecord->position * n_clients + thisclient) ;
+            robinscore = -(bestrecord->position * n_clients + norm->num) ;
             wrbuf_printf(w,"round-robin score: pos=%d client=%d ncl=%d tfscore=%d score=%d\n",
-                         bestrecord->position, thisclient, nclust, tfrel, relevance );
+                         bestrecord->position, norm->num, nclust, tfrel, relevance );
             yaz_log(YLOG_LOG,"round-robin score: pos=%d client=%d ncl=%d score=%d",
-                         bestrecord->position, thisclient, nclust, relevance );
+                         bestrecord->position, norm->num, nclust, relevance );
 
             // Check if the record has a score field
-            const char *score = getfield(bestrecord,"score");
-            int solrscore = 10000.0 * atof(score);
-            const char *id = getfield(bestrecord, "id");
-            // clear the id, we only want the first numerical part
-            char idbuf[64];
-            i=0;
-            while( id[i] >= '0' && id[i] <= '9' ) {
-                idbuf[i] = id[i];
-                i++;
+            {
+                const char *score = getfield(bestrecord,"score");
+                const char *id = getfield(bestrecord, "id");
+                const char *title = getfield(bestrecord, "title");
+                // clear the id, we only want the first numerical part
+                char idbuf[64];
+                solrscore = 10000.0 * atof(score);
+                i=0;
+                while( id[i] >= '0' && id[i] <= '9' ) {
+                    idbuf[i] = id[i];
+                    i++;
+                }
+                idbuf[i] = '\0';
+                if ( norm->count )
+                {
+                    float avg = norm->sum / norm->count;
+                    normscore = 10000.0 * (  atof(score) / norm->max );
+                    wrbuf_printf(w, "normscore: score(%s) / max(%f) *10000 = %d\n",
+                          score, norm->max, normscore);
+                } else
+                    yaz_log(YLOG_LOG, "normscore: no count, can not normalize %s ", score );
+
+                wrbuf_printf(w,"plotline: %d %d %d %d %d %d # %s %s\n",
+                                norm->num, bestrecord->position,
+                                tfrel, robinscore, solrscore, normscore, idbuf, title );
             }
-            idbuf[i] = '\0';
-            
-            const char *title = getfield(bestrecord, "title");
-            wrbuf_printf(w,"plotline: %d %d %d %d %d # %s %s\n",
-                            thisclient, bestrecord->position,
-                            tfrel, robinscore, solrscore, idbuf, title );
-            relevance = solrscore;
+            relevance = normscore; // ###
         }
         rec->relevance_score = relevance;
     }

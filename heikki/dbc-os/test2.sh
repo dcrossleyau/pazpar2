@@ -51,7 +51,7 @@ else
 fi
 QRY=`echo $Q | sed 's/ /+/g' `
 
-SORT="sort=score"
+SORT="sort=relevance_h"
 #SEARCH="command=search$SES&$QRY&rank=1&sort=relevance"
 #SEARCH="command=search$SES&$QRY"
 #SEARCH="command=search$SES&query=$QRY&sort=relevance"

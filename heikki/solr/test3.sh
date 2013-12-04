@@ -75,6 +75,7 @@ do
   HIT=`xml_grep --text_only "//hits" stat.out`
   REC=`xml_grep --text_only "//records" stat.out`
   echo "$ACT $HIT $REC"
+  echo "Hits/Fetched: $HIT / $REC" > stat.line
   if grep -q "<activeclients>0</activeclients>" stat.out
   then
     LOOPING=0
@@ -96,19 +97,24 @@ echo "Client numbers"
 cat scores.data | cut -d' ' -f2 | sort -u
 head -10 scores.data
 
+T1=`grep ": 1 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
+T2=`grep ": 2 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
+T3=`grep ": 3 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
+T4=`grep ": 4 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
+T5=`grep ": 5 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
+T6=`grep ": 6 " scores.data | head -1 | cut -d'#' -f2 | cut -d' ' -f2`
+
 echo "
   set term png
   set out \"plot.png\"
   set title \"$HEADLINE\"
+  plot \"scores.data\" using 0:(\$2==1?\$6:1/0) with points title \"1: $T1\", \
+       \"scores.data\" using 0:(\$2==2?\$6:1/0) with points title \"2: $T2\", \
+       \"scores.data\" using 0:(\$2==3?\$6:1/0) with points title \"3: $T3\", \
+       \"scores.data\" using 0:(\$2==4?\$6:1/0) with points title \"4: $T4\", \
+       \"scores.data\" using 0:(\$2==5?\$6:1/0) with points title \"5: $T5\", \
+       \"scores.data\" using 0:(\$2==6?\$6:1/0) with points title \"6: $T6\"
 " > plot.cmd
-echo '
-  plot "scores.data" using 0:($2==0?$6:1/0) with points title "db-1", \
-       "scores.data" using 0:($2==1?$6:1/0) with points title "db-2", \
-       "scores.data" using 0:($2==2?$6:1/0) with points title "db-3", \
-       "scores.data" using 0:($2==3?$6:1/0) with points title "db-4", \
-       "scores.data" using 0:($2==4?$6:1/0) with points title "db-5", \
-       "scores.data" using 0:($2==5?$6:1/0) with points title "db-6" \
-' >> plot.cmd
 cat plot.cmd | gnuplot
 
 
