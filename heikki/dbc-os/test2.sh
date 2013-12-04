@@ -135,7 +135,8 @@ gnuplot < plot.cmd
 echo "
   set term png
   set out \"cluster.png\"
-  set title \"$HEADLINE\"
+  set title \"$Q\"
+  set yrange [0:20000]
   plot \"merge.data\" using 1:3 with points title \"records\", \
        \"merge.data\" using 1:4 with points title \"merged score\", \
        \"merge.data\" using 1:5 with points title \"sum score\", \
