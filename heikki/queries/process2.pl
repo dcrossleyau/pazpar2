@@ -42,18 +42,20 @@ while ( <F> ) {
             $is_simple = 0;
             $is_boolean = 1;
         }
-        if ( $query =~ /^[("]*([^=; \t]+)=(.*)/ ) {
-            my ( $k, $v ) = ( $1, $2);
-            $fields += $count;
-            $is_simple = 0;
-            $multifields += $count if ( $v =~ /=/ ); # multiple fields mentioned
-            if ( $v =~ /=/ && !$is_boolean ) {
-                print "OOPS: $query\n";
+        my $fieldcount = 0;
+        while ( $query =~ /([^ (=%'"]+)=\s*([^ ]+)/g ) {
+            if (++$fieldcount >1 ) {
+                $is_simple = 0;
+                print "OOPS: $fieldcount $query \n" unless $is_boolean;
+                $multifields += $count;
             }
-            $k = lc($k);
-            $field{$k} = 0 unless defined($field{$k});
-            $field{$k} += $count;
-        } # field query
+            my $fld = $1;
+            $fields += $count;
+            #print "Field loop: '$fld' $query \n";
+            $fld = lc($fld);
+            $field{$fld} = 0 unless defined($field{$fld});
+            $field{$fld} += $count;
+        }
         if ($is_simple) {
             $simplequeries += $count;
         }
