@@ -31,7 +31,7 @@ while ( <F> ) {
     if ( $thisquery eq $query ){
         $count ++;
     } else {
-        print OUT "$count ; $query \n";
+        print OUT "$count ; $thisquery \n";
         $totalqueries += $count;
         $uniquequeries += 1;
         $singlehits += 1 if ($hits <= 1 );
