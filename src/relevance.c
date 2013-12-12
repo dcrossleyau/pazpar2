@@ -53,7 +53,7 @@ struct relevance
 // Structure to keep data for normalizing scores from one client
 struct normalizing
 {
-    int num;
+    int num; // number of the client
     float sum;
     float max;
     int count;
@@ -612,7 +612,7 @@ void relevance_prepare_read(struct relevance *rel, struct reclist *reclist,
             wrbuf_printf(w,"plotline: %d %d %d %d %d %d %d # %s %s\n",
                             norm->num, bestrecord->position,
                             tfrel, robinscore, solrscore, normscore, mergescore, idbuf, title );
-            relevance = normscore;
+            relevance = solrscore;
         }
         rec->relevance_score = relevance;
     }
