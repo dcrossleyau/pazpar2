@@ -70,5 +70,20 @@ Next: Add the normalizing merge strategy. Then plot different strategies against
 Write a conclusion, and consider this plotting job done
 
 
+Fri 13-Dec-2013
+Adam is adding a float type to pazpar2. I have made a prrof of concept of the normalizing
+by curve fitting. I think it is time to close this branch, and start (re)implementing
+things in the main branch. Keep the old branch around for reference!
 
+Need new config options:
+ - sort: native, native + position
+ - or per target: native score / fake score from position / use tf/idf
+ - per target: weight for combining rankings (cluster merge), so we can trust one
+   target more than others
+ - per target: boost rankings
+
+Start coding:
+ - in relevance-prepare-read, go through records, collect scores in arrays (per target),
+ - fit the curve, normalize the scores.
+ - cluster scoring
 
