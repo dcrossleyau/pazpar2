@@ -486,8 +486,6 @@ static int connection_connect(struct connection *con, iochan_man_t iochan_man)
     }
 
     w = wrbuf_alloc();
-    if (sru && *sru && !strstr(con->url, "://"))
-        wrbuf_puts(w, "http://");
     if (strchr(con->url, '#'))
     {
         const char *cp = strchr(con->url, '#');
@@ -522,7 +520,7 @@ int client_prep_connection(struct client *cl,
     const char *url = session_setting_oneval(sdb, PZ_URL);
     const char *sru = session_setting_oneval(sdb, PZ_SRU);
     struct host *host = 0;
-    int default_port = *sru ? 80 : 210;
+    WRBUF url_w = wrbuf_alloc();
 
     if (zproxy && zproxy[0] == '\0')
         zproxy = 0;
@@ -530,20 +528,27 @@ int client_prep_connection(struct client *cl,
     if (!url || !*url)
         url = sdb->database->id;
 
+    if (sru && *sru && !strstr(url, "://"))
+        wrbuf_puts(url_w, "http://");
+    wrbuf_puts(url_w, url);
+
     host = find_host(client_get_session(cl)->service->server->database_hosts,
-                     url, zproxy, default_port, iochan_man);
+                     wrbuf_cstr(url_w), zproxy, iochan_man);
 
     yaz_log(YLOG_DEBUG, "client_prep_connection: target=%s url=%s",
-            client_get_id(cl), url);
+            client_get_id(cl), wrbuf_cstr(url_w));
     if (!host)
+    {
+        wrbuf_destroy(url_w);
         return 0;
-
+    }
     co = client_get_connection(cl);
     if (co)
     {
         assert(co->host);
         if (co->host == host && client_get_state(cl) == Client_Idle)
         {
+            wrbuf_destroy(url_w);
             return 2;
         }
         connection_release(co);
@@ -576,7 +581,7 @@ int client_prep_connection(struct client *cl,
                 for (co = host->connections; co; co = co->next)
                 {
                     if (connection_is_idle(co) &&
-                        !strcmp(url, co->url) &&
+                        !strcmp(wrbuf_cstr(url_w), co->url) &&
                         (!co->client || client_get_state(co->client) == Client_Idle) &&
                         !strcmp(ZOOM_connection_option_get(co->link, "user"),
                                 session_setting_oneval(client_get_database(cl),
@@ -607,6 +612,7 @@ int client_prep_connection(struct client *cl,
                 yaz_log(YLOG_LOG, "out of connections %s", client_get_id(cl));
                 client_set_state(cl, Client_Error);
                 yaz_mutex_leave(host->mutex);
+                wrbuf_destroy(url_w);
                 return 0;
             }
         }
@@ -629,13 +635,13 @@ int client_prep_connection(struct client *cl,
         else
         {
             yaz_mutex_leave(host->mutex);
-            co = connection_create(cl, url, host,
+            co = connection_create(cl, wrbuf_cstr(url_w), host,
                                    operation_timeout, session_timeout,
                                    iochan_man);
         }
         assert(co->host);
     }
-
+    wrbuf_destroy(url_w);
     if (co && co->link)
         return 1;
     else

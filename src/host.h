@@ -39,7 +39,7 @@ database_hosts_t database_hosts_create(void);
 void database_hosts_destroy(database_hosts_t *);
 
 struct host *find_host(database_hosts_t hosts, const char *hostport,
-		       const char *proxy, int port, iochan_man_t iochan_man);
+		       const char *proxy, iochan_man_t iochan_man);
 
 int host_getaddrinfo(struct host *host, iochan_man_t iochan_man);
 

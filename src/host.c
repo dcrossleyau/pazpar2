@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <yaz/log.h>
 #include <yaz/nmem.h>
 #include <yaz/matchstr.h>
+#include <yaz/unix.h>
 
 #include "ppmutex.h"
 #include "session.h"
@@ -42,6 +43,7 @@ struct database_hosts {
 // Create a new host structure for hostport
 static struct host *create_host(const char *proxy,
                                 const char *tproxy,
+                                CS_TYPE cs_type,
                                 iochan_man_t iochan_man)
 {
     struct host *host;
@@ -60,13 +62,18 @@ static struct host *create_host(const char *proxy,
     host->ipport = 0;
     host->mutex = 0;
 
-    if (host_getaddrinfo(host, iochan_man))
+    if (cs_type == unix_type)
+        host->ipport = xstrdup(host->tproxy);
+    else
     {
-        xfree(host->ipport);
-        xfree(host->tproxy);
-        xfree(host->proxy);
-        xfree(host);
-        return 0;
+        if (host_getaddrinfo(host, iochan_man))
+        {
+            xfree(host->ipport);
+            xfree(host->tproxy);
+            xfree(host->proxy);
+            xfree(host);
+            return 0;
+        }
     }
     pazpar2_mutex_create(&host->mutex, "host");
 
@@ -76,26 +83,46 @@ static struct host *create_host(const char *proxy,
 }
 
 struct host *find_host(database_hosts_t hosts, const char *url,
-                       const char *proxy, int port,
-                       iochan_man_t iochan_man)
+                       const char *proxy, iochan_man_t iochan_man)
 {
     struct host *p;
     char *tproxy = 0;
-
-    if (!proxy || !*proxy)
+    const char *host = 0;
+    CS_TYPE t;
+    enum oid_proto proto;
+    char *connect_host = 0;
+    if (!cs_parse_host(url, &host, &t, &proto, &connect_host))
+        return 0;
+    else
     {
-        char *cp;
-
-        tproxy = xmalloc (strlen(url) + 10); /* so we can add :port */
-        strcpy(tproxy, url);
-        for (cp = tproxy; *cp; cp++)
-            if (strchr("/?#~", *cp))
+        if (t == unix_type)
+            tproxy = xstrdup(url);
+        else
+        {
+            if (proxy && *proxy)
             {
-                *cp = '\0';
-                break;
+                /* plain proxy host already given, but we get CS_TYPE t  */
+                xfree(connect_host);
             }
-        if (!strchr(tproxy, ':'))
-            sprintf(cp, ":%d", port); /* no port given, add it */
+            else
+            {
+                if (connect_host)
+                {
+                    tproxy = connect_host;
+                }
+                else
+                {
+                    char *cp;
+                    tproxy = xstrdup(host);
+                    for (cp = tproxy; *cp; cp++)
+                        if (strchr("/?#~", *cp))
+                        {
+                            *cp = '\0';
+                            break;
+                        }
+                }
+            }
+        }
     }
     yaz_mutex_enter(hosts->mutex);
     for (p = hosts->hosts; p; p = p->next)
@@ -108,7 +135,7 @@ struct host *find_host(database_hosts_t hosts, const char *url,
     }
     if (!p)
     {
-        p = create_host(proxy, tproxy, iochan_man);
+        p = create_host(proxy, tproxy, t, iochan_man);
         if (p)
         {
             p->next = hosts->hosts;
