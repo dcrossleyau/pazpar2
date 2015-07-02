@@ -207,9 +207,27 @@ void add_facet(struct session *s, const char *type, const char *value, int count
 {
     WRBUF facet_wrbuf = wrbuf_alloc();
     WRBUF display_wrbuf = wrbuf_alloc();
+    const char *id = 0;
+    size_t id_len = 0;
+
+    yaz_log(YLOG_LOG, "add_facet type=%s value=%s count=%d",
+            type, value, count);
+
+    /* inspect pz:facetmap:split:name ?? */
+    if (!strncmp(type, "split:", 6))
+    {
+        const char *cp = strchr(value, ':');
+        if (cp)
+        {
+            id = value;
+            id_len = cp - value;
+            value = cp + 1;
+            yaz_log(YLOG_LOG, "strip id=%s value=%s", id, value);
+        }
+        type += 6;
+    }
 
     session_normalize_facet(s, type, value, display_wrbuf, facet_wrbuf);
-
     if (wrbuf_len(facet_wrbuf))
     {
         struct named_termlist **tp = &s->termlists;
@@ -224,7 +242,7 @@ void add_facet(struct session *s, const char *type, const char *value, int count
             (*tp)->next = 0;
         }
         termlist_insert((*tp)->termlist, wrbuf_cstr(display_wrbuf),
-                        wrbuf_cstr(facet_wrbuf), count);
+                        wrbuf_cstr(facet_wrbuf), id, id_len, count);
     }
     wrbuf_destroy(facet_wrbuf);
     wrbuf_destroy(display_wrbuf);
@@ -1216,7 +1234,12 @@ void perform_termlist(struct http_channel *c, struct session *se,
                         wrbuf_puts(c->wrbuf, "<name>");
                         wrbuf_xmlputs(c->wrbuf, p[i]->display_term);
                         wrbuf_puts(c->wrbuf, "</name>");
-
+                        if (p[i]->id)
+                        {
+                            wrbuf_puts(c->wrbuf, "<value>");
+                            wrbuf_xmlputs(c->wrbuf, p[i]->id);
+                            wrbuf_puts(c->wrbuf, "</value>");
+                        }
                         wrbuf_printf(c->wrbuf,
                                      "<frequency>%d</frequency>",
                                      p[i]->frequency);
