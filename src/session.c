@@ -203,7 +203,43 @@ static void session_normalize_facet(struct session *s,
     run_icu(s, icu_chain_id, value, facet_wrbuf, display_wrbuf);
 }
 
-void add_facet(struct session *s, const char *type, const char *value, int count)
+struct facet_id {
+    char *client_id;
+    char *type;
+    char *id;
+    char *term;
+    struct facet_id *next;
+};
+
+static void session_add_id_facet(struct session *s, struct client *cl,
+                          const char *type,
+                          const char *id,
+                          const char *term)
+{
+    struct facet_id *t = nmem_malloc(s->session_nmem, sizeof(*t));
+
+    t->client_id = nmem_strdup(s->session_nmem, client_get_id(cl));
+    t->type = nmem_strdup(s->session_nmem, type);
+    t->id = nmem_strdup(s->session_nmem, id);
+    t->term = nmem_strdup(s->session_nmem, term);
+    t->next = s->facet_id_list;
+    s->facet_id_list = t;
+}
+
+
+const char *session_lookup_id_facet(struct session *s, struct client *cl,
+                                    const char *type,
+                                    const char *term)
+{
+    struct facet_id *t = s->facet_id_list;
+    for (; t; t = t->next)
+        if (!strcmp(client_get_id(cl), t->id) &&
+            !strcmp(t->type, type) && !strcmp(t->term, term))
+            return t->id;
+    return 0;
+}
+
+void add_facet(struct session *s, const char *type, const char *value, int count, struct client *cl)
 {
     WRBUF facet_wrbuf = wrbuf_alloc();
     WRBUF display_wrbuf = wrbuf_alloc();
@@ -243,6 +279,8 @@ void add_facet(struct session *s, const char *type, const char *value, int count
         }
         termlist_insert((*tp)->termlist, wrbuf_cstr(display_wrbuf),
                         wrbuf_cstr(facet_wrbuf), id, id_len, count);
+        if (id)
+            session_add_id_facet(s, cl, type, id, wrbuf_cstr(display_wrbuf));
     }
     wrbuf_destroy(facet_wrbuf);
     wrbuf_destroy(display_wrbuf);
@@ -1045,6 +1083,7 @@ struct session *new_session(NMEM nmem, struct conf_service *service,
     session->clients_cached = 0;
     session->settings_modified = 0;
     session->session_nmem = nmem;
+    session->facet_id_list = 0;
     session->nmem = nmem_create();
     session->databases = 0;
     session->sorted_results = 0;
@@ -2405,15 +2444,15 @@ static int ingest_to_cluster(struct client *cl,
                     char year[64];
                     sprintf(year, "%d", rec_md->data.number.max);
 
-                    add_facet(se, (char *) type, year, term_factor);
+                    add_facet(se, (char *) type, year, term_factor, cl);
                     if (rec_md->data.number.max != rec_md->data.number.min)
                     {
                         sprintf(year, "%d", rec_md->data.number.min);
-                        add_facet(se, (char *) type, year, term_factor);
+                        add_facet(se, (char *) type, year, term_factor, cl);
                     }
                 }
                 else
-                    add_facet(se, type, wrbuf_cstr(wrbuf_disp), term_factor);
+                    add_facet(se, type, wrbuf_cstr(wrbuf_disp), term_factor, cl);
             }
         }
         else
