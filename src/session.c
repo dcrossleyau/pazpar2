@@ -212,18 +212,21 @@ struct facet_id {
 };
 
 static void session_add_id_facet(struct session *s, struct client *cl,
-                          const char *type,
-                          const char *id,
-                          const char *term)
+                                 const char *type,
+                                 const char *id,
+                                 size_t id_len,
+                                 const char *term)
 {
     struct facet_id *t = nmem_malloc(s->session_nmem, sizeof(*t));
 
     t->client_id = nmem_strdup(s->session_nmem, client_get_id(cl));
     t->type = nmem_strdup(s->session_nmem, type);
-    t->id = nmem_strdup(s->session_nmem, id);
+    t->id = nmem_strdupn(s->session_nmem, id, id_len);
     t->term = nmem_strdup(s->session_nmem, term);
     t->next = s->facet_id_list;
     s->facet_id_list = t;
+    yaz_log(YLOG_LOG, "session_add_id_facet cl=%s type=%s id=%s term=%s",
+            client_get_id(cl), type, id, term);
 }
 
 
@@ -232,10 +235,16 @@ const char *session_lookup_id_facet(struct session *s, struct client *cl,
                                     const char *term)
 {
     struct facet_id *t = s->facet_id_list;
+    yaz_log(YLOG_LOG, "session_lookup_id_facet cl=%s type=%s term=%s",
+            client_get_id(cl), type, term);
     for (; t; t = t->next)
-        if (!strcmp(client_get_id(cl), t->id) &&
+        if (!strcmp(client_get_id(cl), t->client_id) &&
             !strcmp(t->type, type) && !strcmp(t->term, term))
+        {
+            yaz_log(YLOG_LOG, " returns id=%s", t->id);
             return t->id;
+        }
+    yaz_log(YLOG_LOG, " returns 0");
     return 0;
 }
 
@@ -280,7 +289,8 @@ void add_facet(struct session *s, const char *type, const char *value, int count
         termlist_insert((*tp)->termlist, wrbuf_cstr(display_wrbuf),
                         wrbuf_cstr(facet_wrbuf), id, id_len, count);
         if (id)
-            session_add_id_facet(s, cl, type, id, wrbuf_cstr(display_wrbuf));
+            session_add_id_facet(s, cl, type, id, id_len,
+                                 wrbuf_cstr(display_wrbuf));
     }
     wrbuf_destroy(facet_wrbuf);
     wrbuf_destroy(display_wrbuf);

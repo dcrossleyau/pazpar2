@@ -1381,7 +1381,8 @@ static int apply_limit(struct client *cl,
                 for (i = 0; i < num; i++)
                 {
                     const char *id = session_lookup_id_facet(cl->session,
-                                                             cl, p, values[i]);
+                                                             cl, name,
+                                                             values[i]);
                     if (id)
                         values[i] = nmem_strdup(nmem_tmp, id);
                 }
