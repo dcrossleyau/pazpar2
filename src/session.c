@@ -1283,12 +1283,6 @@ void perform_termlist(struct http_channel *c, struct session *se,
                         wrbuf_puts(c->wrbuf, "<name>");
                         wrbuf_xmlputs(c->wrbuf, p[i]->display_term);
                         wrbuf_puts(c->wrbuf, "</name>");
-                        if (p[i]->id)
-                        {
-                            wrbuf_puts(c->wrbuf, "<value>");
-                            wrbuf_xmlputs(c->wrbuf, p[i]->id);
-                            wrbuf_puts(c->wrbuf, "</value>");
-                        }
                         wrbuf_printf(c->wrbuf,
                                      "<frequency>%d</frequency>",
                                      p[i]->frequency);
