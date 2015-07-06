@@ -225,8 +225,6 @@ static void session_add_id_facet(struct session *s, struct client *cl,
     t->term = nmem_strdup(s->session_nmem, term);
     t->next = s->facet_id_list;
     s->facet_id_list = t;
-    yaz_log(YLOG_LOG, "session_add_id_facet cl=%s type=%s id=%s term=%s",
-            client_get_id(cl), type, id, term);
 }
 
 
@@ -235,16 +233,12 @@ const char *session_lookup_id_facet(struct session *s, struct client *cl,
                                     const char *term)
 {
     struct facet_id *t = s->facet_id_list;
-    yaz_log(YLOG_LOG, "session_lookup_id_facet cl=%s type=%s term=%s",
-            client_get_id(cl), type, term);
     for (; t; t = t->next)
         if (!strcmp(client_get_id(cl), t->client_id) &&
             !strcmp(t->type, type) && !strcmp(t->term, term))
         {
-            yaz_log(YLOG_LOG, " returns id=%s", t->id);
             return t->id;
         }
-    yaz_log(YLOG_LOG, " returns 0");
     return 0;
 }
 
@@ -255,9 +249,6 @@ void add_facet(struct session *s, const char *type, const char *value, int count
     const char *id = 0;
     size_t id_len = 0;
 
-    yaz_log(YLOG_LOG, "add_facet type=%s value=%s count=%d",
-            type, value, count);
-
     /* inspect pz:facetmap:split:name ?? */
     if (!strncmp(type, "split:", 6))
     {
@@ -267,7 +258,6 @@ void add_facet(struct session *s, const char *type, const char *value, int count
             id = value;
             id_len = cp - value;
             value = cp + 1;
-            yaz_log(YLOG_LOG, "strip id=%s value=%s", id, value);
         }
         type += 6;
     }
