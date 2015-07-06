@@ -1284,6 +1284,9 @@
        <replaceable>name</replaceable> is used. The second item is
        the display term.
       </para>
+      <para>
+       This facility was added in Pazpar2 version 1.11.0.
+      </para>
      </listitem>
     </varlistentry>
 
