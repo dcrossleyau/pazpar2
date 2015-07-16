@@ -1,10 +1,23 @@
 <?xml version="1.0"?>
 <settings target="*">
   <set name="pz:url" target="aggw" value="localhost:9998/1986913,sessionId=4538815&amp;serverName=menelaus&amp;hostName=http%3A%2F%2Fdev-wrls-verso.auto-graphics.com&amp;customerId=wrls&amp;defaultPageSize=3"/>
+  
   <set name="pz:cclmap:term" target="aggw" value="1=ALL_HEADING"/>
+  <set name="pz:maxrecs" target="aggw" value="5"/>
   
   <set name="pz:xslt" target="aggw" value="paz_1009.xsl"/>
 
+  <set name="pz:facetmap:split:publisher" value="facet_15"/>
+  <set name="pz:facetmap:split:series" value="facet_17"/>
+
+  <set name="pz:limitmap:publisher" value="ccl:publisher"/>
+  <set name="pz:limitmap:series" value="ccl:series"/>
+
+  <set name="pz:cclmap:publisher" target="aggw" value="u=q_SelectedFacets"/>
+
+  <set name="pz:name" target="aggw" value="AG gateway test"/>
+  
+  
   <set name="full_text_target" target="aggw" value="NO"/>
   <set name="use_url_proxy" target="aggw" value="0"/>
   <set name="place_holds" target="aggw" value="no"/>
@@ -13,8 +26,6 @@
   <set name="medium" target="aggw" value="music-score (electronic)"/>
   <set name="category" target="aggw" value="id_music,id_openaccess"/>
   <set name="content_levels" target="aggw" value="general_interest"/>
-  <set name="pz:name" target="aggw" value="Sheet Music Consortium"/>
-  <!-- set name="pz:extra_args" target="aggw" value="defType=lucene"/-->
 
   <set name="pz:cclmap:date" target="aggw" value="u=30 r=r"/>
   <set name="pz:cclmap:issn" target="aggw" value="1=issn"/>
