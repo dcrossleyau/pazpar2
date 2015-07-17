@@ -233,12 +233,14 @@ const char *session_lookup_id_facet(struct session *s, struct client *cl,
                                     const char *term)
 {
     struct facet_id *t = s->facet_id_list;
-    for (; t; t = t->next)
+    for (; t; t = t->next) 
+    {
         if (!strcmp(client_get_id(cl), t->client_id) &&
             !strcmp(t->type, type) && !strcmp(t->term, term))
         {
             return t->id;
         }
+    }
     return 0;
 }
 
@@ -261,8 +263,9 @@ void add_facet(struct session *s, const char *type, const char *value, int count
         }
         type += 6;
     }
-
     session_normalize_facet(s, type, value, display_wrbuf, facet_wrbuf);
+    yaz_log(YLOG_DEBUG,"add_facet t='%s' v='%s' id='%s' d='%s' f='%s'",
+            type, value, id, wrbuf_cstr(display_wrbuf), wrbuf_cstr(facet_wrbuf) );
     if (wrbuf_len(facet_wrbuf))
     {
         struct named_termlist **tp = &s->termlists;

@@ -1383,8 +1383,12 @@ static int apply_limit(struct client *cl,
                     const char *id = session_lookup_id_facet(cl->session,
                                                              cl, name,
                                                              values[i]);
-                    if (id)
+                    if (id) {
                         values[i] = nmem_strdup(nmem_tmp, id);
+                        yaz_log(YLOG_DEBUG, 
+                            "apply_limit: s='%s' found id '%s'",s->name,id );
+                        
+                    }
                 }
                 nmem_strsplit_escape2(nmem_tmp, ",", s->value, &cvalues,
                                       &cnum, 1, '\\', 1);
@@ -1433,6 +1437,8 @@ static int apply_limit(struct client *cl,
                                 if (i < num - 1)
                                     wrbuf_printf(w_pqf, "@or ");
                                 ccl_pquery(w_pqf, cn);
+                                yaz_log(YLOG_DEBUG,"apply_limit (ccl): %s",
+                                        wrbuf_cstr(w_pqf));
                                 ccl_rpn_delete(cn);
                             }
                         }
