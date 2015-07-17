@@ -4,14 +4,21 @@
   <set name="pz:cclmap:term" target="aggw" value="1=ALL_HEADING"/>
   <set name="pz:termlist_term_count" target="aggw" value="50"/>
   <set name="pz:maxrecs" target="aggw" value="5"/>
-
+  
+  <set name="pz:facetmap:split:series" target="aggw" value="facet_17"/>
+  <set name="pz:limitmap:series" target="aggw" value="ccl:series"/>
+  <set name="pz:cclmap:series" target="aggw" value="u=q_SelectedFacets"/>
+  
+  <set name="pz:facetmap:split:publisher" target="aggw" value="facet_15"/>
+  <set name="pz:limitmap:publisher" target="aggw" value="ccl:publisher"/>
+  <set name="pz:cclmap:publisher" target="aggw" value="u=q_SelectedFacets"/>
+  
         <set name="pz:extendrecs" target="aggw" value="60"/>
         <set name="pz:cclmap:JOURNAL_TITLE" target="aggw" value="u=1033 s=al"/>
         <set name="pz:cclmap:PUBLISHER-NAME" target="aggw" value="u=PUBLISHER_NAME"/>
         <set name="pz:cclmap:PHRASE" target="aggw" value="s=1"/>
         <set name="pz:cclmap:FromPubYear" target="aggw" value="u=q_FromPubYear"/>
         <set name="pz:cclmap:PUBLISHER-NUMBER" target="aggw" value="u=PUBLISHER_NUMBER"/>
-        <set name="pz:facetmap:split:series" target="aggw" value="facet_17"/>
         <set name="pz:limitmap:medium" target="aggw" value="ccl:medium"/>
         <set name="pz:cclmap:READING-PROGRAM-NAME" target="aggw" value="u=READING_PROGRAM_NAME"/>
         <set name="pz:cclmap:NLC-NUMBER" target="aggw" value="u=NLC_NUMBER"/>
@@ -39,7 +46,6 @@
         <set name="pz:cclmap:GPO-SHIP-LIST-NUMBER" target="aggw" value="u=GPO_SHIP_LIST_NUMBER"/>
         <set name="pz:cclmap:GPO-ORDER-NUMBER" target="aggw" value="u=GPO_ORDER_NUMBER"/>
         <set name="pz:cclmap:CreationDate" target="aggw" value="u=q_CreationDate"/>
-        <set name="pz:facetmap:split:publisher" target="aggw" value="facet_15"/>
         <set name="pz:facetmap:split:subject" target="aggw" value="facet_05"/>
         <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="aggw" value="u=LOCAL_CALL_NUMBER"/>
         <set name="use_thumbnails" target="aggw" value="1"/>
@@ -55,7 +61,6 @@
         <set name="pz:cclmap:MaterialType" target="aggw" value="u=q_MaterialType"/>
         <set name="pz:pqf_prefix" target="aggw" value="@and @attr 1=q_SortBy RELEVANCY"/>
         <set name="pz:cclmap:TargetAudiences" target="aggw" value="u=q_TargetAudiences"/>
-        <set name="pz:limitmap:series" target="aggw" value="ccl:series"/>
         <set name="pz:limitmap:title" target="aggw" value="ccl:title"/>
         <set name="pz:facetmap:split:location" target="aggw" value="facet_06"/>
         <set name="pz:cclmap:GPO-ITEM-NUMBER" target="aggw" value="u=GPO_ITEM_NUMBER"/>
@@ -101,7 +106,6 @@
         <set name="pz:present_chunk" target="aggw" value="60"/>
         <set name="pz:limitmap:audiencelevel" target="aggw" value="ccl:audiencelevel"/>
         <set name="pz:cclmap:location" target="aggw" value="u=q_SelectedFacets"/>
-        <set name="pz:limitmap:publisher" target="aggw" value="ccl:publisher"/>
         <set name="pz:cclmap:GPO-MONTHLY-CAT-NUMBER" target="aggw" value="u=GPO_MONTHLY_CAT_NUMBER"/>
         <set name="pz:cclmap:POINT-LEVEL" target="aggw" value="u=POINT_LEVEL"/>
         <set name="pz:cclmap:ToPubYear" target="aggw" value="u=q_ToPubYear"/>
@@ -129,11 +133,9 @@
         <set name="pz:limitmap:useSavedQueries" target="aggw" value="ccl: UseSavedQueries"/>
         <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="aggw" value="u=GPO_SUBDOC_NUMBER"/>
         <set name="pz:cclmap:POINT-LEVEL-RC" target="aggw" value="u=POINT_LEVEL_RC"/>
-        <set name="pz:cclmap:publisher" target="aggw" value="u=q_SelectedFacets"/>
         <set name="pz:cclmap:title" target="aggw" value="u=q_SelectedFacets"/>
         <set name="pz:limitmap:subject:person" target="aggw" value="local: "/>
         <set name="pz:limitmap:subject" target="aggw" value="ccl:subject"/>
-        <set name="pz:cclmap:series" target="aggw" value="u=q_SelectedFacets"/>
         <set name="pz:limitmap:mtype" target="aggw" value="ccl: MaterialType"/>
         <set name="pz:cclmap:READING-LEVEL-RC" target="aggw" value="u=READING_LEVEL_RC"/>
         <set name="pz:limitmap:scoping" target="aggw" value="ccl: ScopingLevel"/>

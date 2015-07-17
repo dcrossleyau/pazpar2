@@ -1,0 +1,810 @@
+<session>
+  <namedTemplates xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template name="first-40-chars">
+      <xsl:param name="subfield-value" />
+      <xsl:value-of select="substring($subfield-value,1,40)" />
+    </xsl:template>
+    <xsl:template name="first-4-digits">
+      <xsl:param name="subfield-value" />
+      <xsl:value-of select="substring(translate($subfield-value,translate($subfield-value,'0123456789', ''), ''),1,4)" />
+    </xsl:template>
+    <xsl:template name="medium" xmlns:tmarc="http://www.indexdata.com/turbomarc">
+      <xsl:variable name="l">
+        <xsl:choose>
+          <xsl:when test="tmarc:l">
+            <xsl:value-of select="tmarc:l" />
+          </xsl:when>
+          <xsl:when test="MarcLeader">
+            <xsl:value-of select="MarcLeader" />
+          </xsl:when>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="c007">
+        <xsl:choose>
+          <xsl:when test="tmarc:c007">
+            <xsl:value-of select="tmarc:c007" />
+          </xsl:when>
+          <xsl:when test="Tag007">
+            <xsl:value-of select="Tag007" />
+          </xsl:when>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="c008">
+        <xsl:choose>
+          <xsl:when test="tmarc:c008">
+            <xsl:value-of select="tmarc:c008" />
+          </xsl:when>
+          <xsl:when test="Tag008">
+            <xsl:value-of select="Tag008" />
+          </xsl:when>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="typeofrec" select="substring($l, 7, 1)" />
+      <xsl:variable name="biblevel" select="substring($l, 8, 1)" />
+      <xsl:variable name="format" select="substring($c008, 24, 1)" />
+      <xsl:variable name="typemp" select="substring($c008, 26, 1)" />
+      <xsl:variable name="typecf" select="substring($c008, 27, 1)" />
+      <xsl:variable name="formvmmp" select="substring($c008, 30, 1)" />
+      <xsl:variable name="typevm" select="substring($c008, 34, 1)" />
+      <xsl:variable name="typese" select="substring($c008, 22, 1)" />
+      <xsl:variable name="oclca" select="substring($c007, 1, 1)" />
+      <xsl:variable name="oclcb" select="substring($c007, 2, 1)" />
+      <xsl:variable name="oclcd" select="substring($c007, 4, 1)" />
+      <xsl:variable name="oclce" select="substring($c007, 5, 1)" />
+      <xsl:variable name="oclcg" select="substring($c007, 7, 1)" />
+      <xsl:choose>
+        <xsl:when test="$biblevel='s' and $typese='p'">
+          <xsl:text>per</xsl:text>
+          <!-- per ignores typeOfRec? -->
+        </xsl:when>
+        <xsl:when test="$typeofrec='a'">
+          <xsl:choose>
+            <xsl:when test="$biblevel='b' or $biblevel='i' or $biblevel='s'">
+              <xsl:choose>
+                <xsl:when test="$format='s'">ese</xsl:when>
+                <xsl:otherwise>ser</xsl:otherwise>
+              </xsl:choose>
+            </xsl:when>
+            <xsl:when test="$biblevel!='a' and $biblevel!='i' and $biblevel!='s'">
+              <xsl:choose>
+                <xsl:when test="$oclca='c'">ebk</xsl:when>
+                <xsl:when test="$format='a' or $format='b' or $format='c'">mic</xsl:when>
+                <xsl:when test="$format='d'">lpt</xsl:when>
+                <xsl:when test="$format='f'">brl </xsl:when>
+                <xsl:when test="$format='s'">erd</xsl:when>
+                <xsl:otherwise>bks</xsl:otherwise>
+              </xsl:choose>
+            </xsl:when>
+            <xsl:when test="$biblevel='i' and ($typese='d' or $typese='w')">web</xsl:when>
+            <xsl:when test="$biblevel='s' and $format='s' and $typese='n'">enw</xsl:when>
+            <xsl:when test="$biblevel='s' and $format='s' and $typese!='n'">ejr</xsl:when>
+            <xsl:when test="$biblevel='s' and $typese='n'">new</xsl:when>
+          </xsl:choose>
+        </xsl:when>
+        <!-- typeofrec=a -->
+        <xsl:when test="$typeofrec='c' or $typeofrec='d'">pmu</xsl:when>
+        <xsl:when test="($typeofrec='e' or $typeofrec='f') and       $typemp='e' and $typecf='n'">atl</xsl:when>
+        <!-- guessing at meaning of stylesheet here -->
+        <xsl:when test="$typeofrec='e' and ($typemp='d' or $oclca='d')">glb</xsl:when>
+        <xsl:when test="($typeofrec='e' or $typeofrec='f') and $formvmmp='s'">emp</xsl:when>
+        <xsl:when test="$typeofrec='e' or $typeofrec='f'">pcm</xsl:when>
+        <xsl:when test="$typeofrec='t' or $typeofrec='p' or $typeofrec='b'">mss</xsl:when>
+        <xsl:when test="$typeofrec='g'">
+          <xsl:choose>
+            <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='v'">dvd</xsl:when>
+            <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='s'">blu</xsl:when>
+            <xsl:when test="$oclca='v' and $oclcb='f'">vid</xsl:when>
+            <xsl:when test="$typevm='m' or $oclca='m'">mot</xsl:when>
+            <xsl:when test="$typevm='f'">fst</xsl:when>
+            <xsl:when test="$typevm='s'">sld</xsl:when>
+            <xsl:when test="$oclca='c' and $oclcb='r'">evd</xsl:when>
+            <xsl:otherwise>pgr</xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$typeofrec='j'">
+          <xsl:choose>
+            <xsl:when test="$oclca='s' and $oclcb='s'">mcs</xsl:when>
+            <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">mcd</xsl:when>
+            <xsl:when test="$oclca='s' and $oclcb='d' and  $oclcd='b'">mlp</xsl:when>
+            <xsl:when test="$format='q'">mpl</xsl:when>
+            <xsl:when test="$format='o' or $format='s'">emu</xsl:when>
+            <xsl:otherwise>msr</xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$typeofrec='i'">
+          <xsl:choose>
+            <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">acd</xsl:when>
+            <xsl:when test="$oclca='s' and $oclcb='s'">acs</xsl:when>
+            <xsl:when test="$oclca='s' and $oclcb='d' and $oclcd='b'">alp</xsl:when>
+            <xsl:when test="$format='q'">apl</xsl:when>
+            <xsl:when test="$format='o' or $format='s'">eab</xsl:when>
+            <xsl:otherwise>nsr</xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$typeofrec='m'">
+          <xsl:choose>
+            <xsl:when test="$typecf='g'">cgm</xsl:when>
+            <xsl:when test="$typecf='j'">onl</xsl:when>
+            <xsl:when test="$typecf='b'">cpg</xsl:when>
+            <xsl:otherwise>elr</xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$typeofrec='k'">
+          <xsl:choose>
+            <xsl:when test="$typevm='o'">fcd</xsl:when>
+            <xsl:when test="$typevm='i'">pic</xsl:when>
+            <xsl:otherwise>ngr</xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$typeofrec='o'">kit</xsl:when>
+        <xsl:when test="$typeofrec='r'">
+          <xsl:choose>
+            <xsl:when test="$typevm='a' or $typevm='c'">frt</xsl:when>
+            <xsl:when test="$typevm='g'">gme</xsl:when>
+            <xsl:when test="$typevm='w'">toy</xsl:when>
+            <xsl:otherwise>art</xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:template>
+    <xsl:template name="opac-holdings" xmlns:pz="http://www.indexdata.com/pazpar2/1.0">
+      <xsl:for-each select="holding">
+        <pz:metadata empty="no_item_id" type="brief-holding">
+          <xsl:attribute name="callnumber">
+            <xsl:value-of select="callNumber" />
+          </xsl:attribute>
+          <xsl:attribute name="locallocation">
+            <xsl:value-of select="localLocation" />
+          </xsl:attribute>
+          <xsl:attribute name="shelvinglocation">
+            <xsl:value-of select="shelvingLocation" />
+          </xsl:attribute>
+          <xsl:attribute name="shelvingdata">
+            <xsl:value-of select="shelvingdata" />
+          </xsl:attribute>
+          <xsl:attribute name="reproductionnote">
+            <xsl:value-of select="reproductionnote" />
+          </xsl:attribute>
+          <xsl:attribute name="publicnote">
+            <xsl:value-of select="publicNote" />
+          </xsl:attribute>
+          <xsl:attribute name="copynumber">
+            <xsl:value-of select="copyNumber" />
+          </xsl:attribute>
+          <xsl:attribute name="itemid">
+            <xsl:value-of select="circulations/circulation/itemId/@value" />
+          </xsl:attribute>
+          <xsl:attribute name="availablenow">
+            <xsl:value-of select="sum(circulations/circulation/availableNow/@value)" />
+          </xsl:attribute>
+          <xsl:attribute name="restrictions">
+            <xsl:value-of select="circulations/circulation/restrictions" />
+          </xsl:attribute>
+          <xsl:attribute name="temporarylocation">
+            <xsl:value-of select="circulations/circulation/temporaryLocation" />
+          </xsl:attribute>
+          <xsl:attribute name="midspine">
+            <xsl:value-of select="circulations/circulation/midspine" />
+          </xsl:attribute>
+          <xsl:attribute name="availabiltydate">
+            <xsl:value-of select="circulations/circulation/availabiltyDate/@value" />
+          </xsl:attribute>
+          <xsl:attribute name="availablethru">
+            <xsl:value-of select="circulations/circulation/availableThru/@value" />
+          </xsl:attribute>
+        </pz:metadata>
+      </xsl:for-each>
+    </xsl:template>
+    <xsl:template name="marc-language">
+      <xsl:param name="field-value" />
+      <xsl:value-of select="substring($field-value,36,3)" />
+    </xsl:template>
+    <xsl:template name="marc-audiencelevel">
+      <xsl:param name="field-value" />
+      <xsl:value-of select="substring($field-value,23,1)" />
+    </xsl:template>
+  </namedTemplates>
+  <service xmlns="http://www.indexdata.com/pazpar2/1.0">
+    <timeout session="600" z3950_operation="30" z3950_session="180" />
+    <rank cluster="yes" lead="1" length="log" debug="no" />
+    <ccldirective name="and" value="AND" />
+    <ccldirective name="or" value="OR" />
+    <ccldirective name="not" value="NOT" />
+    <ccldirective name="truncation" value="*" />
+    <ccldirective name="and" value="AND" />
+    <icu_chain id="relevance" locale="en">
+      <transform rule="[:Control:] Any-Remove" />
+      <tokenize rule="l" />
+      <transform rule="[[:WhiteSpace:][:Punctuation:]`] Remove" />
+      <casemap rule="l" />
+    </icu_chain>
+    <icu_chain id="sort" locale="en">
+      <transform rule="[[:Control:][:WhiteSpace:][:Punctuation:]`] Remove" />
+      <casemap rule="l" />
+    </icu_chain>
+    <icu_chain id="mergekey" locale="en">
+      <tokenize rule="l" />
+      <transform rule="NFD" />
+      <transliterate rule="\&amp; &gt; and" />
+      <transform rule="[[:Control:][:WhiteSpace:][:Punctuation:]`[:Nonspacing Mark:]] Remove" />
+      <transform rule="NFC" />
+      <casemap rule="l" />
+      <join rule="" />
+    </icu_chain>
+    <icu_chain id="facet" locale="en">
+      <display />
+      <transform rule="[[:Control:][:WhiteSpace:][:Punctuation:]`] Remove" />
+      <casemap rule="l" />
+    </icu_chain>
+  </service>
+  <targets>
+    <target type="AGService">
+      <id>1986913</id>
+      <agSessionId>4538684</agSessionId>
+      <agCustomerId>wrls</agCustomerId>
+      <agServerName>menelaus</agServerName>
+      <agHostName>http://dev-wrls-verso.auto-graphics.com</agHostName>
+      <displayName>Winding Rivers Library System</displayName>
+      <categories>Winding Rivers Library System</categories>
+      <maxRecords>60</maxRecords>
+      <pz_present_chunk>60</pz_present_chunk>
+      <pz_extendrecs>60</pz_extendrecs>
+      <cclmap_ALL-HEADING>u=ALL_HEADING</cclmap_ALL-HEADING>
+      <cclmap_AUTHOR>u=AUTHOR</cclmap_AUTHOR>
+      <cclmap_TITLE>u=TITLE</cclmap_TITLE>
+      <cclmap_SUBJECT>u=SUBJECT</cclmap_SUBJECT>
+      <cclmap_AGCN>u=AGCN</cclmap_AGCN>
+      <cclmap_ISBN>u=ISBN</cclmap_ISBN>
+      <cclmap_ISSN>u=ISSN</cclmap_ISSN>
+      <cclmap_LCCN>u=LCCN</cclmap_LCCN>
+      <cclmap_GPO-SUBDOC-NUMBER>u=GPO_SUBDOC_NUMBER</cclmap_GPO-SUBDOC-NUMBER>
+      <cclmap_GPO-ORDER-NUMBER>u=GPO_ORDER_NUMBER</cclmap_GPO-ORDER-NUMBER>
+      <cclmap_GPO-MONTHLY-CAT-NUMBER>u=GPO_MONTHLY_CAT_NUMBER</cclmap_GPO-MONTHLY-CAT-NUMBER>
+      <cclmap_ORIGINAL-CONTROL-NUMBER>u=ORIGINAL_CONTROL_NUMBER</cclmap_ORIGINAL-CONTROL-NUMBER>
+      <cclmap_GPO-ITEM-NUMBER>u=GPO_ITEM_NUMBER</cclmap_GPO-ITEM-NUMBER>
+      <cclmap_GPO-REPORT-NUMBER>u=GPO_REPORT_NUMBER</cclmap_GPO-REPORT-NUMBER>
+      <cclmap_GPO-SHIP-LIST-NUMBER>u=GPO_SHIP_LIST_NUMBER</cclmap_GPO-SHIP-LIST-NUMBER>
+      <cclmap_NOTES>u=NOTES</cclmap_NOTES>
+      <cclmap_PUBLISHER-NUMBER>u=PUBLISHER_NUMBER</cclmap_PUBLISHER-NUMBER>
+      <cclmap_OCLC-NUMBER>u=OCLC_NUMBER</cclmap_OCLC-NUMBER>
+      <cclmap_JOURNAL-TITLE>u=JOURNAL_TITLE</cclmap_JOURNAL-TITLE>
+      <cclmap_MATERIAL-DESCRIPTION>u=MATERIAL_DESCRIPTION</cclmap_MATERIAL-DESCRIPTION>
+      <cclmap_TITLE-BEGIN-WITH>u=TITLE_BEGIN_WITH</cclmap_TITLE-BEGIN-WITH>
+      <cclmap_SUBJECT-BEGIN-WITH>u=SUBJECT_BEGIN_WITH</cclmap_SUBJECT-BEGIN-WITH>
+      <cclmap_TITLE-EXACT>u=TITLE_EXACT</cclmap_TITLE-EXACT>
+      <cclmap_SUBJECT-EXACT>u=SUBJECT_EXACT</cclmap_SUBJECT-EXACT>
+      <cclmap_SERIES-TITLE>u=SERIES_TITLE</cclmap_SERIES-TITLE>
+      <cclmap_LOCAL-SYSTEM-NUMBER>u=LOCAL_SYSTEM_NUMBER</cclmap_LOCAL-SYSTEM-NUMBER>
+      <cclmap_DEWEY-CALL-NUMBER>u=DEWEY_CALL_NUMBER</cclmap_DEWEY-CALL-NUMBER>
+      <cclmap_LC-CALL-NUMBER>u=LC_CALL_NUMBER</cclmap_LC-CALL-NUMBER>
+      <cclmap_CODEN>u=CODEN</cclmap_CODEN>
+      <cclmap_STANDARD-INDENTIFIER>u=STANDARD_INDENTIFIER</cclmap_STANDARD-INDENTIFIER>
+      <cclmap_LOCAL-CALL-NUMBER>u=LOCAL_CALL_NUMBER</cclmap_LOCAL-CALL-NUMBER>
+      <cclmap_ITEM-CALL-NUMBER>u=ITEM_CALL_NUMBER</cclmap_ITEM-CALL-NUMBER>
+      <cclmap_NAME-AUTHORITY>u=NAME_AUTHORITY</cclmap_NAME-AUTHORITY>
+      <cclmap_TITLE-AUTHORITY>u=TITLE_AUTHORITY</cclmap_TITLE-AUTHORITY>
+      <cclmap_SUBJECT-AUTHORITY>u=SUBJECT_AUTHORITY</cclmap_SUBJECT-AUTHORITY>
+      <cclmap_PUBLISHER-NAME>u=PUBLISHER_NAME</cclmap_PUBLISHER-NAME>
+      <cclmap_URL>u=URL</cclmap_URL>
+      <cclmap_VOLUME-NUMBER>u=VOLUME_NUMBER</cclmap_VOLUME-NUMBER>
+      <cclmap_GMD>u=GMD</cclmap_GMD>
+      <cclmap_NLC-NUMBER>u=NLC_NUMBER</cclmap_NLC-NUMBER>
+      <cclmap_NATIONAL-AGENCY-NUMBER>u=NATIONAL_AGENCY_NUMBER</cclmap_NATIONAL-AGENCY-NUMBER>
+      <cclmap_MAP-NUMBER>u=MAP_NUMBER</cclmap_MAP-NUMBER>
+      <cclmap_CALL-NUMBER>u=CALL_NUMBER</cclmap_CALL-NUMBER>
+      <cclmap_READING-PROGRAM-NAME>u=READING_PROGRAM_NAME</cclmap_READING-PROGRAM-NAME>
+      <cclmap_READING-LEVEL>u=READING_LEVEL</cclmap_READING-LEVEL>
+      <cclmap_POINT-LEVEL>u=POINT_LEVEL</cclmap_POINT-LEVEL>
+      <cclmap_BARCODE>u=BARCODE</cclmap_BARCODE>
+      <cclmap_FULLTEXT-DOCUMENT>u=FULLTEXT_DOCUMENT</cclmap_FULLTEXT-DOCUMENT>
+      <cclmap_LEXILE>u=LEXILE</cclmap_LEXILE>
+      <cclmap_LEXILE-LEVEL>u=LEXILE_LEVEL</cclmap_LEXILE-LEVEL>
+      <cclmap_READING-LEVEL-RC>u=READING_LEVEL_RC</cclmap_READING-LEVEL-RC>
+      <cclmap_POINT-LEVEL-RC>u=POINT_LEVEL_RC</cclmap_POINT-LEVEL-RC>
+      <cclmap_INTEREST-LEVEL>u=INTEREST_LEVEL</cclmap_INTEREST-LEVEL>
+      <cclmap_GENRE-SUBJECT>u=GENRE_SUBJECT</cclmap_GENRE-SUBJECT>
+      <cclmap_BA-GENRE-TERM>u=BA_GENRE_TERM</cclmap_BA-GENRE-TERM>
+      <cclmap_EXACT-MATCH>u=EXACT_MATCH</cclmap_EXACT-MATCH>
+      <cclmap_TITLE-AND-AUTHOR-MATCH>u=TITLE_AND_AUTHOR_MATCH</cclmap_TITLE-AND-AUTHOR-MATCH>
+      <cclmap_STANDARD-INDENTIFIER-2>u=STANDARD_INDENTIFIER_2</cclmap_STANDARD-INDENTIFIER-2>
+      <cclmap_STANDARD-INDENTIFIER-3>u=STANDARD_INDENTIFIER_3</cclmap_STANDARD-INDENTIFIER-3>
+      <cclmap_READING-PROGRAM-NAME-FOR-TITLE-INDEXES>u=READING_PROGRAM_NAME_FOR_TITLE_INDEXES</cclmap_READING-PROGRAM-NAME-FOR-TITLE-INDEXES>
+      <cclmap_Languages>u=q_Languages</cclmap_Languages>
+      <cclmap_FromPubYear>u=q_FromPubYear</cclmap_FromPubYear>
+      <cclmap_ToPubYear>u=q_ToPubYear</cclmap_ToPubYear>
+      <cclmap_ScopingLevel>u=q_ScopingLevel</cclmap_ScopingLevel>
+      <cclmap_MaterialType>u=q_MaterialType</cclmap_MaterialType>
+      <cclmap_CreationDate>u=q_CreationDate</cclmap_CreationDate>
+      <cclmap_Formats>u=q_Formats</cclmap_Formats>
+      <cclmap_Forms>u=q_Forms</cclmap_Forms>
+      <cclmap_IMaterialType>u=q_IMaterialType</cclmap_IMaterialType>
+      <cclmap_TargetAudiences>u=q_TargetAudiences</cclmap_TargetAudiences>
+      <cclmap_UseSavedQueries>u=q_UseSavedQueries</cclmap_UseSavedQueries>
+      <cclmap_title>u=q_SelectedFacets</cclmap_title>
+      <cclmap_author>u=q_SelectedFacets</cclmap_author>
+      <cclmap_subject>u=q_SelectedFacets</cclmap_subject>
+      <cclmap_series>u=q_SelectedFacets</cclmap_series>
+      <cclmap_language>u=q_SelectedFacets</cclmap_language>
+      <cclmap_audiencelevel>u=q_SelectedFacets</cclmap_audiencelevel>
+      <cclmap_location>u=q_SelectedFacets</cclmap_location>
+      <cclmap_publisher>u=q_SelectedFacets</cclmap_publisher>
+      <cclmap_date>u=q_SelectedFacets</cclmap_date>
+      <cclmap_materialtype>u=q_SelectedFacets</cclmap_materialtype>
+      <cclmap_medium>u=q_SelectedFacets</cclmap_medium>
+      <cclmap_readinglevel>u=q_SelectedFacets</cclmap_readinglevel>
+      <cclmap_PHRASE>s=1</cclmap_PHRASE>
+      <pqfPrefix>@and @attr 1=q_SortBy RELEVANCY</pqfPrefix>
+      <limitmap_title>ccl:title</limitmap_title>
+      <limitmap_author>ccl:author</limitmap_author>
+      <limitmap_subject>ccl:subject</limitmap_subject>
+      <limitmap_series>ccl:series</limitmap_series>
+      <limitmap_language>ccl:language</limitmap_language>
+      <limitmap_audiencelevel>ccl:audiencelevel</limitmap_audiencelevel>
+      <limitmap_location>ccl:location</limitmap_location>
+      <limitmap_publisher>ccl:publisher</limitmap_publisher>
+      <limitmap_date>ccl:date</limitmap_date>
+      <limitmap_subject_person>local: </limitmap_subject_person>
+      <limitmap_materialtype>ccl:materialtype</limitmap_materialtype>
+      <limitmap_medium>ccl:medium</limitmap_medium>
+      <limitmap_readinglevel>ccl:readinglevel</limitmap_readinglevel>
+      <limitmap_fromyear>ccl: FromPubYear</limitmap_fromyear>
+      <limitmap_toyear>ccl: ToPubYear</limitmap_toyear>
+      <limitmap_lang>ccl: Languages</limitmap_lang>
+      <limitmap_scoping>ccl: ScopingLevel</limitmap_scoping>
+      <limitmap_mtype>ccl: MaterialType</limitmap_mtype>
+      <limitmap_imtype>ccl: IMaterialType</limitmap_imtype>
+      <limitmap_cdate>ccl: CreationDate</limitmap_cdate>
+      <limitmap_formats>ccl: Formats</limitmap_formats>
+      <limitmap_forms>ccl: Forms</limitmap_forms>
+      <limitmap_targetaudiences>ccl: TargetAudiences</limitmap_targetaudiences>
+      <limitmap_useSavedQueries>ccl: UseSavedQueries</limitmap_useSavedQueries>
+      <facetmap_split_title>facet_16</facetmap_split_title>
+      <facetmap_split_author>facet_01</facetmap_split_author>
+      <facetmap_split_medium>facet_02</facetmap_split_medium>
+      <facetmap_split_subject>facet_05</facetmap_split_subject>
+      <facetmap_split_date>facet_04</facetmap_split_date>
+      <facetmap_split_publisher>facet_15</facetmap_split_publisher>
+      <facetmap_split_location>facet_06</facetmap_split_location>
+      <facetmap_split_materialtype>facet_07</facetmap_split_materialtype>
+      <facetmap_split_series>facet_17</facetmap_split_series>
+      <facetmap_split_language>facet_03</facetmap_split_language>
+      <facetmap_split_audiencelevel>facet_18</facetmap_split_audiencelevel>
+      <facetmap_split_readinglevel>facet_19</facetmap_split_readinglevel>
+    </target>
+  </targets>
+  <recordMaps>
+    <recordMap type="xml">
+      <brief>
+        <recordType type="all">
+          <field tag="Author" name="156" />
+          <field tag="COP" name="164" />
+          <field tag="Desc" name="163" />
+          <field tag="EP" name="169" />
+          <field tag="ISBN" name="161" />
+          <field tag="ISSN" name="162" />
+          <field tag="Issue" name="167" />
+          <field tag="Lexile" name="170" />
+          <field tag="PubDay" name="159" />
+          <field tag="Publisher" name="157" />
+          <field tag="PubMonth" name="158" />
+          <field tag="PubYear" name="160" />
+          <field tag="Source" name="165" />
+          <field tag="SP" name="168" />
+          <field tag="Title" name="155" />
+          <field tag="Volume" name="166" />
+          <field tag="URLField" name="URLField" />
+          <field tag="JacketArtURL" name="JacketArtURL" />
+          <field tag="AGControlId" name="AGControlId" />
+          <field tag="HasMyLibrary" name="HasMyLibrary" />
+          <field tag="HoldingCount" name="HoldingCount" />
+          <field tag="Field856s" name="Field856s" />
+          <field tag="MarcLeader" name="MarcLeader" />
+          <field tag="IsDigitalRecord" name="IsDigitalRecord" />
+          <field tag="DCFullImageURL" name="DCFullImageURL" />
+          <field tag="ISBN" name="ISBN" />
+          <field tag="ISSN" name="ISSN" />
+          <field tag="OCLCField" name="OCLC" />
+          <field tag="UPCField" name="UPC" />
+          <field tag="ListFields" name="ListFields" />
+          <field tag="PubYears/string" name="PubYear" />
+          <field tag="Publishers/string" name="Publisher" />
+          <field tag="Subjects/string" name="Subject" />
+          <field tag="Series/string" name="Series" />
+          <field tag="Locations/string" name="Location" />
+          <field tag="IMTypes/string" name="MaterialType" />
+          <field tag="Note520A" name="Note520A" />
+          <field tag="SystemNumber" name="SystemNumber" />
+          <field tag="ACQuisitionSource" name="ACQuisitionSource" />
+          <field tag="EContentProductId" name="EContentProductId" />
+          <field tag="FullTextURL" name="FullTextURL" />
+          <field tag="SubfieldA28" name="SubfieldA28" />
+          <field tag="SubfieldB28" name="SubfieldB28" />
+          <field tag="Tag856" name="Tag856" />
+          <field tag="EcontentJacketArtUrl" name="EcontentJacketArtUrl" />
+          <field tag="ReadingLevel/string" name="ReadingLevel" />
+        </recordType>
+      </brief>
+      <indexField>
+        <recordType type="all">
+          <field tag="Title" name="Title" />
+          <field tag="Author" name="Author" />
+          <field tag="PubYear" name="Date" />
+          <field tag="Publisher" name="Publisher" namedTemplate="first-40-chars" />
+          <field tag="Notes" name="Note" />
+          <field tag="Subject" name="Subject" />
+          <field tag="Subjects/string" name="Subject" />
+          <field tag="Locations/string" name="Location" />
+          <field tag="IMTypes/string" name="MaterialType" />
+          <field tag="Series/string" name="Series" />
+          <field tag="LanguageCode" name="Language" />
+          <field tag="AudienceLevelCode" name="AudienceLevel" />
+          <field tag="ReadingLevel/string" name="ReadingLevel" />
+        </recordType>
+      </indexField>
+    </recordMap>
+    <recordMap type="marc">
+      <brief>
+        <recordType type="Archival Mixed Materials">
+          <field tag="245" name="9232" subfields="!w0123456789" />
+          <field tag="130" name="9231" subfields="!w0123456789" />
+          <field tag="100" name="9230" subfields="!w0123456789" />
+          <field tag="260" name="9233" subfields="c" />
+          <field tag="260" name="9234" subfields="b" />
+          <field tag="264" name="9235" subfields="b" />
+          <field tag="264" name="9236" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Books">
+          <field tag="245" name="1940" subfields="!w0123456789" />
+          <field tag="130" name="1941" subfields="!w0123456789" />
+          <field tag="100" name="1942" subfields="!w0123456789" />
+          <field tag="260" name="1943" subfields="c" />
+          <field tag="260" name="1944" subfields="b" />
+          <field tag="264" name="8792" subfields="b" />
+          <field tag="264" name="8793" subfields="c" />
+          <field tag="856" name="1945" subfields="uy" />
+          <field tag="650" name="3118" subfields="ax" />
+          <field tag="600" name="3119" subfields="abcdq" />
+          <field tag="520" name="3124" subfields="a" />
+          <field tag="336" name="8794" subfields="a" />
+          <field tag="337" name="8795" subfields="a" />
+          <field tag="338" name="8796" subfields="a" />
+          <field tag="385" name="8797" subfields="am" />
+          <field tag="386" name="8798" subfields="am" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Computer Files">
+          <field tag="245" name="9218" subfields="!w0123456789" />
+          <field tag="130" name="9217" subfields="!w0123456789" />
+          <field tag="100" name="9216" subfields="!w0123456789" />
+          <field tag="260" name="9219" subfields="c" />
+          <field tag="260" name="9220" subfields="b" />
+          <field tag="264" name="9221" subfields="b" />
+          <field tag="264" name="9222" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Community Information">
+          <field tag="245" name="9225" subfields="!w0123456789" />
+          <field tag="130" name="9224" subfields="!w0123456789" />
+          <field tag="100" name="9223" subfields="!w0123456789" />
+          <field tag="260" name="9226" subfields="c" />
+          <field tag="260" name="9227" subfields="b" />
+          <field tag="264" name="9228" subfields="b" />
+          <field tag="264" name="9229" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Maps">
+          <field tag="245" name="9204" subfields="!w0123456789" />
+          <field tag="130" name="9203" subfields="!w0123456789" />
+          <field tag="100" name="9202" subfields="!w0123456789" />
+          <field tag="260" name="9205" subfields="c" />
+          <field tag="260" name="9206" subfields="b" />
+          <field tag="264" name="9207" subfields="b" />
+          <field tag="264" name="9208" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Music Scores">
+          <field tag="245" name="9211" subfields="!w0123456789" />
+          <field tag="130" name="9210" subfields="!w0123456789" />
+          <field tag="100" name="9209" subfields="!w0123456789" />
+          <field tag="260" name="9212" subfields="c" />
+          <field tag="260" name="9213" subfields="b" />
+          <field tag="264" name="9214" subfields="b" />
+          <field tag="264" name="9215" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Music">
+          <field tag="245" name="9077" subfields="!w0123456789" />
+          <field tag="130" name="9078" subfields="!w0123456789" />
+          <field tag="100" name="9079" subfields="!w0123456789" />
+          <field tag="260" name="9080" subfields="c" />
+          <field tag="260" name="9081" subfields="b" />
+          <field tag="264" name="9082" subfields="b" />
+          <field tag="264" name="9083" subfields="c" />
+          <field tag="856" name="9084" subfields="uy" />
+          <field tag="336" name="9085" subfields="a" />
+          <field tag="337" name="9086" subfields="a" />
+          <field tag="338" name="9087" subfields="a" />
+          <field tag="385" name="9088" subfields="am" />
+          <field tag="386" name="9089" subfields="am" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Serials">
+          <field tag="245" name="9176" subfields="!w0123456789" />
+          <field tag="130" name="9175" subfields="!w0123456789" />
+          <field tag="100" name="9174" subfields="!w0123456789" />
+          <field tag="260" name="9177" subfields="c" />
+          <field tag="260" name="9178" subfields="b" />
+          <field tag="264" name="9179" subfields="b" />
+          <field tag="264" name="9180" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Non-musical Sound Recordings">
+          <field tag="245" name="3120" subfields="*" />
+          <field tag="264" name="8799" subfields="b" />
+          <field tag="264" name="8800" subfields="c" />
+          <field tag="100" name="3121" subfields="*" />
+          <field tag="336" name="8801" subfields="a" />
+          <field tag="337" name="8802" subfields="a" />
+          <field tag="338" name="8803" subfields="a" />
+          <field tag="385" name="8804" subfields="am" />
+          <field tag="386" name="8805" subfields="am" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Visual Materials">
+          <field tag="245" name="9190" subfields="!w0123456789" />
+          <field tag="130" name="9189" subfields="!w0123456789" />
+          <field tag="100" name="9188" subfields="!w0123456789" />
+          <field tag="260" name="9191" subfields="c" />
+          <field tag="260" name="9192" subfields="b" />
+          <field tag="264" name="9193" subfields="b" />
+          <field tag="264" name="9194" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+        <recordType type="Authority Records">
+          <field tag="245" name="9239" subfields="!w0123456789" />
+          <field tag="130" name="9238" subfields="!w0123456789" />
+          <field tag="100" name="9237" subfields="!w0123456789" />
+          <field tag="260" name="9240" subfields="c" />
+          <field tag="260" name="9241" subfields="b" />
+          <field tag="264" name="9242" subfields="b" />
+          <field tag="264" name="9243" subfields="c" />
+          <field name="holding" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+          <field tag="020" name="isbn" subfields="a" />
+          <field tag="022" name="issn" subfields="a" />
+          <field tag="024" name="upc" subfields="a" />
+          <field tag="035" name="oclc" subfields="a" />
+          <field tag="260" name="pubyear" subfields="c" />
+          <field tag="856" name="eloc" subfields="*" />
+          <field tag="856" name="elocy" subfields="y" />
+          <field tag="856" name="eloc3" subfields="3" />
+          <field tag="856" name="elocx" subfields="x" />
+          <field tag="856" name="elocz" subfields="z" />
+          <field tag="856" name="elocu" subfields="u" />
+        </recordType>
+      </brief>
+      <indexField>
+        <recordType type="all">
+          <field tag="245" name="Title" subfields="ab" />
+          <field tag="100" name="Author" subfields="a" />
+          <field tag="110" name="Author" subfields="a" />
+          <field tag="111" name="Author" subfields="a" />
+          <field tag="113" name="Author" subfields="a" />
+          <field tag="130" name="Uniform Title" subfields="adfghklmnoprst" />
+          <field tag="130" name="Series Title" subfields="ahnpv" />
+          <field tag="260" name="Date" subfields="c" />
+          <field tag="264" name="Date" subfields="c" />
+          <field tag="264" name="Publisher" namedTemplate="first-40-chars" subfields="b" />
+          <field tag="260" name="Publisher" namedTemplate="first-40-chars" subfields="b" />
+          <field tag="600" name="Name Subject" subfields="abcdfghklmnopqrstvxyz" />
+          <field tag="630" name="Title Subject" subfields="adfghjklmnoprstvxyz" />
+          <field tag="520" name="Note" subfields="a" />
+          <field tag="600" name="Subject" subfields="abcdq" />
+          <field tag="610" name="Subject" subfields="ab" />
+          <field tag="611" name="Subject" subfields="a" />
+          <field tag="630" name="Subject" subfields="a" />
+          <field tag="650" name="Subject" subfields="ax" />
+          <field tag="651" name="Subject" subfields="a" />
+          <field tag="653" name="Subject" subfields="a" />
+          <field tag="654" name="Subject" subfields="a" />
+          <field tag="655" name="Subject" subfields="a" />
+          <field tag="656" name="Subject" subfields="a" />
+          <field tag="657" name="Subject" subfields="a" />
+          <field tag="658" name="Subject" subfields="a" />
+          <field tag="662" name="Subject" subfields="abcd" />
+          <field tag="400" name="Series" subfields="abcdfghklnptv" />
+          <field tag="400" name="Series" subfields="fghklnpstv" />
+          <field tag="410" name="Series" subfields="abcdfghklnptv" />
+          <field tag="411" name="Series" subfields="abcdefghklnpqstv" />
+          <field tag="440" name="Series" subfields="ahnpv" />
+          <field tag="490" name="Series" subfields="av" />
+          <field tag="800" name="Series" subfields="abcdfghklmnopqrstv" />
+          <field tag="800" name="Series" subfields="fghklnpstv" />
+          <field tag="810" name="Series" subfields="abcdfghklmnoprstv" />
+          <field tag="810" name="Series" subfields="fghklpstv" />
+          <field tag="811" name="Series" subfields="abcdefghklnpqstv" />
+          <field tag="811" name="Series" subfields="fhklpstv" />
+          <field tag="830" name="Series" subfields="adfghklmnoprstv" />
+          <field tag="830" name="Series" subfields="t" />
+          <field tag="840" name="Series" subfields="ahv" />
+          <field tag="008" name="Language" namedTemplate="marc-language" />
+          <field tag="008" name="AudienceLevel" namedTemplate="marc-audiencelevel" />
+        </recordType>
+      </indexField>
+    </recordMap>
+    <recordMap type="solr">
+      <brief>
+        <recordType type="all" />
+      </brief>
+      <indexField>
+        <recordType type="all" />
+      </indexField>
+    </recordMap>
+  </recordMaps>
+  <facet>
+    <field name="Title" />
+    <field name="Author" />
+    <field name="Medium" />
+    <field name="Subject" />
+    <field name="Date" />
+    <field name="Publisher" />
+    <field name="Location" />
+    <field name="MaterialType" />
+    <field name="Series" />
+    <field name="Language" />
+    <field name="AudienceLevel" />
+    <field name="ReadingLevel" />
+  </facet>
+  <clusterFields>
+    <field name="Title" method="longest" />
+    <field name="Author" method="longest" />
+    <field name="Date" method="range" />
+    <field name="Publisher" method="longest" />
+    <field name="Note" method="longest" />
+  </clusterFields>
+  <matchKey>
+    <field name="Title" required="yes" />
+    <field name="Author" required="yes" />
+  </matchKey>
+  <sort>
+    <field name="Title" sortkey="skiparticle" type="" />
+    <field name="Author" sortkey="skiparticle" type="" />
+    <field name="Date" sortkey="numeric" type="year" />
+  </sort>
+  <rank>
+    <field name="Title" value="10" />
+    <field name="Author" value="5" />
+  </rank>
+</session>
