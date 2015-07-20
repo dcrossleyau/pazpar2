@@ -1,0 +1,3475 @@
+    <service xmlns="http://www.indexdata.com/pazpar2/1.0">
+      <timeout session="600" z3950_operation="30" z3950_session="180"/>
+      <rank cluster="yes" debug="no" lead="1" length="log"/>
+      <ccldirective name="and" value="AND"/>
+      <ccldirective name="or" value="OR"/>
+      <ccldirective name="not" value="NOT"/>
+      <ccldirective name="truncation" value="*"/>
+      <ccldirective name="and" value="AND"/>
+      <icu_chain id="relevance" locale="en">
+        <transform rule="[:Control:] Any-Remove"/>
+        <tokenize rule="l"/>
+        <transform rule="[[:WhiteSpace:][:Punctuation:]`] Remove"/>
+        <casemap rule="l"/>
+      </icu_chain>
+      <icu_chain id="sort" locale="en">
+        <transform rule="[[:Control:][:WhiteSpace:][:Punctuation:]`] Remove"/>
+        <casemap rule="l"/>
+      </icu_chain>
+      <icu_chain id="mergekey" locale="en">
+        <tokenize rule="l"/>
+        <transform rule="NFD"/>
+        <transliterate rule="\&amp; &gt; and"/>
+        <transform rule="[[:Control:][:WhiteSpace:][:Punctuation:]`[:Nonspacing Mark:]] Remove"/>
+        <transform rule="NFC"/>
+        <casemap rule="l"/>
+        <join rule=""/>
+      </icu_chain>
+      <icu_chain id="facet" locale="en">
+        <display/>
+        <transform rule="[[:Control:][:WhiteSpace:][:Punctuation:]`] Remove"/>
+        <casemap rule="l"/>
+      </icu_chain>
+      <metadata brief="yes" name="medium" termlist="yes"/>
+      <metadata brief="yes" name="brief-9077"/>
+      <metadata brief="yes" name="brief-9078"/>
+      <metadata brief="yes" name="brief-9079"/>
+      <metadata brief="yes" name="brief-9080"/>
+      <metadata brief="yes" name="brief-9081"/>
+      <metadata brief="yes" name="brief-9082"/>
+      <metadata brief="yes" name="brief-9083"/>
+      <metadata brief="yes" name="brief-9084"/>
+      <metadata brief="yes" name="brief-9085"/>
+      <metadata brief="yes" name="brief-9086"/>
+      <metadata brief="yes" name="brief-9087"/>
+      <metadata brief="yes" name="brief-9088"/>
+      <metadata brief="yes" name="brief-9089"/>
+      <metadata brief="yes" name="brief-holding"/>
+      <metadata brief="yes" name="brief-Language"/>
+      <metadata brief="yes" name="brief-AudienceLevel"/>
+      <metadata brief="yes" name="brief-isbn"/>
+      <metadata brief="yes" name="brief-issn"/>
+      <metadata brief="yes" name="brief-upc"/>
+      <metadata brief="yes" name="brief-oclc"/>
+      <metadata brief="yes" name="brief-pubyear"/>
+      <metadata brief="yes" name="brief-eloc"/>
+      <metadata brief="yes" name="brief-elocy"/>
+      <metadata brief="yes" name="brief-eloc3"/>
+      <metadata brief="yes" name="brief-elocx"/>
+      <metadata brief="yes" name="brief-elocz"/>
+      <metadata brief="yes" name="brief-elocu"/>
+      <metadata brief="yes" name="brief-9225"/>
+      <metadata brief="yes" name="brief-9224"/>
+      <metadata brief="yes" name="brief-9223"/>
+      <metadata brief="yes" name="brief-9226"/>
+      <metadata brief="yes" name="brief-9227"/>
+      <metadata brief="yes" name="brief-9228"/>
+      <metadata brief="yes" name="brief-9229"/>
+      <metadata brief="yes" name="brief-9232"/>
+      <metadata brief="yes" name="brief-9231"/>
+      <metadata brief="yes" name="brief-9230"/>
+      <metadata brief="yes" name="brief-9233"/>
+      <metadata brief="yes" name="brief-9234"/>
+      <metadata brief="yes" name="brief-9235"/>
+      <metadata brief="yes" name="brief-9236"/>
+      <metadata brief="yes" name="brief-9218"/>
+      <metadata brief="yes" name="brief-9217"/>
+      <metadata brief="yes" name="brief-9216"/>
+      <metadata brief="yes" name="brief-9219"/>
+      <metadata brief="yes" name="brief-9220"/>
+      <metadata brief="yes" name="brief-9221"/>
+      <metadata brief="yes" name="brief-9222"/>
+      <metadata brief="yes" name="brief-1940"/>
+      <metadata brief="yes" name="brief-1941"/>
+      <metadata brief="yes" name="brief-1942"/>
+      <metadata brief="yes" name="brief-1943"/>
+      <metadata brief="yes" name="brief-1944"/>
+      <metadata brief="yes" name="brief-8792"/>
+      <metadata brief="yes" name="brief-8793"/>
+      <metadata brief="yes" name="brief-1945"/>
+      <metadata brief="yes" name="brief-3118"/>
+      <metadata brief="yes" name="brief-3119"/>
+      <metadata brief="yes" name="brief-3124"/>
+      <metadata brief="yes" name="brief-8794"/>
+      <metadata brief="yes" name="brief-8795"/>
+      <metadata brief="yes" name="brief-8796"/>
+      <metadata brief="yes" name="brief-8797"/>
+      <metadata brief="yes" name="brief-8798"/>
+      <metadata brief="yes" name="brief-9190"/>
+      <metadata brief="yes" name="brief-9189"/>
+      <metadata brief="yes" name="brief-9188"/>
+      <metadata brief="yes" name="brief-9191"/>
+      <metadata brief="yes" name="brief-9192"/>
+      <metadata brief="yes" name="brief-9193"/>
+      <metadata brief="yes" name="brief-9194"/>
+      <metadata brief="yes" name="brief-9204"/>
+      <metadata brief="yes" name="brief-9203"/>
+      <metadata brief="yes" name="brief-9202"/>
+      <metadata brief="yes" name="brief-9205"/>
+      <metadata brief="yes" name="brief-9206"/>
+      <metadata brief="yes" name="brief-9207"/>
+      <metadata brief="yes" name="brief-9208"/>
+      <metadata brief="yes" name="brief-9239"/>
+      <metadata brief="yes" name="brief-9238"/>
+      <metadata brief="yes" name="brief-9237"/>
+      <metadata brief="yes" name="brief-9240"/>
+      <metadata brief="yes" name="brief-9241"/>
+      <metadata brief="yes" name="brief-9242"/>
+      <metadata brief="yes" name="brief-9243"/>
+      <metadata brief="yes" name="brief-3120"/>
+      <metadata brief="yes" name="brief-8799"/>
+      <metadata brief="yes" name="brief-8800"/>
+      <metadata brief="yes" name="brief-3121"/>
+      <metadata brief="yes" name="brief-8801"/>
+      <metadata brief="yes" name="brief-8802"/>
+      <metadata brief="yes" name="brief-8803"/>
+      <metadata brief="yes" name="brief-8804"/>
+      <metadata brief="yes" name="brief-8805"/>
+      <metadata brief="yes" name="brief-9211"/>
+      <metadata brief="yes" name="brief-9210"/>
+      <metadata brief="yes" name="brief-9209"/>
+      <metadata brief="yes" name="brief-9212"/>
+      <metadata brief="yes" name="brief-9213"/>
+      <metadata brief="yes" name="brief-9214"/>
+      <metadata brief="yes" name="brief-9215"/>
+      <metadata brief="yes" name="brief-9176"/>
+      <metadata brief="yes" name="brief-9175"/>
+      <metadata brief="yes" name="brief-9174"/>
+      <metadata brief="yes" name="brief-9177"/>
+      <metadata brief="yes" name="brief-9178"/>
+      <metadata brief="yes" name="brief-9179"/>
+      <metadata brief="yes" name="brief-9180"/>
+      <metadata brief="yes" merge="longest" mergekey="required" name="title" rank="10" sortkey="skiparticle" termlist="yes"/>
+      <metadata brief="yes" merge="longest" mergekey="required" name="author" rank="5" sortkey="skiparticle" termlist="yes"/>
+      <metadata name="uniform_title"/>
+      <metadata name="series_title"/>
+      <metadata brief="yes" merge="range" name="date" sortkey="numeric" termlist="yes" type="year"/>
+      <metadata brief="yes" merge="longest" name="publisher" termlist="yes"/>
+      <metadata name="name_subject"/>
+      <metadata name="title_subject"/>
+      <metadata brief="yes" merge="longest" name="note"/>
+      <metadata name="subject" termlist="yes"/>
+      <metadata name="series" termlist="yes"/>
+      <metadata name="language" termlist="yes"/>
+      <metadata name="audiencelevel" termlist="yes"/>
+      <metadata brief="yes" name="brief-156"/>
+      <metadata brief="yes" name="brief-164"/>
+      <metadata brief="yes" name="brief-163"/>
+      <metadata brief="yes" name="brief-169"/>
+      <metadata brief="yes" name="brief-161"/>
+      <metadata brief="yes" name="brief-162"/>
+      <metadata brief="yes" name="brief-167"/>
+      <metadata brief="yes" name="brief-170"/>
+      <metadata brief="yes" name="brief-159"/>
+      <metadata brief="yes" name="brief-157"/>
+      <metadata brief="yes" name="brief-158"/>
+      <metadata brief="yes" name="brief-160"/>
+      <metadata brief="yes" name="brief-165"/>
+      <metadata brief="yes" name="brief-168"/>
+      <metadata brief="yes" name="brief-155"/>
+      <metadata brief="yes" name="brief-166"/>
+      <metadata brief="yes" name="brief-URLField"/>
+      <metadata brief="yes" name="brief-JacketArtURL"/>
+      <metadata brief="yes" name="brief-AGControlId"/>
+      <metadata brief="yes" name="brief-HasMyLibrary"/>
+      <metadata brief="yes" name="brief-HoldingCount"/>
+      <metadata brief="yes" name="brief-Field856s"/>
+      <metadata brief="yes" name="brief-MarcLeader"/>
+      <metadata brief="yes" name="brief-IsDigitalRecord"/>
+      <metadata brief="yes" name="brief-DCFullImageURL"/>
+      <metadata brief="yes" name="brief-ISBN"/>
+      <metadata brief="yes" name="brief-ISSN"/>
+      <metadata brief="yes" name="brief-OCLC"/>
+      <metadata brief="yes" name="brief-UPC"/>
+      <metadata brief="yes" name="brief-ListFields"/>
+      <metadata brief="yes" name="brief-PubYear"/>
+      <metadata brief="yes" name="brief-Publisher"/>
+      <metadata brief="yes" name="brief-Subject"/>
+      <metadata brief="yes" name="brief-Series"/>
+      <metadata brief="yes" name="brief-Location"/>
+      <metadata brief="yes" name="brief-MaterialType"/>
+      <metadata brief="yes" name="brief-Note520A"/>
+      <metadata brief="yes" name="brief-SystemNumber"/>
+      <metadata brief="yes" name="brief-ACQuisitionSource"/>
+      <metadata brief="yes" name="brief-EContentProductId"/>
+      <metadata brief="yes" name="brief-FullTextURL"/>
+      <metadata brief="yes" name="brief-SubfieldA28"/>
+      <metadata brief="yes" name="brief-SubfieldB28"/>
+      <metadata brief="yes" name="brief-Tag856"/>
+      <metadata brief="yes" name="brief-EcontentJacketArtUrl"/>
+      <metadata brief="yes" name="brief-ReadingLevel"/>
+      <metadata name="location" termlist="yes"/>
+      <metadata name="materialtype" termlist="yes"/>
+      <metadata name="readinglevel" termlist="yes"/>
+      <xslt id="ag-tmarc-stylesheet">
+        <xsl:stylesheet xmlns:pz="http://www.indexdata.com/pazpar2/1.0" xmlns:tmarc="http://www.indexdata.com/turbomarc" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+          <xsl:template name="first-40-chars">
+            <xsl:param name="subfield-value"/>
+            <xsl:value-of select="substring($subfield-value,1,40)"/>
+          </xsl:template>
+          <xsl:template name="first-4-digits">
+            <xsl:param name="subfield-value"/>
+            <xsl:value-of select="substring(translate($subfield-value,translate($subfield-value,'0123456789', ''), ''),1,4)"/>
+          </xsl:template>
+          <xsl:template name="medium">
+            <xsl:variable name="l">
+              <xsl:choose>
+                <xsl:when test="tmarc:l">
+                  <xsl:value-of select="tmarc:l"/>
+                </xsl:when>
+                <xsl:when test="MarcLeader">
+                  <xsl:value-of select="MarcLeader"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="c007">
+              <xsl:choose>
+                <xsl:when test="tmarc:c007">
+                  <xsl:value-of select="tmarc:c007"/>
+                </xsl:when>
+                <xsl:when test="Tag007">
+                  <xsl:value-of select="Tag007"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="c008">
+              <xsl:choose>
+                <xsl:when test="tmarc:c008">
+                  <xsl:value-of select="tmarc:c008"/>
+                </xsl:when>
+                <xsl:when test="Tag008">
+                  <xsl:value-of select="Tag008"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="typeofrec" select="substring($l, 7, 1)"/>
+            <xsl:variable name="biblevel" select="substring($l, 8, 1)"/>
+            <xsl:variable name="format" select="substring($c008, 24, 1)"/>
+            <xsl:variable name="typemp" select="substring($c008, 26, 1)"/>
+            <xsl:variable name="typecf" select="substring($c008, 27, 1)"/>
+            <xsl:variable name="formvmmp" select="substring($c008, 30, 1)"/>
+            <xsl:variable name="typevm" select="substring($c008, 34, 1)"/>
+            <xsl:variable name="typese" select="substring($c008, 22, 1)"/>
+            <xsl:variable name="oclca" select="substring($c007, 1, 1)"/>
+            <xsl:variable name="oclcb" select="substring($c007, 2, 1)"/>
+            <xsl:variable name="oclcd" select="substring($c007, 4, 1)"/>
+            <xsl:variable name="oclce" select="substring($c007, 5, 1)"/>
+            <xsl:variable name="oclcg" select="substring($c007, 7, 1)"/>
+            <xsl:choose>
+              <xsl:when test="$biblevel='s' and $typese='p'">
+                <xsl:text>per</xsl:text>
+                <!-- per ignores typeOfRec? -->
+              </xsl:when>
+              <xsl:when test="$typeofrec='a'">
+                <xsl:choose>
+                  <xsl:when test="$biblevel='b' or $biblevel='i' or $biblevel='s'">
+                    <xsl:choose>
+                      <xsl:when test="$format='s'">ese</xsl:when>
+                      <xsl:otherwise>ser</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:when>
+                  <xsl:when test="$biblevel!='a' and $biblevel!='i' and $biblevel!='s'">
+                    <xsl:choose>
+                      <xsl:when test="$oclca='c'">ebk</xsl:when>
+                      <xsl:when test="$format='a' or $format='b' or $format='c'">mic</xsl:when>
+                      <xsl:when test="$format='d'">lpt</xsl:when>
+                      <xsl:when test="$format='f'">brl </xsl:when>
+                      <xsl:when test="$format='s'">erd</xsl:when>
+                      <xsl:otherwise>bks</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:when>
+                  <xsl:when test="$biblevel='i' and ($typese='d' or $typese='w')">web</xsl:when>
+                  <xsl:when test="$biblevel='s' and $format='s' and $typese='n'">enw</xsl:when>
+                  <xsl:when test="$biblevel='s' and $format='s' and $typese!='n'">ejr</xsl:when>
+                  <xsl:when test="$biblevel='s' and $typese='n'">new</xsl:when>
+                </xsl:choose>
+              </xsl:when>
+              <!-- typeofrec=a -->
+              <xsl:when test="$typeofrec='c' or $typeofrec='d'">pmu</xsl:when>
+              <xsl:when test="($typeofrec='e' or $typeofrec='f') and       $typemp='e' and $typecf='n'">atl</xsl:when>
+              <!-- guessing at meaning of stylesheet here -->
+              <xsl:when test="$typeofrec='e' and ($typemp='d' or $oclca='d')">glb</xsl:when>
+              <xsl:when test="($typeofrec='e' or $typeofrec='f') and $formvmmp='s'">emp</xsl:when>
+              <xsl:when test="$typeofrec='e' or $typeofrec='f'">pcm</xsl:when>
+              <xsl:when test="$typeofrec='t' or $typeofrec='p' or $typeofrec='b'">mss</xsl:when>
+              <xsl:when test="$typeofrec='g'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='v'">dvd</xsl:when>
+                  <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='s'">blu</xsl:when>
+                  <xsl:when test="$oclca='v' and $oclcb='f'">vid</xsl:when>
+                  <xsl:when test="$typevm='m' or $oclca='m'">mot</xsl:when>
+                  <xsl:when test="$typevm='f'">fst</xsl:when>
+                  <xsl:when test="$typevm='s'">sld</xsl:when>
+                  <xsl:when test="$oclca='c' and $oclcb='r'">evd</xsl:when>
+                  <xsl:otherwise>pgr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='j'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='s' and $oclcb='s'">mcs</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">mcd</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and  $oclcd='b'">mlp</xsl:when>
+                  <xsl:when test="$format='q'">mpl</xsl:when>
+                  <xsl:when test="$format='o' or $format='s'">emu</xsl:when>
+                  <xsl:otherwise>msr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='i'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">acd</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='s'">acs</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcd='b'">alp</xsl:when>
+                  <xsl:when test="$format='q'">apl</xsl:when>
+                  <xsl:when test="$format='o' or $format='s'">eab</xsl:when>
+                  <xsl:otherwise>nsr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='m'">
+                <xsl:choose>
+                  <xsl:when test="$typecf='g'">cgm</xsl:when>
+                  <xsl:when test="$typecf='j'">onl</xsl:when>
+                  <xsl:when test="$typecf='b'">cpg</xsl:when>
+                  <xsl:otherwise>elr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='k'">
+                <xsl:choose>
+                  <xsl:when test="$typevm='o'">fcd</xsl:when>
+                  <xsl:when test="$typevm='i'">pic</xsl:when>
+                  <xsl:otherwise>ngr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='o'">kit</xsl:when>
+              <xsl:when test="$typeofrec='r'">
+                <xsl:choose>
+                  <xsl:when test="$typevm='a' or $typevm='c'">frt</xsl:when>
+                  <xsl:when test="$typevm='g'">gme</xsl:when>
+                  <xsl:when test="$typevm='w'">toy</xsl:when>
+                  <xsl:otherwise>art</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:template>
+          <xsl:template name="opac-holdings">
+            <xsl:for-each select="holding">
+              <pz:metadata empty="no_item_id" type="brief-holding">
+                <xsl:attribute name="callnumber">
+                  <xsl:value-of select="callNumber"/>
+                </xsl:attribute>
+                <xsl:attribute name="locallocation">
+                  <xsl:value-of select="localLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="shelvinglocation">
+                  <xsl:value-of select="shelvingLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="shelvingdata">
+                  <xsl:value-of select="shelvingdata"/>
+                </xsl:attribute>
+                <xsl:attribute name="reproductionnote">
+                  <xsl:value-of select="reproductionnote"/>
+                </xsl:attribute>
+                <xsl:attribute name="publicnote">
+                  <xsl:value-of select="publicNote"/>
+                </xsl:attribute>
+                <xsl:attribute name="copynumber">
+                  <xsl:value-of select="copyNumber"/>
+                </xsl:attribute>
+                <xsl:attribute name="itemid">
+                  <xsl:value-of select="circulations/circulation/itemId/@value"/>
+                </xsl:attribute>
+                <xsl:attribute name="availablenow">
+                  <xsl:value-of select="sum(circulations/circulation/availableNow/@value)"/>
+                </xsl:attribute>
+                <xsl:attribute name="restrictions">
+                  <xsl:value-of select="circulations/circulation/restrictions"/>
+                </xsl:attribute>
+                <xsl:attribute name="temporarylocation">
+                  <xsl:value-of select="circulations/circulation/temporaryLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="midspine">
+                  <xsl:value-of select="circulations/circulation/midspine"/>
+                </xsl:attribute>
+                <xsl:attribute name="availabiltydate">
+                  <xsl:value-of select="circulations/circulation/availabiltyDate/@value"/>
+                </xsl:attribute>
+                <xsl:attribute name="availablethru">
+                  <xsl:value-of select="circulations/circulation/availableThru/@value"/>
+                </xsl:attribute>
+              </pz:metadata>
+            </xsl:for-each>
+          </xsl:template>
+          <xsl:template name="marc-language">
+            <xsl:param name="field-value"/>
+            <xsl:value-of select="substring($field-value,36,3)"/>
+          </xsl:template>
+          <xsl:template name="marc-audiencelevel">
+            <xsl:param name="field-value"/>
+            <xsl:value-of select="substring($field-value,23,1)"/>
+          </xsl:template>
+          <xsl:output encoding="UTF-8" indent="yes" method="xml" version="1.0"/>
+          <xsl:template match="tmarc:collection">
+            <collection xmlns="">
+              <xsl:apply-templates/>
+            </collection>
+          </xsl:template>
+          <xsl:template match="tmarc:r">
+            <xsl:variable name="medium">
+              <xsl:call-template name="medium"/>
+            </xsl:variable>
+            <pz:record>
+              <pz:metadata type="medium">
+                <xsl:call-template name="medium"/>
+              </pz:metadata>
+              <!-- in case this is an opac record -->
+              <xsl:for-each select="/opacRecord/holdings">
+                <xsl:call-template name="opac-holdings"/>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d245">
+                <pz:metadata type="title">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d100">
+                <pz:metadata type="author">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d110">
+                <pz:metadata type="author">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d111">
+                <pz:metadata type="author">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d113">
+                <pz:metadata type="author">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d130">
+                <pz:metadata type="uniform_title">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sm or self::tmarc:sn or self::tmarc:so or self::tmarc:sp or self::tmarc:sr or self::tmarc:ss or self::tmarc:st]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d130">
+                <pz:metadata type="series_title">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sh or self::tmarc:sn or self::tmarc:sp or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d260">
+                <pz:metadata type="date">
+                  <xsl:for-each select="*[self::tmarc:sc]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d264">
+                <pz:metadata type="date">
+                  <xsl:for-each select="*[self::tmarc:sc]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d264">
+                <pz:metadata type="publisher">
+                  <xsl:for-each select="*[self::tmarc:sb]">
+                    <xsl:call-template name="first-40-chars">
+                      <xsl:with-param name="datafield-name">264</xsl:with-param>
+                      <xsl:with-param name="subfield-name" select="substring(local-name(),2)"/>
+                      <xsl:with-param name="subfield-value" select="."/>
+                    </xsl:call-template>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d260">
+                <pz:metadata type="publisher">
+                  <xsl:for-each select="*[self::tmarc:sb]">
+                    <xsl:call-template name="first-40-chars">
+                      <xsl:with-param name="datafield-name">260</xsl:with-param>
+                      <xsl:with-param name="subfield-name" select="substring(local-name(),2)"/>
+                      <xsl:with-param name="subfield-value" select="."/>
+                    </xsl:call-template>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d600">
+                <pz:metadata type="name_subject">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sm or self::tmarc:sn or self::tmarc:so or self::tmarc:sp or self::tmarc:sq or self::tmarc:sr or self::tmarc:ss or self::tmarc:st or self::tmarc:sv or self::tmarc:sx or self::tmarc:sy or self::tmarc:sz]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d630">
+                <pz:metadata type="title_subject">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sj or self::tmarc:sk or self::tmarc:sl or self::tmarc:sm or self::tmarc:sn or self::tmarc:so or self::tmarc:sp or self::tmarc:sr or self::tmarc:ss or self::tmarc:st or self::tmarc:sv or self::tmarc:sx or self::tmarc:sy or self::tmarc:sz]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d520">
+                <pz:metadata type="note">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d600">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sq]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d610">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d611">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d630">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d650">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sx]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d651">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d653">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d654">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d655">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d656">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d657">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d658">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d662">
+                <pz:metadata type="subject">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d400">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sn or self::tmarc:sp or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d400">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sn or self::tmarc:sp or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d410">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sn or self::tmarc:sp or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d411">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:se or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sn or self::tmarc:sp or self::tmarc:sq or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d440">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sh or self::tmarc:sn or self::tmarc:sp or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d490">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d800">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sm or self::tmarc:sn or self::tmarc:so or self::tmarc:sp or self::tmarc:sq or self::tmarc:sr or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d800">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sn or self::tmarc:sp or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d810">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sm or self::tmarc:sn or self::tmarc:so or self::tmarc:sp or self::tmarc:sr or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d810">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sp or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d811">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:se or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sn or self::tmarc:sp or self::tmarc:sq or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d811">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sf or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sp or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d830">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sd or self::tmarc:sf or self::tmarc:sg or self::tmarc:sh or self::tmarc:sk or self::tmarc:sl or self::tmarc:sm or self::tmarc:sn or self::tmarc:so or self::tmarc:sp or self::tmarc:sr or self::tmarc:ss or self::tmarc:st or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d830">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:st]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:d840">
+                <pz:metadata type="series">
+                  <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sh or self::tmarc:sv]">
+                    <xsl:value-of select="."/>
+                  </xsl:for-each>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:c008">
+                <pz:metadata type="language">
+                  <xsl:call-template name="marc-language">
+                    <xsl:with-param name="datafield-name">008</xsl:with-param>
+                    <xsl:with-param name="field-value" select="."/>
+                  </xsl:call-template>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="tmarc:c008">
+                <pz:metadata type="audiencelevel">
+                  <xsl:call-template name="marc-audiencelevel">
+                    <xsl:with-param name="datafield-name">008</xsl:with-param>
+                    <xsl:with-param name="field-value" select="."/>
+                  </xsl:call-template>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:choose>
+                <xsl:when test="$medium = 'music'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9077">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9078">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9079">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9080">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9081">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9082">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9083">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-9084">
+                      <xsl:for-each select="*[self::tmarc:su or self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d336">
+                    <pz:metadata type="brief-9085">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d337">
+                    <pz:metadata type="brief-9086">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d338">
+                    <pz:metadata type="brief-9087">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d385">
+                    <pz:metadata type="brief-9088">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sm]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d386">
+                    <pz:metadata type="brief-9089">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sm]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'community information'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9225">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9224">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9223">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9226">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9227">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9228">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9229">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'archival mixed materials'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9232">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9231">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9230">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9233">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9234">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9235">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9236">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'computer files'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9218">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9217">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9216">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9219">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9220">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9221">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9222">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'books'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-1940">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-1941">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-1942">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-1943">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-1944">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-8792">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-8793">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-1945">
+                      <xsl:for-each select="*[self::tmarc:su or self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d650">
+                    <pz:metadata type="brief-3118">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d600">
+                    <pz:metadata type="brief-3119">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sb or self::tmarc:sc or self::tmarc:sd or self::tmarc:sq]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d520">
+                    <pz:metadata type="brief-3124">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d336">
+                    <pz:metadata type="brief-8794">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d337">
+                    <pz:metadata type="brief-8795">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d338">
+                    <pz:metadata type="brief-8796">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d385">
+                    <pz:metadata type="brief-8797">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sm]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d386">
+                    <pz:metadata type="brief-8798">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sm]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'visual materials'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9190">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9189">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9188">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9191">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9192">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9193">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9194">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'maps'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9204">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9203">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9202">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9205">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9206">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9207">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9208">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'authority records'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9239">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9238">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9237">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9240">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9241">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9242">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9243">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'non-musical sound recordings'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-3120">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-8799">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-8800">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-3121">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d336">
+                    <pz:metadata type="brief-8801">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d337">
+                    <pz:metadata type="brief-8802">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d338">
+                    <pz:metadata type="brief-8803">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d385">
+                    <pz:metadata type="brief-8804">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sm]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d386">
+                    <pz:metadata type="brief-8805">
+                      <xsl:for-each select="*[self::tmarc:sa or self::tmarc:sm]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'music scores'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9211">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9210">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9209">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9212">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9213">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9214">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9215">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:when test="$medium = 'serials'">
+                  <xsl:for-each select="tmarc:d245">
+                    <pz:metadata type="brief-9176">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d130">
+                    <pz:metadata type="brief-9175">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d100">
+                    <pz:metadata type="brief-9174">
+                      <xsl:for-each select="*[not(self::tmarc:sw) and not(self::tmarc:s0) and not(self::tmarc:s1) and not(self::tmarc:s2) and not(self::tmarc:s3) and not(self::tmarc:s4) and not(self::tmarc:s5) and not(self::tmarc:s6) and not(self::tmarc:s7) and not(self::tmarc:s8) and not(self::tmarc:s9)]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9177">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-9178">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9179">
+                      <xsl:for-each select="*[self::tmarc:sb]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d264">
+                    <pz:metadata type="brief-9180">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-Language">
+                      <xsl:call-template name="marc-language">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:c008">
+                    <pz:metadata type="brief-AudienceLevel">
+                      <xsl:call-template name="marc-audiencelevel">
+                        <xsl:with-param name="datafield-name">008</xsl:with-param>
+                        <xsl:with-param name="field-value" select="."/>
+                      </xsl:call-template>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d020">
+                    <pz:metadata type="brief-isbn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d022">
+                    <pz:metadata type="brief-issn">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d024">
+                    <pz:metadata type="brief-upc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d035">
+                    <pz:metadata type="brief-oclc">
+                      <xsl:for-each select="*[self::tmarc:sa]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d260">
+                    <pz:metadata type="brief-pubyear">
+                      <xsl:for-each select="*[self::tmarc:sc]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc">
+                      <xsl:for-each select="*">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocy">
+                      <xsl:for-each select="*[self::tmarc:sy]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-eloc3">
+                      <xsl:for-each select="*[self::tmarc:s3]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocx">
+                      <xsl:for-each select="*[self::tmarc:sx]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocz">
+                      <xsl:for-each select="*[self::tmarc:sz]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                  <xsl:for-each select="tmarc:d856">
+                    <pz:metadata type="brief-elocu">
+                      <xsl:for-each select="*[self::tmarc:su]">
+                        <xsl:value-of select="."/>
+                      </xsl:for-each>
+                    </pz:metadata>
+                  </xsl:for-each>
+                </xsl:when>
+              </xsl:choose>
+            </pz:record>
+          </xsl:template>
+          <xsl:template match="text()"/>
+        </xsl:stylesheet>
+      </xslt>
+      <xslt id="ag-xml-stylesheet">
+        <xsl:stylesheet xmlns:pz="http://www.indexdata.com/pazpar2/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+          <xsl:template name="first-40-chars">
+            <xsl:param name="subfield-value"/>
+            <xsl:value-of select="substring($subfield-value,1,40)"/>
+          </xsl:template>
+          <xsl:template name="first-4-digits">
+            <xsl:param name="subfield-value"/>
+            <xsl:value-of select="substring(translate($subfield-value,translate($subfield-value,'0123456789', ''), ''),1,4)"/>
+          </xsl:template>
+          <xsl:template xmlns:tmarc="http://www.indexdata.com/turbomarc" name="medium">
+            <xsl:variable name="l">
+              <xsl:choose>
+                <xsl:when test="tmarc:l">
+                  <xsl:value-of select="tmarc:l"/>
+                </xsl:when>
+                <xsl:when test="MarcLeader">
+                  <xsl:value-of select="MarcLeader"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="c007">
+              <xsl:choose>
+                <xsl:when test="tmarc:c007">
+                  <xsl:value-of select="tmarc:c007"/>
+                </xsl:when>
+                <xsl:when test="Tag007">
+                  <xsl:value-of select="Tag007"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="c008">
+              <xsl:choose>
+                <xsl:when test="tmarc:c008">
+                  <xsl:value-of select="tmarc:c008"/>
+                </xsl:when>
+                <xsl:when test="Tag008">
+                  <xsl:value-of select="Tag008"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="typeofrec" select="substring($l, 7, 1)"/>
+            <xsl:variable name="biblevel" select="substring($l, 8, 1)"/>
+            <xsl:variable name="format" select="substring($c008, 24, 1)"/>
+            <xsl:variable name="typemp" select="substring($c008, 26, 1)"/>
+            <xsl:variable name="typecf" select="substring($c008, 27, 1)"/>
+            <xsl:variable name="formvmmp" select="substring($c008, 30, 1)"/>
+            <xsl:variable name="typevm" select="substring($c008, 34, 1)"/>
+            <xsl:variable name="typese" select="substring($c008, 22, 1)"/>
+            <xsl:variable name="oclca" select="substring($c007, 1, 1)"/>
+            <xsl:variable name="oclcb" select="substring($c007, 2, 1)"/>
+            <xsl:variable name="oclcd" select="substring($c007, 4, 1)"/>
+            <xsl:variable name="oclce" select="substring($c007, 5, 1)"/>
+            <xsl:variable name="oclcg" select="substring($c007, 7, 1)"/>
+            <xsl:choose>
+              <xsl:when test="$biblevel='s' and $typese='p'">
+                <xsl:text>per</xsl:text>
+                <!-- per ignores typeOfRec? -->
+              </xsl:when>
+              <xsl:when test="$typeofrec='a'">
+                <xsl:choose>
+                  <xsl:when test="$biblevel='b' or $biblevel='i' or $biblevel='s'">
+                    <xsl:choose>
+                      <xsl:when test="$format='s'">ese</xsl:when>
+                      <xsl:otherwise>ser</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:when>
+                  <xsl:when test="$biblevel!='a' and $biblevel!='i' and $biblevel!='s'">
+                    <xsl:choose>
+                      <xsl:when test="$oclca='c'">ebk</xsl:when>
+                      <xsl:when test="$format='a' or $format='b' or $format='c'">mic</xsl:when>
+                      <xsl:when test="$format='d'">lpt</xsl:when>
+                      <xsl:when test="$format='f'">brl </xsl:when>
+                      <xsl:when test="$format='s'">erd</xsl:when>
+                      <xsl:otherwise>bks</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:when>
+                  <xsl:when test="$biblevel='i' and ($typese='d' or $typese='w')">web</xsl:when>
+                  <xsl:when test="$biblevel='s' and $format='s' and $typese='n'">enw</xsl:when>
+                  <xsl:when test="$biblevel='s' and $format='s' and $typese!='n'">ejr</xsl:when>
+                  <xsl:when test="$biblevel='s' and $typese='n'">new</xsl:when>
+                </xsl:choose>
+              </xsl:when>
+              <!-- typeofrec=a -->
+              <xsl:when test="$typeofrec='c' or $typeofrec='d'">pmu</xsl:when>
+              <xsl:when test="($typeofrec='e' or $typeofrec='f') and       $typemp='e' and $typecf='n'">atl</xsl:when>
+              <!-- guessing at meaning of stylesheet here -->
+              <xsl:when test="$typeofrec='e' and ($typemp='d' or $oclca='d')">glb</xsl:when>
+              <xsl:when test="($typeofrec='e' or $typeofrec='f') and $formvmmp='s'">emp</xsl:when>
+              <xsl:when test="$typeofrec='e' or $typeofrec='f'">pcm</xsl:when>
+              <xsl:when test="$typeofrec='t' or $typeofrec='p' or $typeofrec='b'">mss</xsl:when>
+              <xsl:when test="$typeofrec='g'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='v'">dvd</xsl:when>
+                  <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='s'">blu</xsl:when>
+                  <xsl:when test="$oclca='v' and $oclcb='f'">vid</xsl:when>
+                  <xsl:when test="$typevm='m' or $oclca='m'">mot</xsl:when>
+                  <xsl:when test="$typevm='f'">fst</xsl:when>
+                  <xsl:when test="$typevm='s'">sld</xsl:when>
+                  <xsl:when test="$oclca='c' and $oclcb='r'">evd</xsl:when>
+                  <xsl:otherwise>pgr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='j'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='s' and $oclcb='s'">mcs</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">mcd</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and  $oclcd='b'">mlp</xsl:when>
+                  <xsl:when test="$format='q'">mpl</xsl:when>
+                  <xsl:when test="$format='o' or $format='s'">emu</xsl:when>
+                  <xsl:otherwise>msr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='i'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">acd</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='s'">acs</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcd='b'">alp</xsl:when>
+                  <xsl:when test="$format='q'">apl</xsl:when>
+                  <xsl:when test="$format='o' or $format='s'">eab</xsl:when>
+                  <xsl:otherwise>nsr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='m'">
+                <xsl:choose>
+                  <xsl:when test="$typecf='g'">cgm</xsl:when>
+                  <xsl:when test="$typecf='j'">onl</xsl:when>
+                  <xsl:when test="$typecf='b'">cpg</xsl:when>
+                  <xsl:otherwise>elr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='k'">
+                <xsl:choose>
+                  <xsl:when test="$typevm='o'">fcd</xsl:when>
+                  <xsl:when test="$typevm='i'">pic</xsl:when>
+                  <xsl:otherwise>ngr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='o'">kit</xsl:when>
+              <xsl:when test="$typeofrec='r'">
+                <xsl:choose>
+                  <xsl:when test="$typevm='a' or $typevm='c'">frt</xsl:when>
+                  <xsl:when test="$typevm='g'">gme</xsl:when>
+                  <xsl:when test="$typevm='w'">toy</xsl:when>
+                  <xsl:otherwise>art</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:template>
+          <xsl:template name="opac-holdings">
+            <xsl:for-each select="holding">
+              <pz:metadata empty="no_item_id" type="brief-holding">
+                <xsl:attribute name="callnumber">
+                  <xsl:value-of select="callNumber"/>
+                </xsl:attribute>
+                <xsl:attribute name="locallocation">
+                  <xsl:value-of select="localLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="shelvinglocation">
+                  <xsl:value-of select="shelvingLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="shelvingdata">
+                  <xsl:value-of select="shelvingdata"/>
+                </xsl:attribute>
+                <xsl:attribute name="reproductionnote">
+                  <xsl:value-of select="reproductionnote"/>
+                </xsl:attribute>
+                <xsl:attribute name="publicnote">
+                  <xsl:value-of select="publicNote"/>
+                </xsl:attribute>
+                <xsl:attribute name="copynumber">
+                  <xsl:value-of select="copyNumber"/>
+                </xsl:attribute>
+                <xsl:attribute name="itemid">
+                  <xsl:value-of select="circulations/circulation/itemId/@value"/>
+                </xsl:attribute>
+                <xsl:attribute name="availablenow">
+                  <xsl:value-of select="sum(circulations/circulation/availableNow/@value)"/>
+                </xsl:attribute>
+                <xsl:attribute name="restrictions">
+                  <xsl:value-of select="circulations/circulation/restrictions"/>
+                </xsl:attribute>
+                <xsl:attribute name="temporarylocation">
+                  <xsl:value-of select="circulations/circulation/temporaryLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="midspine">
+                  <xsl:value-of select="circulations/circulation/midspine"/>
+                </xsl:attribute>
+                <xsl:attribute name="availabiltydate">
+                  <xsl:value-of select="circulations/circulation/availabiltyDate/@value"/>
+                </xsl:attribute>
+                <xsl:attribute name="availablethru">
+                  <xsl:value-of select="circulations/circulation/availableThru/@value"/>
+                </xsl:attribute>
+              </pz:metadata>
+            </xsl:for-each>
+          </xsl:template>
+          <xsl:template name="marc-language">
+            <xsl:param name="field-value"/>
+            <xsl:value-of select="substring($field-value,36,3)"/>
+          </xsl:template>
+          <xsl:template name="marc-audiencelevel">
+            <xsl:param name="field-value"/>
+            <xsl:value-of select="substring($field-value,23,1)"/>
+          </xsl:template>
+          <xsl:output encoding="UTF-8" indent="yes" method="xml" version="1.0"/>
+          <xsl:template match="Results">
+            <collection xmlns="">
+              <xsl:apply-templates/>
+            </collection>
+          </xsl:template>
+          <xsl:template match="Result">
+            <xsl:variable name="medium">
+              <xsl:call-template name="medium"/>
+            </xsl:variable>
+            <pz:record>
+              <pz:metadata type="medium">
+                <xsl:call-template name="medium"/>
+              </pz:metadata>
+              <xsl:for-each select="Author">
+                <pz:metadata type="brief-156">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="COP">
+                <pz:metadata type="brief-164">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Desc">
+                <pz:metadata type="brief-163">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="EP">
+                <pz:metadata type="brief-169">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ISBN">
+                <pz:metadata type="brief-161">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ISSN">
+                <pz:metadata type="brief-162">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Issue">
+                <pz:metadata type="brief-167">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Lexile">
+                <pz:metadata type="brief-170">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="PubDay">
+                <pz:metadata type="brief-159">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Publisher">
+                <pz:metadata type="brief-157">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="PubMonth">
+                <pz:metadata type="brief-158">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="PubYear">
+                <pz:metadata type="brief-160">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Source">
+                <pz:metadata type="brief-165">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="SP">
+                <pz:metadata type="brief-168">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Title">
+                <pz:metadata type="brief-155">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Volume">
+                <pz:metadata type="brief-166">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="URLField">
+                <pz:metadata type="brief-URLField">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="JacketArtURL">
+                <pz:metadata type="brief-JacketArtURL">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="AGControlId">
+                <pz:metadata type="brief-AGControlId">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="HasMyLibrary">
+                <pz:metadata type="brief-HasMyLibrary">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="HoldingCount">
+                <pz:metadata type="brief-HoldingCount">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Field856s">
+                <pz:metadata type="brief-Field856s">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="MarcLeader">
+                <pz:metadata type="brief-MarcLeader">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="IsDigitalRecord">
+                <pz:metadata type="brief-IsDigitalRecord">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="DCFullImageURL">
+                <pz:metadata type="brief-DCFullImageURL">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ISBN">
+                <pz:metadata type="brief-ISBN">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ISSN">
+                <pz:metadata type="brief-ISSN">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="OCLCField">
+                <pz:metadata type="brief-OCLC">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="UPCField">
+                <pz:metadata type="brief-UPC">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ListFields">
+                <pz:metadata type="brief-ListFields">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="PubYears/string">
+                <pz:metadata type="brief-PubYear">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Publishers/string">
+                <pz:metadata type="brief-Publisher">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Subjects/string">
+                <pz:metadata type="brief-Subject">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Series/string">
+                <pz:metadata type="brief-Series">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Locations/string">
+                <pz:metadata type="brief-Location">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="IMTypes/string">
+                <pz:metadata type="brief-MaterialType">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Note520A">
+                <pz:metadata type="brief-Note520A">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="SystemNumber">
+                <pz:metadata type="brief-SystemNumber">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ACQuisitionSource">
+                <pz:metadata type="brief-ACQuisitionSource">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="EContentProductId">
+                <pz:metadata type="brief-EContentProductId">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="FullTextURL">
+                <pz:metadata type="brief-FullTextURL">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="SubfieldA28">
+                <pz:metadata type="brief-SubfieldA28">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="SubfieldB28">
+                <pz:metadata type="brief-SubfieldB28">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Tag856">
+                <pz:metadata type="brief-Tag856">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="EcontentJacketArtUrl">
+                <pz:metadata type="brief-EcontentJacketArtUrl">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ReadingLevel/string">
+                <pz:metadata type="brief-ReadingLevel">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Title">
+                <pz:metadata type="title">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Author">
+                <pz:metadata type="author">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="PubYear">
+                <pz:metadata type="date">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Publisher">
+                <pz:metadata type="publisher">
+                  <xsl:call-template name="first-40-chars">
+                    <xsl:with-param name="datafield-name">Publisher</xsl:with-param>
+                    <xsl:with-param name="subfield-name" select="substring(local-name(),2)"/>
+                    <xsl:with-param name="subfield-value" select="."/>
+                  </xsl:call-template>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Notes">
+                <pz:metadata type="note">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Subject">
+                <pz:metadata type="subject">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Subjects/string">
+                <pz:metadata type="subject">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Locations/string">
+                <pz:metadata type="location">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="IMTypes/string">
+                <pz:metadata type="materialtype">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="Series/string">
+                <pz:metadata type="series">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="LanguageCode">
+                <pz:metadata type="language">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="AudienceLevelCode">
+                <pz:metadata type="audiencelevel">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="ReadingLevel/string">
+                <pz:metadata type="readinglevel">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+            </pz:record>
+          </xsl:template>
+          <xsl:template match="text()"/>
+        </xsl:stylesheet>
+      </xslt>
+      <xslt id="ag-pz2-stylesheet">
+        <xsl:stylesheet xmlns:pz="http://www.indexdata.com/pazpar2/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+          <xsl:template name="first-40-chars">
+            <xsl:param name="subfield-value"/>
+            <xsl:value-of select="substring($subfield-value,1,40)"/>
+          </xsl:template>
+          <xsl:template name="first-4-digits">
+            <xsl:param name="subfield-value"/>
+            <xsl:value-of select="substring(translate($subfield-value,translate($subfield-value,'0123456789', ''), ''),1,4)"/>
+          </xsl:template>
+          <xsl:template xmlns:tmarc="http://www.indexdata.com/turbomarc" name="medium">
+            <xsl:variable name="l">
+              <xsl:choose>
+                <xsl:when test="tmarc:l">
+                  <xsl:value-of select="tmarc:l"/>
+                </xsl:when>
+                <xsl:when test="MarcLeader">
+                  <xsl:value-of select="MarcLeader"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="c007">
+              <xsl:choose>
+                <xsl:when test="tmarc:c007">
+                  <xsl:value-of select="tmarc:c007"/>
+                </xsl:when>
+                <xsl:when test="Tag007">
+                  <xsl:value-of select="Tag007"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="c008">
+              <xsl:choose>
+                <xsl:when test="tmarc:c008">
+                  <xsl:value-of select="tmarc:c008"/>
+                </xsl:when>
+                <xsl:when test="Tag008">
+                  <xsl:value-of select="Tag008"/>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="typeofrec" select="substring($l, 7, 1)"/>
+            <xsl:variable name="biblevel" select="substring($l, 8, 1)"/>
+            <xsl:variable name="format" select="substring($c008, 24, 1)"/>
+            <xsl:variable name="typemp" select="substring($c008, 26, 1)"/>
+            <xsl:variable name="typecf" select="substring($c008, 27, 1)"/>
+            <xsl:variable name="formvmmp" select="substring($c008, 30, 1)"/>
+            <xsl:variable name="typevm" select="substring($c008, 34, 1)"/>
+            <xsl:variable name="typese" select="substring($c008, 22, 1)"/>
+            <xsl:variable name="oclca" select="substring($c007, 1, 1)"/>
+            <xsl:variable name="oclcb" select="substring($c007, 2, 1)"/>
+            <xsl:variable name="oclcd" select="substring($c007, 4, 1)"/>
+            <xsl:variable name="oclce" select="substring($c007, 5, 1)"/>
+            <xsl:variable name="oclcg" select="substring($c007, 7, 1)"/>
+            <xsl:choose>
+              <xsl:when test="$biblevel='s' and $typese='p'">
+                <xsl:text>per</xsl:text>
+                <!-- per ignores typeOfRec? -->
+              </xsl:when>
+              <xsl:when test="$typeofrec='a'">
+                <xsl:choose>
+                  <xsl:when test="$biblevel='b' or $biblevel='i' or $biblevel='s'">
+                    <xsl:choose>
+                      <xsl:when test="$format='s'">ese</xsl:when>
+                      <xsl:otherwise>ser</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:when>
+                  <xsl:when test="$biblevel!='a' and $biblevel!='i' and $biblevel!='s'">
+                    <xsl:choose>
+                      <xsl:when test="$oclca='c'">ebk</xsl:when>
+                      <xsl:when test="$format='a' or $format='b' or $format='c'">mic</xsl:when>
+                      <xsl:when test="$format='d'">lpt</xsl:when>
+                      <xsl:when test="$format='f'">brl </xsl:when>
+                      <xsl:when test="$format='s'">erd</xsl:when>
+                      <xsl:otherwise>bks</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:when>
+                  <xsl:when test="$biblevel='i' and ($typese='d' or $typese='w')">web</xsl:when>
+                  <xsl:when test="$biblevel='s' and $format='s' and $typese='n'">enw</xsl:when>
+                  <xsl:when test="$biblevel='s' and $format='s' and $typese!='n'">ejr</xsl:when>
+                  <xsl:when test="$biblevel='s' and $typese='n'">new</xsl:when>
+                </xsl:choose>
+              </xsl:when>
+              <!-- typeofrec=a -->
+              <xsl:when test="$typeofrec='c' or $typeofrec='d'">pmu</xsl:when>
+              <xsl:when test="($typeofrec='e' or $typeofrec='f') and       $typemp='e' and $typecf='n'">atl</xsl:when>
+              <!-- guessing at meaning of stylesheet here -->
+              <xsl:when test="$typeofrec='e' and ($typemp='d' or $oclca='d')">glb</xsl:when>
+              <xsl:when test="($typeofrec='e' or $typeofrec='f') and $formvmmp='s'">emp</xsl:when>
+              <xsl:when test="$typeofrec='e' or $typeofrec='f'">pcm</xsl:when>
+              <xsl:when test="$typeofrec='t' or $typeofrec='p' or $typeofrec='b'">mss</xsl:when>
+              <xsl:when test="$typeofrec='g'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='v'">dvd</xsl:when>
+                  <xsl:when test="$oclca='v' and $oclcb='d' and $oclce='s'">blu</xsl:when>
+                  <xsl:when test="$oclca='v' and $oclcb='f'">vid</xsl:when>
+                  <xsl:when test="$typevm='m' or $oclca='m'">mot</xsl:when>
+                  <xsl:when test="$typevm='f'">fst</xsl:when>
+                  <xsl:when test="$typevm='s'">sld</xsl:when>
+                  <xsl:when test="$oclca='c' and $oclcb='r'">evd</xsl:when>
+                  <xsl:otherwise>pgr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='j'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='s' and $oclcb='s'">mcs</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">mcd</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and  $oclcd='b'">mlp</xsl:when>
+                  <xsl:when test="$format='q'">mpl</xsl:when>
+                  <xsl:when test="$format='o' or $format='s'">emu</xsl:when>
+                  <xsl:otherwise>msr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='i'">
+                <xsl:choose>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcg='g'">acd</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='s'">acs</xsl:when>
+                  <xsl:when test="$oclca='s' and $oclcb='d' and $oclcd='b'">alp</xsl:when>
+                  <xsl:when test="$format='q'">apl</xsl:when>
+                  <xsl:when test="$format='o' or $format='s'">eab</xsl:when>
+                  <xsl:otherwise>nsr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='m'">
+                <xsl:choose>
+                  <xsl:when test="$typecf='g'">cgm</xsl:when>
+                  <xsl:when test="$typecf='j'">onl</xsl:when>
+                  <xsl:when test="$typecf='b'">cpg</xsl:when>
+                  <xsl:otherwise>elr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='k'">
+                <xsl:choose>
+                  <xsl:when test="$typevm='o'">fcd</xsl:when>
+                  <xsl:when test="$typevm='i'">pic</xsl:when>
+                  <xsl:otherwise>ngr</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+              <xsl:when test="$typeofrec='o'">kit</xsl:when>
+              <xsl:when test="$typeofrec='r'">
+                <xsl:choose>
+                  <xsl:when test="$typevm='a' or $typevm='c'">frt</xsl:when>
+                  <xsl:when test="$typevm='g'">gme</xsl:when>
+                  <xsl:when test="$typevm='w'">toy</xsl:when>
+                  <xsl:otherwise>art</xsl:otherwise>
+                </xsl:choose>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:template>
+          <xsl:template name="opac-holdings">
+            <xsl:for-each select="holding">
+              <pz:metadata empty="no_item_id" type="brief-holding">
+                <xsl:attribute name="callnumber">
+                  <xsl:value-of select="callNumber"/>
+                </xsl:attribute>
+                <xsl:attribute name="locallocation">
+                  <xsl:value-of select="localLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="shelvinglocation">
+                  <xsl:value-of select="shelvingLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="shelvingdata">
+                  <xsl:value-of select="shelvingdata"/>
+                </xsl:attribute>
+                <xsl:attribute name="reproductionnote">
+                  <xsl:value-of select="reproductionnote"/>
+                </xsl:attribute>
+                <xsl:attribute name="publicnote">
+                  <xsl:value-of select="publicNote"/>
+                </xsl:attribute>
+                <xsl:attribute name="copynumber">
+                  <xsl:value-of select="copyNumber"/>
+                </xsl:attribute>
+                <xsl:attribute name="itemid">
+                  <xsl:value-of select="circulations/circulation/itemId/@value"/>
+                </xsl:attribute>
+                <xsl:attribute name="availablenow">
+                  <xsl:value-of select="sum(circulations/circulation/availableNow/@value)"/>
+                </xsl:attribute>
+                <xsl:attribute name="restrictions">
+                  <xsl:value-of select="circulations/circulation/restrictions"/>
+                </xsl:attribute>
+                <xsl:attribute name="temporarylocation">
+                  <xsl:value-of select="circulations/circulation/temporaryLocation"/>
+                </xsl:attribute>
+                <xsl:attribute name="midspine">
+                  <xsl:value-of select="circulations/circulation/midspine"/>
+                </xsl:attribute>
+                <xsl:attribute name="availabiltydate">
+                  <xsl:value-of select="circulations/circulation/availabiltyDate/@value"/>
+                </xsl:attribute>
+                <xsl:attribute name="availablethru">
+                  <xsl:value-of select="circulations/circulation/availableThru/@value"/>
+                </xsl:attribute>
+              </pz:metadata>
+            </xsl:for-each>
+          </xsl:template>
+          <xsl:template name="marc-language">
+            <xsl:param name="field-value"/>
+            <xsl:value-of select="substring($field-value,36,3)"/>
+          </xsl:template>
+          <xsl:template name="marc-audiencelevel">
+            <xsl:param name="field-value"/>
+            <xsl:value-of select="substring($field-value,23,1)"/>
+          </xsl:template>
+          <xsl:output encoding="UTF-8" indent="yes" method="xml" version="1.0"/>
+          <xsl:variable name="medium">article</xsl:variable>
+          <xsl:template match="pz:record">
+            <pz:record>
+              <pz:metadata type="medium">
+                <xsl:value-of select="$medium"/>
+                <!-- This would pass medium through from connectors: -->
+                <!--  xsl:choose>
+          <xsl:when test="string-length(pz:metadata[@type='medium'])">
+            <xsl:value-of select="pz:metadata[@type='medium']"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$medium" />
+          </xsl:otherwise>
+        </xsl:choose -->
+              </pz:metadata>
+              <xsl:for-each select="pz:metadata[@type='author']">
+                <pz:metadata type="brief-156">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='description']">
+                <pz:metadata type="brief-163">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='endpage']">
+                <pz:metadata type="brief-169">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='isbn']">
+                <pz:metadata type="brief-161">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='issn']">
+                <pz:metadata type="brief-162">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='issue']">
+                <pz:metadata type="brief-167">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='lexile']">
+                <pz:metadata type="brief-170">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='publisher']">
+                <pz:metadata type="brief-157">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='date']">
+                <pz:metadata type="brief-160">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='journal-title']">
+                <pz:metadata type="brief-165">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='page']">
+                <pz:metadata type="brief-168">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='title']">
+                <pz:metadata type="brief-155">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='volume']">
+                <pz:metadata type="brief-166">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='electronic-url']">
+                <pz:metadata type="brief-URLField">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='thumburl']">
+                <pz:metadata type="brief-JacketArtURL">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='isbn']">
+                <pz:metadata type="brief-ISBN">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='issn']">
+                <pz:metadata type="brief-ISSN">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='fulltexturl']">
+                <pz:metadata type="brief-FullTextURL">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='title']">
+                <pz:metadata type="title">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='author']">
+                <pz:metadata type="author">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='date']">
+                <pz:metadata type="date">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='publisher']">
+                <pz:metadata type="publisher">
+                  <xsl:call-template name="first-40-chars">
+                    <xsl:with-param name="datafield-name">Publisher</xsl:with-param>
+                    <xsl:with-param name="subfield-name" select="substring(local-name(),2)"/>
+                    <xsl:with-param name="subfield-value" select="."/>
+                  </xsl:call-template>
+                </pz:metadata>
+              </xsl:for-each>
+              <xsl:for-each select="pz:metadata[@type='subject']">
+                <pz:metadata type="subject">
+                  <xsl:value-of select="."/>
+                </pz:metadata>
+              </xsl:for-each>
+            </pz:record>
+          </xsl:template>
+        </xsl:stylesheet>
+      </xslt>
+      <xslt id="ag-solr-stylesheet">
+        <xsl:stylesheet xmlns:pz="http://www.indexdata.com/pazpar2/1.0" xmlns:tmarc="http://www.indexdata.com/turbomarc" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+          <xsl:template match="/">
+            <xsl:apply-templates/>
+          </xsl:template>
+          <xsl:template match="doc">
+            <xsl:variable name="medium">
+              <xsl:value-of select="str[@name='medium']"/>
+            </xsl:variable>
+            <pz:record>
+    </pz:record>
+          </xsl:template>
+          <xsl:template match="text()"/>
+        </xsl:stylesheet>
+      </xslt>
+      <settings target="*">
+        <set name="pz:extendrecs" target="1986913" value="60"/>
+        <set name="pz:cclmap:JOURNAL_TITLE" target="1986913" value="u=JOURNAL_TITLE"/>
+        <set name="pz:cclmap:PUBLISHER-NAME" target="1986913" value="u=PUBLISHER_NAME"/>
+        <set name="pz:cclmap:PHRASE" target="1986913" value="s=1"/>
+        <set name="pz:cclmap:FromPubYear" target="1986913" value="u=q_FromPubYear"/>
+        <set name="pz:cclmap:PUBLISHER-NUMBER" target="1986913" value="u=PUBLISHER_NUMBER"/>
+        <set name="pz:facetmap:split:series" target="1986913" value="facet_17"/>
+        <set name="pz:limitmap:medium" target="1986913" value="ccl:medium"/>
+        <set name="pz:cclmap:READING-PROGRAM-NAME" target="1986913" value="u=READING_PROGRAM_NAME"/>
+        <set name="pz:cclmap:NLC-NUMBER" target="1986913" value="u=NLC_NUMBER"/>
+        <set name="pz:cclmap:readinglevel" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:SUBJECT" target="1986913" value="u=SUBJECT"/>
+        <set name="pz:cclmap:DATE" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:limitmap:date" target="1986913" value="ccl:date"/>
+        <set name="full_text_target" target="1986913" value="NO"/>
+        <set name="pz:cclmap:TITLE-EXACT" target="1986913" value="u=TITLE_EXACT"/>
+        <set name="pz:cclmap:SUBJECT-AUTHORITY" target="1986913" value="u=SUBJECT_AUTHORITY"/>
+        <set name="pz:limitmap:language" target="1986913" value="ccl:language"/>
+        <set name="pz:cclmap:language" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:medium" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:materialtype" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:CALL-NUMBER" target="1986913" value="u=CALL_NUMBER"/>
+        <set name="pz:cclmap:BARCODE" target="1986913" value="u=BARCODE"/>
+        <set name="category" target="1986913" value="Winding Rivers Library System"/>
+        <set name="pz:cclmap:TITLE" target="1986913" value="u=TITLE"/>
+        <set name="pz:cclmap:FULLTEXT-DOCUMENT" target="1986913" value="u=FULLTEXT_DOCUMENT"/>
+        <set name="pz:cclmap:CODEN" target="1986913" value="u=CODEN"/>
+        <set name="pz:facetmap:split:title" target="1986913" value="facet_16"/>
+        <set name="pz:cclmap:NATIONAL-AGENCY-NUMBER" target="1986913" value="u=NATIONAL_AGENCY_NUMBER"/>
+        <set name="pz:cclmap:SUBJECT-EXACT" target="1986913" value="u=SUBJECT_EXACT"/>
+        <set name="pz:facetmap:split:language" target="1986913" value="facet_03"/>
+        <set name="pz:cclmap:GPO-SHIP-LIST-NUMBER" target="1986913" value="u=GPO_SHIP_LIST_NUMBER"/>
+        <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1986913" value="u=GPO_ORDER_NUMBER"/>
+        <set name="pz:facetmap:split:publisher" target="1986913" value="facet_15"/>
+        <set name="pz:cclmap:CreationDate" target="1986913" value="u=q_CreationDate"/>
+        <set name="pz:facetmap:split:subject" target="1986913" value="facet_05"/>
+        <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1986913" value="u=LOCAL_CALL_NUMBER"/>
+        <set name="use_thumbnails" target="1986913" value="1"/>
+        <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1986913" value="u=LOCAL_SYSTEM_NUMBER"/>
+        <set name="pz:requestsyntax" target="1986913" value="xml"/>
+        <set name="pz:cclmap:INTEREST-LEVEL" target="1986913" value="u=INTEREST_LEVEL"/>
+        <set name="pz:cclmap:STANDARD-INDENTIFIER-3" target="1986913" value="u=STANDARD_INDENTIFIER_3"/>
+        <set name="pz:cclmap:STANDARD-INDENTIFIER-2" target="1986913" value="u=STANDARD_INDENTIFIER_2"/>
+        <set name="pz:limitmap:materialtype" target="1986913" value="ccl:materialtype"/>
+        <set name="pz:cclmap:LCCN" target="1986913" value="u=LCCN"/>
+        <set name="pz:cclmap:NAME-AUTHORITY" target="1986913" value="u=NAME_AUTHORITY"/>
+        <set name="pz:limitmap:location" target="1986913" value="ccl:location"/>
+        <set name="pz:cclmap:MaterialType" target="1986913" value="u=q_MaterialType"/>
+        <set name="pz:pqf_prefix" target="1986913" value="@and @attr 1=q_SortBy RELEVANCY"/>
+        <set name="pz:cclmap:TargetAudiences" target="1986913" value="u=q_TargetAudiences"/>
+        <set name="pz:limitmap:series" target="1986913" value="ccl:series"/>
+        <set name="pz:limitmap:title" target="1986913" value="ccl:title"/>
+        <set name="pz:facetmap:split:location" target="1986913" value="facet_06"/>
+        <set name="pz:cclmap:GPO-ITEM-NUMBER" target="1986913" value="u=GPO_ITEM_NUMBER"/>
+        <set name="pz:cclmap:URL" target="1986913" value="u=URL"/>
+        <set name="pz:facetmap:split:medium" target="1986913" value="facet_02"/>
+        <set name="pz:cclmap:audiencelevel" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:ALL-HEADING" target="1986913" value="u=ALL_HEADING"/>
+        <set name="pz:facetmap:split:materialtype" target="1986913" value="facet_07"/>
+        <set name="pz:cclmap:term" target="1986913" value="u=ALL_HEADING"/>
+        <set name="pz:limitmap:readinglevel" target="1986913" value="ccl:readinglevel"/>
+        <set name="pz:cclmap:SUBJECT-BEGIN-WITH" target="1986913" value="u=SUBJECT_BEGIN_WITH"/>
+        <set name="pz:cclmap:SERIES-TITLE" target="1986913" value="u=SERIES_TITLE"/>
+        <set name="pz:cclmap:IMaterialType" target="1986913" value="u=q_IMaterialType"/>
+        <set name="pz:cclmap:READING-LEVEL" target="1986913" value="u=READING_LEVEL"/>
+        <set name="pz:cclmap:subject" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:facetmap:split:date" target="1986913" value="facet_04"/>
+        <set name="pz:limitmap:imtype" target="1986913" value="ccl: IMaterialType"/>
+        <set name="pz:limitmap:lang" target="1986913" value="ccl: Languages"/>
+        <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1986913" value="u=DEWEY_CALL_NUMBER"/>
+        <set name="pz:cclmap:ScopingLevel" target="1986913" value="u=q_ScopingLevel"/>
+        <set name="pz:cclmap:ALL-HEADINGS" target="1986913" value="u=ALL_HEADING"/>
+        <set name="pz:facetmap:split:audiencelevel" target="1986913" value="facet_18"/>
+        <set name="pz:cclmap:LC-CALL-NUMBER" target="1986913" value="u=LC_CALL_NUMBER"/>
+        <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1986913" value="u=MATERIAL_DESCRIPTION"/>
+        <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1986913" value="u=ITEM_CALL_NUMBER"/>
+        <set name="pz:cclmap:Formats" target="1986913" value="u=q_Formats"/>
+        <set name="pz:cclmap:AUTHOR" target="1986913" value="u=AUTHOR"/>
+        <set name="pz:cclmap:Forms" target="1986913" value="u=q_Forms"/>
+        <set name="pz:cclmap:GENRE-SUBJECT" target="1986913" value="u=GENRE_SUBJECT"/>
+        <set name="pz:url" target="1986913" value="localhost:9999/1986913,sessionId=4538684&amp;serverName=menelaus&amp;hostName=http%3A%2F%2Fdev-wrls-verso.auto-graphics.com&amp;customerId=wrls"/>
+        <set name="pz:cclmap:Languages" target="1986913" value="u=q_Languages"/>
+        <set name="pz:limitmap:toyear" target="1986913" value="ccl: ToPubYear"/>
+        <set name="pz:cclmap:EXACT-MATCH" target="1986913" value="u=EXACT_MATCH"/>
+        <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1986913" value="u=STANDARD_INDENTIFIER"/>
+        <set name="pz:facetmap:split:readinglevel" target="1986913" value="facet_19"/>
+        <set name="pz:cclmap:OCLC-NUMBER" target="1986913" value="u=OCLC_NUMBER"/>
+        <set name="pz:cclmap:author" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:BA-GENRE-TERM" target="1986913" value="u=BA_GENRE_TERM"/>
+        <set name="pz:cclmap:MAP-NUMBER" target="1986913" value="u=MAP_NUMBER"/>
+        <set name="pz:cclmap:READING-PROGRAM-NAME-FOR-TITLE-INDEXES" target="1986913" value="u=READING_PROGRAM_NAME_FOR_TITLE_INDEXES"/>
+        <set name="pz:limitmap:targetaudiences" target="1986913" value="ccl: TargetAudiences"/>
+        <set name="pz:maxrecs" target="1986913" value="60"/>
+        <set name="pz:limitmap:formats" target="1986913" value="ccl: Formats"/>
+        <set name="pz:limitmap:author" target="1986913" value="ccl:author"/>
+        <set name="pz:name" target="1986913" value="Winding Rivers Library System"/>
+        <set name="pz:present_chunk" target="1986913" value="60"/>
+        <set name="pz:limitmap:audiencelevel" target="1986913" value="ccl:audiencelevel"/>
+        <set name="pz:cclmap:location" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:limitmap:publisher" target="1986913" value="ccl:publisher"/>
+        <set name="pz:cclmap:GPO-MONTHLY-CAT-NUMBER" target="1986913" value="u=GPO_MONTHLY_CAT_NUMBER"/>
+        <set name="pz:cclmap:POINT-LEVEL" target="1986913" value="u=POINT_LEVEL"/>
+        <set name="pz:cclmap:ToPubYear" target="1986913" value="u=q_ToPubYear"/>
+        <set name="pz:cclmap:GMD" target="1986913" value="u=GMD"/>
+        <set name="use_url_proxy" target="1986913" value="0"/>
+        <set name="pz:limitmap:fromyear" target="1986913" value="ccl: FromPubYear"/>
+        <set name="place_holds" target="1986913" value="no"/>
+        <set name="pz:cclmap:LEXILE" target="1986913" value="u=LEXILE"/>
+        <set name="pz:cclmap:LEXILE-LEVEL" target="1986913" value="u=LEXILE_LEVEL"/>
+        <set name="pz:limitmap:forms" target="1986913" value="ccl: Forms"/>
+        <set name="pz:cclmap:ISBN" target="1986913" value="u=ISBN"/>
+        <set name="pz:cclmap:TITLE-AUTHORITY" target="1986913" value="u=TITLE_AUTHORITY"/>
+        <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1986913" value="u=GPO_REPORT_NUMBER"/>
+        <set name="pz:cclmap:AGCN" target="1986913" value="u=AGCN"/>
+        <set name="pz:cclmap:TITLE-BEGIN-WITH" target="1986913" value="u=TITLE_BEGIN_WITH"/>
+        <set name="pz:cclmap:NOTES" target="1986913" value="u=NOTES"/>
+        <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1986913" value="u=ORIGINAL_CONTROL_NUMBER"/>
+        <set name="pz:cclmap:TITLE-AND-AUTHOR-MATCH" target="1986913" value="u=TITLE_AND_AUTHOR_MATCH"/>
+        <set name="pz:cclmap:VOLUME-NUMBER" target="1986913" value="u=VOLUME_NUMBER"/>
+        <set name="pz:facetmap:split:author" target="1986913" value="facet_01"/>
+        <set name="pz:limitmap:cdate" target="1986913" value="ccl: CreationDate"/>
+        <set name="pz:cclmap:ISSN" target="1986913" value="u=ISSN"/>
+        <set name="pz:cclmap:JOURNAL-TITLE" target="1986913" value="u=JOURNAL_TITLE"/>
+        <set name="pz:cclmap:UseSavedQueries" target="1986913" value="u=q_UseSavedQueries"/>
+        <set name="pz:limitmap:useSavedQueries" target="1986913" value="ccl: UseSavedQueries"/>
+        <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1986913" value="u=GPO_SUBDOC_NUMBER"/>
+        <set name="pz:cclmap:POINT-LEVEL-RC" target="1986913" value="u=POINT_LEVEL_RC"/>
+        <set name="pz:cclmap:publisher" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:cclmap:title" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:limitmap:subject:person" target="1986913" value="local: "/>
+        <set name="pz:limitmap:subject" target="1986913" value="ccl:subject"/>
+        <set name="pz:cclmap:series" target="1986913" value="u=q_SelectedFacets"/>
+        <set name="pz:limitmap:mtype" target="1986913" value="ccl: MaterialType"/>
+        <set name="pz:xslt" target="1986913" value="ag-xml-stylesheet"/>
+        <set name="pz:cclmap:READING-LEVEL-RC" target="1986913" value="u=READING_LEVEL_RC"/>
+        <set name="pz:limitmap:scoping" target="1986913" value="ccl: ScopingLevel"/>
+      </settings>
+    </service>
