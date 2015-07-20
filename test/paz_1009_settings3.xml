@@ -1,0 +1,791 @@
+<settings target="*">
+    <set name="pz:url" target="1986913" value="localhost:9998/1986913,sessionId=4538815&amp;serverName=menelaus&amp;hostName=http%3A%2F%2Fdev-wrls-verso.auto-graphics.com&amp;customerId=wrls&amp;defaultPageSize=3&amp;gwdebug=1"/>
+    <set name="pz:xslt" target="1986913" value="paz_1009.xsl"/>
+    <set name="pz:cclmap:term" target="1986913" value="1=ALL_HEADING"/>
+    <set name="pz:termlist_term_count" target="1986913" value="50"/>
+    <set name="pz:maxrecs" target="1986913" value="5"/>
+
+    <set name="pz:facetmap:split:series" target="1986913" value="facet_17"/>
+    <set name="pz:limitmap:series" target="1986913" value="ccl:series"/>
+    <set name="pz:cclmap:series" target="1986913" value="u=q_SelectedFacets"/>
+    
+    <set name="pz:facetmap:split:publisher" target="1986913" value="facet_15"/>
+    <set name="pz:limitmap:publisher" target="1986913" value="ccl:publisher"/>
+    <set name="pz:cclmap:publisher" target="1986913" value="u=q_SelectedFacets"/>
+    
+    <set name="pz:url" target="1991716" value="localhost:9998/1991716,sessionId=4538815&amp;serverName=menelaus&amp;hostName=http%3A%2F%2Fdev-wrls-verso.auto-graphics.com&amp;customerId=wrls&amp;defaultPageSize=3&amp;gwdebug=1"/>
+    <set name="pz:xslt" target="1991716" value="paz_1009.xsl"/>
+    <set name="pz:cclmap:term" target="1991716" value="1=ALL_HEADING"/>
+    <set name="pz:termlist_term_count" target="1991716" value="50"/>
+    <set name="pz:maxrecs" target="1991716" value="5"/>
+
+    <set name="pz:facetmap:split:series" target="1991716" value="facet_17"/>
+    <set name="pz:limitmap:series" target="1991716" value="ccl:series"/>
+    <set name="pz:cclmap:series" target="1991716" value="u=q_SelectedFacets"/>
+    
+    <set name="pz:facetmap:split:publisher" target="1991716" value="facet_15"/>
+    <set name="pz:limitmap:publisher" target="1991716" value="ccl:publisher"/>
+    <set name="pz:cclmap:publisher" target="1991716" value="u=q_SelectedFacets"/>
+    
+    
+    <set name="pz:extendrecs" target="1991706" value="20"/>
+    <set name="type7:pz:sortmap:author" target="1991706" value="author"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991706" value="u=journaltitle"/>
+    <set name="use_url_proxy" target="1991706" value="0"/>
+    <set name="place_holds" target="1991706" value="no"/>
+    <set name="pz:cclmap:ISBN" target="1991706" value="u=isbn"/>
+    <set name="contentConnector" target="1991706" value="ebsco_content"/>
+    <set name="use_thumbnails" target="1991706" value="1"/>
+    <set name="type7:pz:sortmap:title" target="1991706" value="title"/>
+    <set name="pz:requestsyntax" target="1991706" value="xml"/>
+    <set name="pz:cclmap:fulltext" target="1991706" value="u=fulltext"/>
+    <set name="content_levels" target="1991706" value="general_academic"/>
+    <set name="pz:cclmap:AUTHOR" target="1991706" value="u=author s=al,pw"/>
+    <set name="pz:cclmap:peerreviewed" target="1991706" value="u=peerreviewed"/>
+    <set name="pz:limitmap:term" target="1991706" value="ccl:term"/>
+    <set name="type7:pz:sortmap:date" target="1991706" value="date"/>
+    <set name="pz:limitmap:medium" target="1991706" value="local:medium"/>
+    <set name="pz:url" target="1991706" value="localhost:9003/Ebsco_EIT?nocproxy=1&amp;subdatabase=f5h%20%28MasterFile%20Premier%29"/>
+    <set name="pz:limitmap:fulltext" target="1991706" value="ccl:fulltext"/>
+    <set name="pz:cclmap:SUBJECT" target="1991706" value="u=subject s=al,pw"/>
+    <set name="pz:cclmap:DATE" target="1991706" value="u=year r=r"/>
+    <set name="pz:limitmap:date" target="1991706" value="ccl: DATE,local:date"/>
+    <set name="full_text_target" target="1991706" value="NO"/>
+    <set name="pz:limitmap:location" target="1991706" value="ccl: Location,local:location"/>
+    <set name="pz:cclmap:ISSN" target="1991706" value="u=issn"/>
+    <set name="pz:authentication" target="1991706" value="allcon/id3636"/>
+    <set name="pz:limitmap:issn" target="1991706" value="ccl:issn"/>
+    <set name="contentAuthentication" target="1991706" value="/"/>
+    <set name="pz:limitmap:language" target="1991706" value="ccl: Language,local:language"/>
+    <set name="pz:limitmap:title" target="1991706" value="ccl: TITLE,local:title"/>
+    <set name="medium" target="1991706" value="article (electronic)"/>
+    <set name="pz:limitmap:isbn" target="1991706" value="ccl:isbn"/>
+    <set name="category" target="1991706" value="Reference Sites"/>
+    <set name="pz:cclmap:TITLE" target="1991706" value="u=title s=al,pw"/>
+    <set name="pz:maxrecs" target="1991706" value="25"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1991706" value="u=keyword t=l,r s=al"/>
+    <set name="pz:limitmap:author" target="1991706" value="ccl: AUTHOR,local:author"/>
+    <set name="pz:limitmap:peerreviewed" target="1991706" value="ccl:peerreviewed"/>
+    <set name="pz:name" target="1991706" value="EBSCO MasterFILE Premier"/>
+    <set name="pz:limitmap:subject" target="1991706" value="ccl: SUBJECT,local:subject"/>
+    <set name="comment" target="1991706" value="The database is the three character code."/>
+    <set name="pz:xslt" target="1991706" value="cf.xsl,ag-pz2-stylesheet"/>
+    <set name="pz:cclmap:term" target="1991706" value="u=keyword t=l,r s=al"/>
+    <set name="pz:limitmap:journal-title" target="1991706" value="ccl:jt"/>
+    <set name="pz:extendrecs" target="1991705" value="20"/>
+    <set name="type7:pz:sortmap:author" target="1991705" value="author"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991705" value="u=journaltitle"/>
+    <set name="use_url_proxy" target="1991705" value="0"/>
+    <set name="place_holds" target="1991705" value="no"/>
+    <set name="pz:cclmap:ISBN" target="1991705" value="u=isbn"/>
+    <set name="contentConnector" target="1991705" value="ebsco_content"/>
+    <set name="use_thumbnails" target="1991705" value="1"/>
+    <set name="type7:pz:sortmap:title" target="1991705" value="title"/>
+    <set name="pz:requestsyntax" target="1991705" value="xml"/>
+    <set name="pz:cclmap:fulltext" target="1991705" value="u=fulltext"/>
+    <set name="content_levels" target="1991705" value="general_academic"/>
+    <set name="pz:cclmap:AUTHOR" target="1991705" value="u=author s=al,pw"/>
+    <set name="pz:cclmap:peerreviewed" target="1991705" value="u=peerreviewed"/>
+    <set name="pz:limitmap:term" target="1991705" value="ccl:term"/>
+    <set name="type7:pz:sortmap:date" target="1991705" value="date"/>
+    <set name="pz:limitmap:medium" target="1991705" value="local:medium"/>
+    <set name="pz:url" target="1991705" value="localhost:9003/Ebsco_EIT?nocproxy=1&amp;subdatabase=aph%20%28Academic%20Search%20Premier%29&amp;password=ebs9720&amp;user=beta.autogr.eitws"/>
+    <set name="pz:limitmap:fulltext" target="1991705" value="ccl:fulltext"/>
+    <set name="pz:cclmap:SUBJECT" target="1991705" value="u=subject s=al,pw"/>
+    <set name="pz:cclmap:DATE" target="1991705" value="u=year r=r"/>
+    <set name="pz:limitmap:date" target="1991705" value="ccl: DATE,local:date"/>
+    <set name="full_text_target" target="1991705" value="NO"/>
+    <set name="pz:limitmap:location" target="1991705" value="ccl: Location,local:location"/>
+    <set name="pz:cclmap:ISSN" target="1991705" value="u=issn"/>
+    <set name="pz:authentication" target="1991705" value="allcon/id3636"/>
+    <set name="pz:limitmap:issn" target="1991705" value="ccl:issn"/>
+    <set name="contentAuthentication" target="1991705" value="beta/part"/>
+    <set name="pz:limitmap:language" target="1991705" value="ccl: Language,local:language"/>
+    <set name="pz:limitmap:title" target="1991705" value="ccl: TITLE,local:title"/>
+    <set name="medium" target="1991705" value="article (electronic)"/>
+    <set name="pz:limitmap:isbn" target="1991705" value="ccl:isbn"/>
+    <set name="category" target="1991705" value="Reference Sites"/>
+    <set name="pz:cclmap:TITLE" target="1991705" value="u=title s=al,pw"/>
+    <set name="pz:maxrecs" target="1991705" value="25"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1991705" value="u=keyword t=l,r s=al"/>
+    <set name="pz:limitmap:author" target="1991705" value="ccl: AUTHOR,local:author"/>
+    <set name="pz:limitmap:peerreviewed" target="1991705" value="ccl:peerreviewed"/>
+    <set name="pz:name" target="1991705" value="EBSCO Academic Search Premier"/>
+    <set name="pz:limitmap:subject" target="1991705" value="ccl: SUBJECT,local:subject"/>
+    <set name="comment" target="1991705" value="The database is the three character code."/>
+    <set name="pz:xslt" target="1991705" value="cf.xsl,ag-pz2-stylesheet"/>
+    <set name="pz:cclmap:term" target="1991705" value="u=keyword t=l,r s=al"/>
+    <set name="pz:limitmap:journal-title" target="1991705" value="ccl:jt"/>
+    <set name="pz:extendrecs" target="1986913" value="60"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1986913" value="u=1033 s=al"/>
+    <set name="pz:cclmap:PUBLISHER-NAME" target="1986913" value="u=PUBLISHER_NAME"/>
+    <set name="pz:cclmap:PHRASE" target="1986913" value="s=1"/>
+    <set name="pz:cclmap:FromPubYear" target="1986913" value="u=q_FromPubYear"/>
+    <set name="pz:cclmap:PUBLISHER-NUMBER" target="1986913" value="u=PUBLISHER_NUMBER"/>
+    <set name="pz:limitmap:medium" target="1986913" value="ccl:medium"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME" target="1986913" value="u=READING_PROGRAM_NAME"/>
+    <set name="pz:cclmap:NLC-NUMBER" target="1986913" value="u=NLC_NUMBER"/>
+    <set name="pz:cclmap:readinglevel" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:SUBJECT" target="1986913" value="u=SUBJECT"/>
+    <set name="pz:cclmap:DATE" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:limitmap:date" target="1986913" value="ccl:date"/>
+    <set name="full_text_target" target="1986913" value="NO"/>
+    <set name="pz:cclmap:TITLE-EXACT" target="1986913" value="u=TITLE_EXACT"/>
+    <set name="pz:cclmap:SUBJECT-AUTHORITY" target="1986913" value="u=SUBJECT_AUTHORITY"/>
+    <set name="pz:limitmap:language" target="1986913" value="ccl:language"/>
+    <set name="pz:cclmap:language" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:medium" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:materialtype" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:CALL-NUMBER" target="1986913" value="u=CALL_NUMBER"/>
+    <set name="pz:cclmap:BARCODE" target="1986913" value="u=BARCODE"/>
+    <set name="category" target="1986913" value="Winding Rivers Library System"/>
+    <set name="pz:cclmap:TITLE" target="1986913" value="u=TITLE"/>
+    <set name="pz:cclmap:FULLTEXT-DOCUMENT" target="1986913" value="u=FULLTEXT_DOCUMENT"/>
+    <set name="pz:cclmap:CODEN" target="1986913" value="u=CODEN"/>
+    <set name="pz:facetmap:split:title" target="1986913" value="facet_16"/>
+    <set name="pz:cclmap:NATIONAL-AGENCY-NUMBER" target="1986913" value="u=NATIONAL_AGENCY_NUMBER"/>
+    <set name="pz:cclmap:SUBJECT-EXACT" target="1986913" value="u=SUBJECT_EXACT"/>
+    <set name="pz:facetmap:split:language" target="1986913" value="facet_03"/>
+    <set name="pz:cclmap:GPO-SHIP-LIST-NUMBER" target="1986913" value="u=GPO_SHIP_LIST_NUMBER"/>
+    <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1986913" value="u=GPO_ORDER_NUMBER"/>
+    <set name="pz:cclmap:CreationDate" target="1986913" value="u=q_CreationDate"/>
+    <set name="pz:facetmap:split:subject" target="1986913" value="facet_05"/>
+    <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1986913" value="u=LOCAL_CALL_NUMBER"/>
+    <set name="use_thumbnails" target="1986913" value="1"/>
+    <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1986913" value="u=LOCAL_SYSTEM_NUMBER"/>
+    <set name="pz:requestsyntax" target="1986913" value="xml"/>
+    <set name="pz:cclmap:INTEREST-LEVEL" target="1986913" value="u=INTEREST_LEVEL"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER-3" target="1986913" value="u=STANDARD_INDENTIFIER_3"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER-2" target="1986913" value="u=STANDARD_INDENTIFIER_2"/>
+    <set name="pz:limitmap:materialtype" target="1986913" value="ccl:materialtype"/>
+    <set name="pz:cclmap:LCCN" target="1986913" value="u=LCCN"/>
+    <set name="pz:cclmap:NAME-AUTHORITY" target="1986913" value="u=NAME_AUTHORITY"/>
+    <set name="pz:limitmap:location" target="1986913" value="ccl:location"/>
+    <set name="pz:cclmap:MaterialType" target="1986913" value="u=q_MaterialType"/>
+    <set name="pz:pqf_prefix" target="1986913" value="@and @attr 1=q_SortBy RELEVANCY"/>
+    <set name="pz:cclmap:TargetAudiences" target="1986913" value="u=q_TargetAudiences"/>
+    <set name="pz:limitmap:title" target="1986913" value="ccl:title"/>
+    <set name="pz:facetmap:split:location" target="1986913" value="facet_06"/>
+    <set name="pz:cclmap:GPO-ITEM-NUMBER" target="1986913" value="u=GPO_ITEM_NUMBER"/>
+    <set name="pz:cclmap:URL" target="1986913" value="u=URL"/>
+    <set name="pz:facetmap:split:medium" target="1986913" value="facet_02"/>
+    <set name="pz:cclmap:audiencelevel" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1986913" value="u=ALL_HEADING"/>
+    <set name="pz:facetmap:split:materialtype" target="1986913" value="facet_07"/>
+    <set name="pz:limitmap:readinglevel" target="1986913" value="ccl:readinglevel"/>
+    <set name="pz:cclmap:SUBJECT-BEGIN-WITH" target="1986913" value="u=SUBJECT_BEGIN_WITH"/>
+    <set name="pz:cclmap:SERIES-TITLE" target="1986913" value="u=SERIES_TITLE"/>
+    <set name="pz:cclmap:IMaterialType" target="1986913" value="u=q_IMaterialType"/>
+    <set name="pz:cclmap:READING-LEVEL" target="1986913" value="u=READING_LEVEL"/>
+    <set name="pz:cclmap:subject" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:facetmap:split:date" target="1986913" value="facet_04"/>
+    <set name="pz:limitmap:imtype" target="1986913" value="ccl: IMaterialType"/>
+    <set name="pz:limitmap:lang" target="1986913" value="ccl: Languages"/>
+    <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1986913" value="u=DEWEY_CALL_NUMBER"/>
+    <set name="pz:cclmap:ScopingLevel" target="1986913" value="u=q_ScopingLevel"/>
+    <set name="pz:facetmap:split:audiencelevel" target="1986913" value="facet_18"/>
+    <set name="pz:cclmap:LC-CALL-NUMBER" target="1986913" value="u=LC_CALL_NUMBER"/>
+    <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1986913" value="u=MATERIAL_DESCRIPTION"/>
+    <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1986913" value="u=ITEM_CALL_NUMBER"/>
+    <set name="pz:cclmap:Formats" target="1986913" value="u=q_Formats"/>
+    <set name="pz:cclmap:AUTHOR" target="1986913" value="u=AUTHOR"/>
+    <set name="pz:cclmap:Forms" target="1986913" value="u=q_Forms"/>
+    <set name="pz:cclmap:GENRE-SUBJECT" target="1986913" value="u=GENRE_SUBJECT"/>
+    <set name="pz:cclmap:Languages" target="1986913" value="u=q_Languages"/>
+    <set name="pz:limitmap:toyear" target="1986913" value="ccl: ToPubYear"/>
+    <set name="pz:cclmap:EXACT-MATCH" target="1986913" value="u=EXACT_MATCH"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1986913" value="u=STANDARD_INDENTIFIER"/>
+    <set name="pz:facetmap:split:readinglevel" target="1986913" value="facet_19"/>
+    <set name="pz:cclmap:OCLC-NUMBER" target="1986913" value="u=OCLC_NUMBER"/>
+    <set name="pz:cclmap:author" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:BA-GENRE-TERM" target="1986913" value="u=BA_GENRE_TERM"/>
+    <set name="pz:cclmap:MAP-NUMBER" target="1986913" value="u=MAP_NUMBER"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME-FOR-TITLE-INDEXES" target="1986913" value="u=READING_PROGRAM_NAME_FOR_TITLE_INDEXES"/>
+    <set name="pz:limitmap:targetaudiences" target="1986913" value="ccl: TargetAudiences"/>
+    <set name="pz:maxrecs" target="1986913" value="60"/>
+    <set name="pz:limitmap:formats" target="1986913" value="ccl: Formats"/>
+    <set name="pz:limitmap:author" target="1986913" value="ccl:author"/>
+    <set name="pz:name" target="1986913" value="Winding Rivers Library System"/>
+    <set name="pz:present_chunk" target="1986913" value="60"/>
+    <set name="pz:limitmap:audiencelevel" target="1986913" value="ccl:audiencelevel"/>
+    <set name="pz:cclmap:location" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:GPO-MONTHLY-CAT-NUMBER" target="1986913" value="u=GPO_MONTHLY_CAT_NUMBER"/>
+    <set name="pz:cclmap:POINT-LEVEL" target="1986913" value="u=POINT_LEVEL"/>
+    <set name="pz:cclmap:ToPubYear" target="1986913" value="u=q_ToPubYear"/>
+    <set name="pz:cclmap:GMD" target="1986913" value="u=GMD"/>
+    <set name="use_url_proxy" target="1986913" value="0"/>
+    <set name="pz:limitmap:fromyear" target="1986913" value="ccl: FromPubYear"/>
+    <set name="place_holds" target="1986913" value="no"/>
+    <set name="pz:cclmap:LEXILE" target="1986913" value="u=LEXILE"/>
+    <set name="pz:cclmap:LEXILE-LEVEL" target="1986913" value="u=LEXILE_LEVEL"/>
+    <set name="pz:limitmap:forms" target="1986913" value="ccl: Forms"/>
+    <set name="pz:cclmap:ISBN" target="1986913" value="u=ISBN"/>
+    <set name="pz:cclmap:TITLE-AUTHORITY" target="1986913" value="u=TITLE_AUTHORITY"/>
+    <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1986913" value="u=GPO_REPORT_NUMBER"/>
+    <set name="pz:cclmap:AGCN" target="1986913" value="u=AGCN"/>
+    <set name="pz:cclmap:TITLE-BEGIN-WITH" target="1986913" value="u=TITLE_BEGIN_WITH"/>
+    <set name="pz:cclmap:NOTES" target="1986913" value="u=NOTES"/>
+    <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1986913" value="u=ORIGINAL_CONTROL_NUMBER"/>
+    <set name="pz:cclmap:TITLE-AND-AUTHOR-MATCH" target="1986913" value="u=TITLE_AND_AUTHOR_MATCH"/>
+    <set name="pz:cclmap:VOLUME-NUMBER" target="1986913" value="u=VOLUME_NUMBER"/>
+    <set name="pz:facetmap:split:author" target="1986913" value="facet_01"/>
+    <set name="pz:limitmap:cdate" target="1986913" value="ccl: CreationDate"/>
+    <set name="pz:cclmap:ISSN" target="1986913" value="u=ISSN"/>
+    <set name="pz:cclmap:JOURNAL-TITLE" target="1986913" value="u=JOURNAL_TITLE"/>
+    <set name="pz:cclmap:UseSavedQueries" target="1986913" value="u=q_UseSavedQueries"/>
+    <set name="pz:limitmap:useSavedQueries" target="1986913" value="ccl: UseSavedQueries"/>
+    <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1986913" value="u=GPO_SUBDOC_NUMBER"/>
+    <set name="pz:cclmap:POINT-LEVEL-RC" target="1986913" value="u=POINT_LEVEL_RC"/>
+    <set name="pz:cclmap:title" target="1986913" value="u=q_SelectedFacets"/>
+    <set name="pz:limitmap:subject:person" target="1986913" value="local: "/>
+    <set name="pz:limitmap:subject" target="1986913" value="ccl:subject"/>
+    <set name="pz:limitmap:mtype" target="1986913" value="ccl: MaterialType"/>
+    <set name="pz:xslt" target="1986913" value="paz_1009.xsl"/>
+    <set name="pz:cclmap:READING-LEVEL-RC" target="1986913" value="u=READING_LEVEL_RC"/>
+    <set name="pz:limitmap:scoping" target="1986913" value="ccl: ScopingLevel"/>
+    <set name="pz:extendrecs" target="1991707" value="20"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991707" value="u=dc.relation t=l,r,b,x"/>
+    <set name="use_url_proxy" target="1991707" value="0"/>
+    <set name="pz:piggyback" target="1991707" value="1"/>
+    <set name="place_holds" target="1991707" value="no"/>
+    <set name="pz:sru" target="1991707" value="get"/>
+    <set name="pz:cclmap:ISBN" target="1991707" value="u=7"/>
+    <set name="contentConnector" target="1991707" value="gale_content"/>
+    <set name="use_thumbnails" target="1991707" value="1"/>
+    <set name="pz:requestsyntax" target="1991707" value="XML"/>
+    <set name="pz:cclmap:AUTHOR" target="1991707" value="u=dc.creator t=l,r,b,x"/>
+    <set name="pz:limitmap:medium" target="1991707" value="local:medium"/>
+    <set name="pz:url" target="1991707" value="sru.galegroup.com/ITOF"/>
+    <set name="pz:cclmap:SUBJECT" target="1991707" value="u=dc.subject t=l,r,b,x"/>
+    <set name="pz:cclmap:DATE" target="1991707" value="u=dc.date r=o"/>
+    <set name="pz:queryencoding" target="1991707" value="UTF-8"/>
+    <set name="pz:limitmap:date" target="1991707" value="ccl: DATE,local:date"/>
+    <set name="full_text_target" target="1991707" value="NO"/>
+    <set name="pz:limitmap:location" target="1991707" value="ccl: Location,local:location"/>
+    <set name="pz:cclmap:ISSN" target="1991707" value="u=bath.issn"/>
+    <set name="pz:authentication" target="1991707" value="/"/>
+    <set name="contentAuthentication" target="1991707" value="/"/>
+    <set name="pz:limitmap:language" target="1991707" value="ccl: Language,local:language"/>
+    <set name="pz:limitmap:title" target="1991707" value="ccl: TITLE,local:title"/>
+    <set name="category" target="1991707" value="Reference Sites"/>
+    <set name="pz:cclmap:TITLE" target="1991707" value="u=dc.title t=l,r,b,x"/>
+    <set name="pz:maxrecs" target="1991707" value="25"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1991707" value="t=l,r,b,x"/>
+    <set name="pz:limitmap:author" target="1991707" value="ccl: AUTHOR,local:author"/>
+    <set name="pz:name" target="1991707" value="InfoTrac OneFile"/>
+    <set name="pz:elements" target="1991707" value="dc"/>
+    <set name="pz:limitmap:subject" target="1991707" value="ccl: SUBJECT,local:subject"/>
+    <set name="pz:xslt" target="1991707" value="1991707-stylesheet,ag-pz2-stylesheet"/>
+    <set name="pz:cclmap:term" target="1991707" value="t=l,r,b,x"/>
+    <set name="pz:cclmap:READING-LEVEL" target="1991702" value="1=5009"/>
+    <set name="pz:extendrecs" target="1991702" value="60"/>
+    <set name="pz:limitmap:imtype" target="1991702" value="ccl: IMaterialType"/>
+    <set name="pz:limitmap:lang" target="1991702" value="ccl: Languages"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991702" value="u=1033 s=al"/>
+    <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1991702" value="1=13"/>
+    <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1991702" value="1=5007"/>
+    <set name="pz:cclmap:LC-CALL-NUMBER" target="1991702" value="1=16"/>
+    <set name="pz:cclmap:PUBLISHER-NAME" target="1991702" value="1=1018"/>
+    <set name="pz:cclmap:PHRASE" target="1991702" value="s=1"/>
+    <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1991702" value="1=53"/>
+    <set name="pz:cclmap:FromPubYear" target="1991702" value="1=31 2=4 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:PUBLISHER-NUMBER" target="1991702" value="1=51"/>
+    <set name="pz:cclmap:Formats" target="1991702" value="1=1001"/>
+    <set name="pz:cclmap:AUTHOR" target="1991702" value="1=1003"/>
+    <set name="pz:timeout" target="1991702" value="15"/>
+    <set name="pz:limitmap:medium" target="1991702" value="local:medium"/>
+    <set name="pz:url" target="1991702" value="74.217.12.23:7990/voyager"/>
+    <set name="pz:cclmap:Languages" target="1991702" value="1=54"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME" target="1991702" value="1=5008"/>
+    <set name="pz:cclmap:SUBJECT" target="1991702" value="1=21"/>
+    <set name="pz:limitmap:toyear" target="1991702" value="ccl: ToPubYear"/>
+    <set name="pz:cclmap:DATE" target="1991702" value="u=30 r=r"/>
+    <set name="pz:limitmap:date" target="1991702" value="local: "/>
+    <set name="full_text_target" target="1991702" value="NO"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1991702" value="1=1007"/>
+    <set name="pz:cclmap:OCLC-NUMBER" target="1991702" value="1=1211"/>
+    <set name="pz:limitmap:language" target="1991702" value="local: "/>
+    <set name="pz:nativesyntax" target="1991702" value="txml;MARC-8"/>
+    <set name="pz:limitmap:targetaudiences" target="1991702" value="ccl: TargetAudiences"/>
+    <set name="pz:cclmap:BARCODE" target="1991702" value="1=5011"/>
+    <set name="category" target="1991702" value="Virtual Libraries"/>
+    <set name="pz:cclmap:TITLE" target="1991702" value="1=4"/>
+    <set name="pz:maxrecs" target="1991702" value="60"/>
+    <set name="pz:limitmap:formats" target="1991702" value="ccl: Formats"/>
+    <set name="pz:limitmap:author" target="1991702" value="local: "/>
+    <set name="pz:name" target="1991702" value="Western Technical College"/>
+    <set name="pz:elements" target="1991702" value="F"/>
+    <set name="pz:cclmap:CODEN" target="1991702" value="1=60"/>
+    <set name="pz:present_chunk" target="1991702" value="60"/>
+    <set name="pz:limitmap:audiencelevel" target="1991702" value="local: "/>
+    <set name="pz:cclmap:POINT-LEVEL" target="1991702" value="1=5010"/>
+    <set name="pz:cclmap:ToPubYear" target="1991702" value="1=31 2=2 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:GMD" target="1991702" value="1=5007"/>
+    <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1991702" value="1=1028"/>
+    <set name="use_url_proxy" target="1991702" value="0"/>
+    <set name="pz:piggyback" target="1991702" value="1"/>
+    <set name="pz:limitmap:fromyear" target="1991702" value="ccl: FromPubYear"/>
+    <set name="place_holds" target="1991702" value="no"/>
+    <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1991702" value="1=53"/>
+    <set name="pz:limitmap:forms" target="1991702" value="ccl: Forms"/>
+    <set name="pz:cclmap:ISBN" target="1991702" value="1=7"/>
+    <set name="use_thumbnails" target="1991702" value="1"/>
+    <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1991702" value="1=1027"/>
+    <set name="pz:requestsyntax" target="1991702" value="OPAC"/>
+    <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1991702" value="1=12"/>
+    <set name="pz:cclmap:AGCN" target="1991702" value="1=12"/>
+    <set name="pz:cclmap:NOTES" target="1991702" value="1=63"/>
+    <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1991702" value="1=12"/>
+    <set name="pz:cclmap:VOLUME-NUMBER" target="1991702" value="1=1066"/>
+    <set name="pz:limitmap:materialtype" target="1991702" value="local: "/>
+    <set name="pz:zproxy" target="1991702" value="192.168.99.106:2010"/>
+    <set name="pz:limitmap:cdate" target="1991702" value="ccl: CreationDate"/>
+    <set name="pz:cclmap:LCCN" target="1991702" value="1=9"/>
+    <set name="pz:queryencoding" target="1991702" value="UTF-8"/>
+    <set name="pz:limitmap:location" target="1991702" value="local: "/>
+    <set name="pz:cclmap:JOURNAL-TITLE" target="1991702" value="1=1069"/>
+    <set name="pz:cclmap:ISSN" target="1991702" value="1=8"/>
+    <set name="pz:limitmap:useSavedQueries" target="1991702" value="ccl: UseSavedQueries"/>
+    <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1991702" value="1=50"/>
+    <set name="pz:limitmap:title" target="1991702" value="local: "/>
+    <set name="pz:cclmap:URL" target="1991702" value="1=1032"/>
+    <set name="pz:limitmap:subject:person" target="1991702" value="local: "/>
+    <set name="pz:limitmap:subject" target="1991702" value="local: "/>
+    <set name="pz:limitmap:mtype" target="1991702" value="ccl: MaterialType"/>
+    <set name="pz:xslt" target="1991702" value="ag-tmarc-stylesheet"/>
+    <set name="pz:limitmap:scoping" target="1991702" value="ccl: ScopingLevel"/>
+    <set name="pz:limitmap:readinglevel" target="1991702" value="local: "/>
+    <set name="pz:cclmap:READING-LEVEL" target="1991701" value="1=5009"/>
+    <set name="pz:extendrecs" target="1991701" value="60"/>
+    <set name="pz:limitmap:imtype" target="1991701" value="ccl: IMaterialType"/>
+    <set name="pz:limitmap:lang" target="1991701" value="ccl: Languages"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991701" value="u=1033 s=al"/>
+    <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1991701" value="1=13"/>
+    <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1991701" value="1=5007"/>
+    <set name="pz:cclmap:LC-CALL-NUMBER" target="1991701" value="1=16"/>
+    <set name="pz:cclmap:PUBLISHER-NAME" target="1991701" value="1=1018"/>
+    <set name="pz:cclmap:PHRASE" target="1991701" value="s=1"/>
+    <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1991701" value="1=53"/>
+    <set name="pz:cclmap:FromPubYear" target="1991701" value="1=31 2=4 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:PUBLISHER-NUMBER" target="1991701" value="1=51"/>
+    <set name="pz:cclmap:Formats" target="1991701" value="1=1001"/>
+    <set name="pz:cclmap:AUTHOR" target="1991701" value="1=1003"/>
+    <set name="pz:timeout" target="1991701" value="15"/>
+    <set name="pz:limitmap:medium" target="1991701" value="local:medium"/>
+    <set name="pz:url" target="1991701" value="z3950.wisconsin.edu:7690/voyager"/>
+    <set name="pz:cclmap:Languages" target="1991701" value="1=54"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME" target="1991701" value="1=5008"/>
+    <set name="pz:cclmap:SUBJECT" target="1991701" value="1=21"/>
+    <set name="pz:limitmap:toyear" target="1991701" value="ccl: ToPubYear"/>
+    <set name="pz:cclmap:DATE" target="1991701" value="u=30 r=r"/>
+    <set name="pz:limitmap:date" target="1991701" value="local: "/>
+    <set name="full_text_target" target="1991701" value="NO"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1991701" value="1=1007"/>
+    <set name="pz:cclmap:OCLC-NUMBER" target="1991701" value="1=1211"/>
+    <set name="pz:limitmap:language" target="1991701" value="local: "/>
+    <set name="pz:nativesyntax" target="1991701" value="txml;MARC-8"/>
+    <set name="pz:limitmap:targetaudiences" target="1991701" value="ccl: TargetAudiences"/>
+    <set name="pz:cclmap:BARCODE" target="1991701" value="1=5011"/>
+    <set name="category" target="1991701" value="Virtual Libraries"/>
+    <set name="pz:cclmap:TITLE" target="1991701" value="1=4"/>
+    <set name="pz:maxrecs" target="1991701" value="60"/>
+    <set name="pz:limitmap:formats" target="1991701" value="ccl: Formats"/>
+    <set name="pz:limitmap:author" target="1991701" value="local: "/>
+    <set name="pz:name" target="1991701" value="University of Wisconsin - La Crosse"/>
+    <set name="pz:elements" target="1991701" value="F"/>
+    <set name="pz:cclmap:CODEN" target="1991701" value="1=60"/>
+    <set name="pz:present_chunk" target="1991701" value="60"/>
+    <set name="pz:limitmap:audiencelevel" target="1991701" value="local: "/>
+    <set name="pz:cclmap:POINT-LEVEL" target="1991701" value="1=5010"/>
+    <set name="pz:cclmap:ToPubYear" target="1991701" value="1=31 2=2 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:GMD" target="1991701" value="1=5007"/>
+    <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1991701" value="1=1028"/>
+    <set name="use_url_proxy" target="1991701" value="0"/>
+    <set name="pz:piggyback" target="1991701" value="1"/>
+    <set name="pz:limitmap:fromyear" target="1991701" value="ccl: FromPubYear"/>
+    <set name="place_holds" target="1991701" value="no"/>
+    <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1991701" value="1=53"/>
+    <set name="pz:limitmap:forms" target="1991701" value="ccl: Forms"/>
+    <set name="pz:cclmap:ISBN" target="1991701" value="1=7"/>
+    <set name="use_thumbnails" target="1991701" value="1"/>
+    <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1991701" value="1=1027"/>
+    <set name="pz:requestsyntax" target="1991701" value="OPAC"/>
+    <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1991701" value="1=12"/>
+    <set name="pz:cclmap:AGCN" target="1991701" value="1=12"/>
+    <set name="pz:cclmap:NOTES" target="1991701" value="1=63"/>
+    <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1991701" value="1=12"/>
+    <set name="pz:cclmap:VOLUME-NUMBER" target="1991701" value="1=1066"/>
+    <set name="pz:limitmap:materialtype" target="1991701" value="local: "/>
+    <set name="pz:zproxy" target="1991701" value="192.168.99.106:2010"/>
+    <set name="pz:limitmap:cdate" target="1991701" value="ccl: CreationDate"/>
+    <set name="pz:cclmap:LCCN" target="1991701" value="1=9"/>
+    <set name="pz:queryencoding" target="1991701" value="UTF-8"/>
+    <set name="pz:limitmap:location" target="1991701" value="local: "/>
+    <set name="pz:cclmap:JOURNAL-TITLE" target="1991701" value="1=1069"/>
+    <set name="pz:cclmap:ISSN" target="1991701" value="1=8"/>
+    <set name="pz:limitmap:useSavedQueries" target="1991701" value="ccl: UseSavedQueries"/>
+    <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1991701" value="1=50"/>
+    <set name="pz:limitmap:title" target="1991701" value="local: "/>
+    <set name="pz:cclmap:URL" target="1991701" value="1=1032"/>
+    <set name="pz:limitmap:subject:person" target="1991701" value="local: "/>
+    <set name="pz:limitmap:subject" target="1991701" value="local: "/>
+    <set name="pz:limitmap:mtype" target="1991701" value="ccl: MaterialType"/>
+    <set name="pz:xslt" target="1991701" value="ag-tmarc-stylesheet"/>
+    <set name="pz:limitmap:scoping" target="1991701" value="ccl: ScopingLevel"/>
+    <set name="pz:limitmap:readinglevel" target="1991701" value="local: "/>
+    <set name="pz:sru_version" target="1991704" value="1.1"/>
+    <set name="pz:extendrecs" target="1991704" value="20"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991704" value="u=dc.source t=l,r,b,x"/>
+    <set name="use_url_proxy" target="1991704" value="0"/>
+    <set name="pz:piggyback" target="1991704" value="1"/>
+    <set name="place_holds" target="1991704" value="no"/>
+    <set name="pz:sru" target="1991704" value="get"/>
+    <set name="pz:cclmap:ISBN" target="1991704" value="u=7"/>
+    <set name="use_thumbnails" target="1991704" value="1"/>
+    <set name="pz:requestsyntax" target="1991704" value="XML"/>
+    <set name="pz:cclmap:fulltext" target="1991704" value="u=limitFullText"/>
+    <set name="pz:cclmap:AUTHOR" target="1991704" value="u=dc.creator t=l,r,b,x"/>
+    <set name="pz:cclmap:peerreviewed" target="1991704" value="u=limitPeerReviewed"/>
+    <set name="pz:limitmap:medium" target="1991704" value="local:medium"/>
+    <set name="pz:url" target="1991704" value="thirdparty-fedsearch.proquest.com/search/sru/abitrade"/>
+    <set name="pz:cclmap:SUBJECT" target="1991704" value="u=dc.subject t=l,r,b,x"/>
+    <set name="pz:cclmap:DATE" target="1991704" value="u=dc.date r=o"/>
+    <set name="pz:limitmap:date" target="1991704" value="ccl: DATE,local:date"/>
+    <set name="pz:queryencoding" target="1991704" value="UTF-8"/>
+    <set name="full_text_target" target="1991704" value="NO"/>
+    <set name="pz:limitmap:location" target="1991704" value="ccl: Location,local:location"/>
+    <set name="pz:cclmap:ISSN" target="1991704" value="u=dc.identifier"/>
+    <set name="pz:authentication" target="1991704" value="/"/>
+    <set name="contentAuthentication" target="1991704" value="/"/>
+    <set name="pz:limitmap:language" target="1991704" value="ccl: Language,local:language"/>
+    <set name="pz:limitmap:title" target="1991704" value="ccl: TITLE,local:title"/>
+    <set name="pz:cclmap:src" target="1991704" value="u=dc.source t=l,r,b,x"/>
+    <set name="pz:authentication_mode" target="1991704" value="url"/>
+    <set name="category" target="1991704" value="Reference Sites"/>
+    <set name="pz:cclmap:TITLE" target="1991704" value="u=dc.title t=l,r,b,x"/>
+    <set name="pz:maxrecs" target="1991704" value="25"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1991704" value="t=l,r,b,x"/>
+    <set name="pz:limitmap:author" target="1991704" value="ccl: AUTHOR,local:author"/>
+    <set name="pz:name" target="1991704" value="ABI/Inform Trade &amp; Industry"/>
+    <set name="pz:limitmap:subject" target="1991704" value="ccl: SUBJECT,local:subject"/>
+    <set name="pz:xslt" target="1991704" value="1991704-stylesheet,ag-pz2-stylesheet"/>
+    <set name="pz:cclmap:term" target="1991704" value="t=l,r,b,x"/>
+    <set name="pz:cclmap:description" target="1991704" value="u=dc.description t=l,r,b,x"/>
+    <set name="pz:sru_version" target="1991703" value="1.1"/>
+    <set name="pz:extendrecs" target="1991703" value="20"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991703" value="u=dc.source t=l,r,b,x"/>
+    <set name="use_url_proxy" target="1991703" value="0"/>
+    <set name="pz:piggyback" target="1991703" value="1"/>
+    <set name="place_holds" target="1991703" value="no"/>
+    <set name="pz:sru" target="1991703" value="get"/>
+    <set name="pz:cclmap:ISBN" target="1991703" value="u=7"/>
+    <set name="use_thumbnails" target="1991703" value="1"/>
+    <set name="pz:requestsyntax" target="1991703" value="XML"/>
+    <set name="pz:cclmap:fulltext" target="1991703" value="u=limitFullText"/>
+    <set name="pz:cclmap:AUTHOR" target="1991703" value="u=dc.creator t=l,r,b,x"/>
+    <set name="pz:cclmap:peerreviewed" target="1991703" value="u=limitPeerReviewed"/>
+    <set name="pz:limitmap:medium" target="1991703" value="local:medium"/>
+    <set name="pz:url" target="1991703" value="thirdparty-fedsearch.proquest.com/search/sru/abiglobal"/>
+    <set name="pz:cclmap:SUBJECT" target="1991703" value="u=dc.subject t=l,r,b,x"/>
+    <set name="pz:cclmap:DATE" target="1991703" value="u=dc.date r=o"/>
+    <set name="pz:limitmap:date" target="1991703" value="ccl: DATE,local:date"/>
+    <set name="pz:queryencoding" target="1991703" value="UTF-8"/>
+    <set name="full_text_target" target="1991703" value="NO"/>
+    <set name="pz:limitmap:location" target="1991703" value="ccl: Location,local:location"/>
+    <set name="pz:cclmap:ISSN" target="1991703" value="u=dc.identifier"/>
+    <set name="pz:authentication" target="1991703" value="/"/>
+    <set name="contentAuthentication" target="1991703" value="/"/>
+    <set name="pz:limitmap:language" target="1991703" value="ccl: Language,local:language"/>
+    <set name="pz:limitmap:title" target="1991703" value="ccl: TITLE,local:title"/>
+    <set name="pz:cclmap:src" target="1991703" value="u=dc.source t=l,r,b,x"/>
+    <set name="pz:authentication_mode" target="1991703" value="url"/>
+    <set name="category" target="1991703" value="Reference Sites"/>
+    <set name="pz:cclmap:TITLE" target="1991703" value="u=dc.title t=l,r,b,x"/>
+    <set name="pz:maxrecs" target="1991703" value="25"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1991703" value="t=l,r,b,x"/>
+    <set name="pz:limitmap:author" target="1991703" value="ccl: AUTHOR,local:author"/>
+    <set name="pz:name" target="1991703" value="ABI/Inform Global"/>
+    <set name="pz:limitmap:subject" target="1991703" value="ccl: SUBJECT,local:subject"/>
+    <set name="pz:xslt" target="1991703" value="1991703-stylesheet,ag-pz2-stylesheet"/>
+    <set name="pz:cclmap:term" target="1991703" value="t=l,r,b,x"/>
+    <set name="pz:cclmap:description" target="1991703" value="u=dc.description t=l,r,b,x"/>
+    <set name="pz:extendrecs" target="1991716" value="60"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991716" value="u=1033 s=al"/>
+    <set name="pz:cclmap:PUBLISHER-NAME" target="1991716" value="u=PUBLISHER_NAME"/>
+    <set name="pz:cclmap:PHRASE" target="1991716" value="s=1"/>
+    <set name="pz:cclmap:FromPubYear" target="1991716" value="u=q_FromPubYear"/>
+    <set name="pz:cclmap:PUBLISHER-NUMBER" target="1991716" value="u=PUBLISHER_NUMBER"/>
+    <set name="pz:limitmap:medium" target="1991716" value="ccl:medium"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME" target="1991716" value="u=READING_PROGRAM_NAME"/>
+    <set name="pz:cclmap:NLC-NUMBER" target="1991716" value="u=NLC_NUMBER"/>
+    <set name="pz:cclmap:readinglevel" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:SUBJECT" target="1991716" value="u=SUBJECT"/>
+    <set name="pz:cclmap:DATE" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:limitmap:date" target="1991716" value="ccl:date"/>
+    <set name="full_text_target" target="1991716" value="NO"/>
+    <set name="pz:cclmap:TITLE-EXACT" target="1991716" value="u=TITLE_EXACT"/>
+    <set name="pz:cclmap:SUBJECT-AUTHORITY" target="1991716" value="u=SUBJECT_AUTHORITY"/>
+    <set name="pz:limitmap:language" target="1991716" value="ccl:language"/>
+    <set name="pz:cclmap:language" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:medium" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:materialtype" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:CALL-NUMBER" target="1991716" value="u=CALL_NUMBER"/>
+    <set name="pz:cclmap:BARCODE" target="1991716" value="u=BARCODE"/>
+    <set name="category" target="1991716" value="Winding Rivers Library System"/>
+    <set name="pz:cclmap:TITLE" target="1991716" value="u=TITLE"/>
+    <set name="pz:cclmap:FULLTEXT-DOCUMENT" target="1991716" value="u=FULLTEXT_DOCUMENT"/>
+    <set name="pz:cclmap:CODEN" target="1991716" value="u=CODEN"/>
+    <set name="pz:facetmap:split:title" target="1991716" value="facet_16"/>
+    <set name="pz:cclmap:NATIONAL-AGENCY-NUMBER" target="1991716" value="u=NATIONAL_AGENCY_NUMBER"/>
+    <set name="pz:cclmap:SUBJECT-EXACT" target="1991716" value="u=SUBJECT_EXACT"/>
+    <set name="pz:facetmap:split:language" target="1991716" value="facet_03"/>
+    <set name="pz:cclmap:GPO-SHIP-LIST-NUMBER" target="1991716" value="u=GPO_SHIP_LIST_NUMBER"/>
+    <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1991716" value="u=GPO_ORDER_NUMBER"/>
+    <set name="pz:cclmap:CreationDate" target="1991716" value="u=q_CreationDate"/>
+    <set name="pz:facetmap:split:subject" target="1991716" value="facet_05"/>
+    <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1991716" value="u=LOCAL_CALL_NUMBER"/>
+    <set name="use_thumbnails" target="1991716" value="1"/>
+    <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1991716" value="u=LOCAL_SYSTEM_NUMBER"/>
+    <set name="pz:requestsyntax" target="1991716" value="xml"/>
+    <set name="pz:cclmap:INTEREST-LEVEL" target="1991716" value="u=INTEREST_LEVEL"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER-3" target="1991716" value="u=STANDARD_INDENTIFIER_3"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER-2" target="1991716" value="u=STANDARD_INDENTIFIER_2"/>
+    <set name="pz:limitmap:materialtype" target="1991716" value="ccl:materialtype"/>
+    <set name="pz:cclmap:LCCN" target="1991716" value="u=LCCN"/>
+    <set name="pz:cclmap:NAME-AUTHORITY" target="1991716" value="u=NAME_AUTHORITY"/>
+    <set name="pz:limitmap:location" target="1991716" value="ccl:location"/>
+    <set name="pz:cclmap:MaterialType" target="1991716" value="u=q_MaterialType"/>
+    <set name="pz:pqf_prefix" target="1991716" value="@and @attr 1=q_SortBy RELEVANCY"/>
+    <set name="pz:cclmap:TargetAudiences" target="1991716" value="u=q_TargetAudiences"/>
+    <set name="pz:limitmap:title" target="1991716" value="ccl:title"/>
+    <set name="pz:facetmap:split:location" target="1991716" value="facet_06"/>
+    <set name="pz:cclmap:GPO-ITEM-NUMBER" target="1991716" value="u=GPO_ITEM_NUMBER"/>
+    <set name="pz:cclmap:URL" target="1991716" value="u=URL"/>
+    <set name="pz:facetmap:split:medium" target="1991716" value="facet_02"/>
+    <set name="pz:cclmap:audiencelevel" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:ALL-HEADING" target="1991716" value="u=ALL_HEADING"/>
+    <set name="pz:facetmap:split:materialtype" target="1991716" value="facet_07"/>
+    <set name="pz:limitmap:readinglevel" target="1991716" value="ccl:readinglevel"/>
+    <set name="pz:cclmap:SUBJECT-BEGIN-WITH" target="1991716" value="u=SUBJECT_BEGIN_WITH"/>
+    <set name="pz:cclmap:SERIES-TITLE" target="1991716" value="u=SERIES_TITLE"/>
+    <set name="pz:cclmap:IMaterialType" target="1991716" value="u=q_IMaterialType"/>
+    <set name="pz:cclmap:READING-LEVEL" target="1991716" value="u=READING_LEVEL"/>
+    <set name="pz:cclmap:subject" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:facetmap:split:date" target="1991716" value="facet_04"/>
+    <set name="pz:limitmap:imtype" target="1991716" value="ccl: IMaterialType"/>
+    <set name="pz:limitmap:lang" target="1991716" value="ccl: Languages"/>
+    <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1991716" value="u=DEWEY_CALL_NUMBER"/>
+    <set name="pz:cclmap:ScopingLevel" target="1991716" value="u=q_ScopingLevel"/>
+    <set name="pz:facetmap:split:audiencelevel" target="1991716" value="facet_18"/>
+    <set name="pz:cclmap:LC-CALL-NUMBER" target="1991716" value="u=LC_CALL_NUMBER"/>
+    <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1991716" value="u=MATERIAL_DESCRIPTION"/>
+    <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1991716" value="u=ITEM_CALL_NUMBER"/>
+    <set name="pz:cclmap:Formats" target="1991716" value="u=q_Formats"/>
+    <set name="pz:cclmap:AUTHOR" target="1991716" value="u=AUTHOR"/>
+    <set name="pz:cclmap:Forms" target="1991716" value="u=q_Forms"/>
+    <set name="pz:cclmap:GENRE-SUBJECT" target="1991716" value="u=GENRE_SUBJECT"/>
+    <set name="pz:cclmap:Languages" target="1991716" value="u=q_Languages"/>
+    <set name="pz:limitmap:toyear" target="1991716" value="ccl: ToPubYear"/>
+    <set name="pz:cclmap:EXACT-MATCH" target="1991716" value="u=EXACT_MATCH"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1991716" value="u=STANDARD_INDENTIFIER"/>
+    <set name="pz:facetmap:split:readinglevel" target="1991716" value="facet_19"/>
+    <set name="pz:cclmap:OCLC-NUMBER" target="1991716" value="u=OCLC_NUMBER"/>
+    <set name="pz:cclmap:author" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:BA-GENRE-TERM" target="1991716" value="u=BA_GENRE_TERM"/>
+    <set name="pz:cclmap:MAP-NUMBER" target="1991716" value="u=MAP_NUMBER"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME-FOR-TITLE-INDEXES" target="1991716" value="u=READING_PROGRAM_NAME_FOR_TITLE_INDEXES"/>
+    <set name="pz:limitmap:targetaudiences" target="1991716" value="ccl: TargetAudiences"/>
+    <set name="pz:maxrecs" target="1991716" value="60"/>
+    <set name="pz:limitmap:formats" target="1991716" value="ccl: Formats"/>
+    <set name="pz:limitmap:author" target="1991716" value="ccl:author"/>
+    <set name="pz:name" target="1991716" value="Winding Rivers Authority Database"/>
+    <set name="pz:present_chunk" target="1991716" value="60"/>
+    <set name="pz:limitmap:audiencelevel" target="1991716" value="ccl:audiencelevel"/>
+    <set name="pz:cclmap:location" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:cclmap:GPO-MONTHLY-CAT-NUMBER" target="1991716" value="u=GPO_MONTHLY_CAT_NUMBER"/>
+    <set name="pz:cclmap:POINT-LEVEL" target="1991716" value="u=POINT_LEVEL"/>
+    <set name="pz:cclmap:ToPubYear" target="1991716" value="u=q_ToPubYear"/>
+    <set name="pz:cclmap:GMD" target="1991716" value="u=GMD"/>
+    <set name="use_url_proxy" target="1991716" value="0"/>
+    <set name="pz:limitmap:fromyear" target="1991716" value="ccl: FromPubYear"/>
+    <set name="place_holds" target="1991716" value="no"/>
+    <set name="pz:cclmap:LEXILE" target="1991716" value="u=LEXILE"/>
+    <set name="pz:cclmap:LEXILE-LEVEL" target="1991716" value="u=LEXILE_LEVEL"/>
+    <set name="pz:limitmap:forms" target="1991716" value="ccl: Forms"/>
+    <set name="pz:cclmap:ISBN" target="1991716" value="u=ISBN"/>
+    <set name="pz:cclmap:TITLE-AUTHORITY" target="1991716" value="u=TITLE_AUTHORITY"/>
+    <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1991716" value="u=GPO_REPORT_NUMBER"/>
+    <set name="pz:cclmap:AGCN" target="1991716" value="u=AGCN"/>
+    <set name="pz:cclmap:TITLE-BEGIN-WITH" target="1991716" value="u=TITLE_BEGIN_WITH"/>
+    <set name="pz:cclmap:NOTES" target="1991716" value="u=NOTES"/>
+    <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1991716" value="u=ORIGINAL_CONTROL_NUMBER"/>
+    <set name="pz:cclmap:TITLE-AND-AUTHOR-MATCH" target="1991716" value="u=TITLE_AND_AUTHOR_MATCH"/>
+    <set name="pz:cclmap:VOLUME-NUMBER" target="1991716" value="u=VOLUME_NUMBER"/>
+    <set name="pz:facetmap:split:author" target="1991716" value="facet_01"/>
+    <set name="pz:limitmap:cdate" target="1991716" value="ccl: CreationDate"/>
+    <set name="pz:cclmap:ISSN" target="1991716" value="u=ISSN"/>
+    <set name="pz:cclmap:JOURNAL-TITLE" target="1991716" value="u=JOURNAL_TITLE"/>
+    <set name="pz:cclmap:UseSavedQueries" target="1991716" value="u=q_UseSavedQueries"/>
+    <set name="pz:limitmap:useSavedQueries" target="1991716" value="ccl: UseSavedQueries"/>
+    <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1991716" value="u=GPO_SUBDOC_NUMBER"/>
+    <set name="pz:cclmap:POINT-LEVEL-RC" target="1991716" value="u=POINT_LEVEL_RC"/>
+    <set name="pz:cclmap:title" target="1991716" value="u=q_SelectedFacets"/>
+    <set name="pz:limitmap:subject:person" target="1991716" value="local: "/>
+    <set name="pz:limitmap:subject" target="1991716" value="ccl:subject"/>
+    <set name="pz:limitmap:mtype" target="1991716" value="ccl: MaterialType"/>
+    <set name="pz:xslt" target="1991716" value="paz_1009.xsl"/>
+    <set name="pz:cclmap:READING-LEVEL-RC" target="1991716" value="u=READING_LEVEL_RC"/>
+    <set name="pz:limitmap:scoping" target="1991716" value="ccl: ScopingLevel"/>
+    <set name="pz:cclmap:READING-LEVEL" target="1991700" value="1=5009"/>
+    <set name="pz:extendrecs" target="1991700" value="60"/>
+    <set name="pz:limitmap:imtype" target="1991700" value="ccl: IMaterialType"/>
+    <set name="pz:limitmap:lang" target="1991700" value="ccl: Languages"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991700" value="u=1033 s=al"/>
+    <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1991700" value="1=13"/>
+    <set name="pz:cclmap:LC-CALL-NUMBER" target="1991700" value="1=16"/>
+    <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1991700" value="1=5007"/>
+    <set name="pz:cclmap:PUBLISHER-NAME" target="1991700" value="1=1018"/>
+    <set name="pz:cclmap:PHRASE" target="1991700" value="s=1"/>
+    <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1991700" value="1=53"/>
+    <set name="pz:cclmap:FromPubYear" target="1991700" value="1=31 2=4 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:PUBLISHER-NUMBER" target="1991700" value="1=51"/>
+    <set name="pz:cclmap:Formats" target="1991700" value="1=1001"/>
+    <set name="pz:cclmap:AUTHOR" target="1991700" value="1=1003"/>
+    <set name="pz:timeout" target="1991700" value="60"/>
+    <set name="pz:limitmap:medium" target="1991700" value="local:medium"/>
+    <set name="pz:url" target="1991700" value="198.150.52.103:210/INNOPAC"/>
+    <set name="pz:cclmap:Languages" target="1991700" value="1=54"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME" target="1991700" value="1=5008"/>
+    <set name="pz:cclmap:SUBJECT" target="1991700" value="1=21"/>
+    <set name="pz:limitmap:toyear" target="1991700" value="ccl: ToPubYear"/>
+    <set name="pz:cclmap:DATE" target="1991700" value="u=30 r=r"/>
+    <set name="pz:limitmap:date" target="1991700" value="local: "/>
+    <set name="full_text_target" target="1991700" value="NO"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1991700" value="1=1007"/>
+    <set name="pz:cclmap:OCLC-NUMBER" target="1991700" value="1=1211"/>
+    <set name="pz:limitmap:language" target="1991700" value="local: "/>
+    <set name="pz:nativesyntax" target="1991700" value="txml;MARC-8"/>
+    <set name="pz:limitmap:targetaudiences" target="1991700" value="ccl: TargetAudiences"/>
+    <set name="pz:cclmap:BARCODE" target="1991700" value="1=5011"/>
+    <set name="category" target="1991700" value="Winding Rivers Library System"/>
+    <set name="pz:cclmap:TITLE" target="1991700" value="1=4"/>
+    <set name="pz:maxrecs" target="1991700" value="60"/>
+    <set name="pz:limitmap:formats" target="1991700" value="ccl: Formats"/>
+    <set name="pz:limitmap:author" target="1991700" value="local: "/>
+    <set name="pz:name" target="1991700" value="Viterbo University"/>
+    <set name="pz:elements" target="1991700" value="F"/>
+    <set name="pz:cclmap:CODEN" target="1991700" value="1=60"/>
+    <set name="pz:present_chunk" target="1991700" value="60"/>
+    <set name="pz:limitmap:audiencelevel" target="1991700" value="local: "/>
+    <set name="pz:cclmap:POINT-LEVEL" target="1991700" value="1=5010"/>
+    <set name="pz:cclmap:ToPubYear" target="1991700" value="1=31 2=2 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:GMD" target="1991700" value="1=5007"/>
+    <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1991700" value="1=1028"/>
+    <set name="use_url_proxy" target="1991700" value="0"/>
+    <set name="pz:piggyback" target="1991700" value="1"/>
+    <set name="pz:limitmap:fromyear" target="1991700" value="ccl: FromPubYear"/>
+    <set name="place_holds" target="1991700" value="no"/>
+    <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1991700" value="1=53"/>
+    <set name="pz:limitmap:forms" target="1991700" value="ccl: Forms"/>
+    <set name="pz:cclmap:ISBN" target="1991700" value="u=7"/>
+    <set name="use_thumbnails" target="1991700" value="1"/>
+    <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1991700" value="1=12"/>
+    <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1991700" value="1=1027"/>
+    <set name="pz:requestsyntax" target="1991700" value="USMARC"/>
+    <set name="pz:cclmap:AGCN" target="1991700" value="1=12"/>
+    <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1991700" value="1=12"/>
+    <set name="pz:cclmap:VOLUME-NUMBER" target="1991700" value="1=1066"/>
+    <set name="pz:limitmap:materialtype" target="1991700" value="local: "/>
+    <set name="pz:zproxy" target="1991700" value="192.168.99.106:2010"/>
+    <set name="pz:limitmap:cdate" target="1991700" value="ccl: CreationDate"/>
+    <set name="pz:queryencoding" target="1991700" value="UTF-8"/>
+    <set name="pz:limitmap:location" target="1991700" value="local: "/>
+    <set name="pz:cclmap:JOURNAL-TITLE" target="1991700" value="1=1069"/>
+    <set name="pz:cclmap:ISSN" target="1991700" value="u=8"/>
+    <set name="pz:limitmap:useSavedQueries" target="1991700" value="ccl: UseSavedQueries"/>
+    <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1991700" value="1=50"/>
+    <set name="pz:limitmap:title" target="1991700" value="local: "/>
+    <set name="pz:cclmap:URL" target="1991700" value="1=1032"/>
+    <set name="pz:limitmap:subject:person" target="1991700" value="local: "/>
+    <set name="pz:limitmap:subject" target="1991700" value="local: "/>
+    <set name="pz:limitmap:mtype" target="1991700" value="ccl: MaterialType"/>
+    <set name="pz:xslt" target="1991700" value="ag-tmarc-stylesheet"/>
+    <set name="pz:limitmap:scoping" target="1991700" value="ccl: ScopingLevel"/>
+    <set name="pz:limitmap:readinglevel" target="1991700" value="local: "/>
+    <set name="pz:cclmap:READING-LEVEL" target="1991699" value="1=5009"/>
+    <set name="pz:extendrecs" target="1991699" value="60"/>
+    <set name="pz:limitmap:imtype" target="1991699" value="ccl: IMaterialType"/>
+    <set name="pz:limitmap:lang" target="1991699" value="ccl: Languages"/>
+    <set name="pz:cclmap:JOURNAL_TITLE" target="1991699" value="u=1033 s=al"/>
+    <set name="pz:cclmap:DEWEY-CALL-NUMBER" target="1991699" value="1=13"/>
+    <set name="pz:cclmap:LC-CALL-NUMBER" target="1991699" value="1=16"/>
+    <set name="pz:cclmap:MATERIAL-DESCRIPTION" target="1991699" value="1=5007"/>
+    <set name="pz:cclmap:PUBLISHER-NAME" target="1991699" value="1=1018"/>
+    <set name="pz:cclmap:PHRASE" target="1991699" value="s=1"/>
+    <set name="pz:cclmap:ITEM-CALL-NUMBER" target="1991699" value="1=53"/>
+    <set name="pz:cclmap:FromPubYear" target="1991699" value="1=31 2=4 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:PUBLISHER-NUMBER" target="1991699" value="1=51"/>
+    <set name="pz:cclmap:Formats" target="1991699" value="1=1001"/>
+    <set name="pz:cclmap:AUTHOR" target="1991699" value="1=1003"/>
+    <set name="pz:timeout" target="1991699" value="60"/>
+    <set name="pz:limitmap:medium" target="1991699" value="local:medium"/>
+    <set name="pz:url" target="1991699" value="198.150.52.103:210/INNOPAC"/>
+    <set name="pz:cclmap:Languages" target="1991699" value="1=54"/>
+    <set name="pz:cclmap:READING-PROGRAM-NAME" target="1991699" value="1=5008"/>
+    <set name="pz:cclmap:SUBJECT" target="1991699" value="1=21"/>
+    <set name="pz:limitmap:toyear" target="1991699" value="ccl: ToPubYear"/>
+    <set name="pz:cclmap:DATE" target="1991699" value="u=30 r=r"/>
+    <set name="pz:limitmap:date" target="1991699" value="local: "/>
+    <set name="full_text_target" target="1991699" value="NO"/>
+    <set name="pz:cclmap:STANDARD-INDENTIFIER" target="1991699" value="1=1007"/>
+    <set name="pz:cclmap:OCLC-NUMBER" target="1991699" value="1=1211"/>
+    <set name="pz:limitmap:language" target="1991699" value="local: "/>
+    <set name="pz:nativesyntax" target="1991699" value="txml;MARC-8"/>
+    <set name="pz:limitmap:targetaudiences" target="1991699" value="ccl: TargetAudiences"/>
+    <set name="pz:cclmap:BARCODE" target="1991699" value="1=5011"/>
+    <set name="category" target="1991699" value="Virtual Libraries"/>
+    <set name="pz:cclmap:TITLE" target="1991699" value="1=4"/>
+    <set name="pz:maxrecs" target="1991699" value="60"/>
+    <set name="pz:limitmap:formats" target="1991699" value="ccl: Formats"/>
+    <set name="pz:limitmap:author" target="1991699" value="local: "/>
+    <set name="pz:name" target="1991699" value="Viterbo University"/>
+    <set name="pz:elements" target="1991699" value="F"/>
+    <set name="pz:cclmap:CODEN" target="1991699" value="1=60"/>
+    <set name="pz:present_chunk" target="1991699" value="60"/>
+    <set name="pz:limitmap:audiencelevel" target="1991699" value="local: "/>
+    <set name="pz:cclmap:POINT-LEVEL" target="1991699" value="1=5010"/>
+    <set name="pz:cclmap:ToPubYear" target="1991699" value="1=31 2=2 3=1 4=4 5=100 6=1"/>
+    <set name="pz:cclmap:GMD" target="1991699" value="1=5007"/>
+    <set name="pz:cclmap:GPO-ORDER-NUMBER" target="1991699" value="1=1028"/>
+    <set name="use_url_proxy" target="1991699" value="0"/>
+    <set name="pz:piggyback" target="1991699" value="1"/>
+    <set name="pz:limitmap:fromyear" target="1991699" value="ccl: FromPubYear"/>
+    <set name="place_holds" target="1991699" value="no"/>
+    <set name="pz:cclmap:LOCAL-CALL-NUMBER" target="1991699" value="1=53"/>
+    <set name="pz:limitmap:forms" target="1991699" value="ccl: Forms"/>
+    <set name="pz:cclmap:ISBN" target="1991699" value="u=7"/>
+    <set name="use_thumbnails" target="1991699" value="1"/>
+    <set name="pz:cclmap:LOCAL-SYSTEM-NUMBER" target="1991699" value="1=12"/>
+    <set name="pz:cclmap:GPO-REPORT-NUMBER" target="1991699" value="1=1027"/>
+    <set name="pz:requestsyntax" target="1991699" value="USMARC"/>
+    <set name="pz:cclmap:AGCN" target="1991699" value="1=12"/>
+    <set name="pz:cclmap:ORIGINAL-CONTROL-NUMBER" target="1991699" value="1=12"/>
+    <set name="pz:cclmap:VOLUME-NUMBER" target="1991699" value="1=1066"/>
+    <set name="pz:limitmap:materialtype" target="1991699" value="local: "/>
+    <set name="pz:zproxy" target="1991699" value="192.168.99.106:2010"/>
+    <set name="pz:limitmap:cdate" target="1991699" value="ccl: CreationDate"/>
+    <set name="pz:queryencoding" target="1991699" value="UTF-8"/>
+    <set name="pz:limitmap:location" target="1991699" value="local: "/>
+    <set name="pz:cclmap:JOURNAL-TITLE" target="1991699" value="1=1069"/>
+    <set name="pz:cclmap:ISSN" target="1991699" value="u=8"/>
+    <set name="pz:limitmap:useSavedQueries" target="1991699" value="ccl: UseSavedQueries"/>
+    <set name="pz:cclmap:GPO-SUBDOC-NUMBER" target="1991699" value="1=50"/>
+    <set name="pz:limitmap:title" target="1991699" value="local: "/>
+    <set name="pz:cclmap:URL" target="1991699" value="1=1032"/>
+    <set name="pz:limitmap:subject:person" target="1991699" value="local: "/>
+    <set name="pz:limitmap:subject" target="1991699" value="local: "/>
+    <set name="pz:limitmap:mtype" target="1991699" value="ccl: MaterialType"/>
+    <set name="pz:xslt" target="1991699" value="ag-tmarc-stylesheet"/>
+    <set name="pz:limitmap:scoping" target="1991699" value="ccl: ScopingLevel"/>
+    <set name="pz:limitmap:readinglevel" target="1991699" value="local: "/>
+</settings>
