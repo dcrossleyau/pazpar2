@@ -1,6 +1,9 @@
 #!/bin/sh
 # Test script for PAZ-1009 / AUT-258
 
+# Second script, this starts pazpar2 by itself, and uses curl
+# Also, posts a whole service
+
 # If $AGPORT is set, uses that as the AG gateway address
 # You can start one with something like
 #  ssh -L 9998:localhost:9998 somemachine
@@ -36,13 +39,37 @@ else
     echo "Assuming AG gateway is running on $AGPORT"
 fi
 
-TEST=`basename $0 .sh`
-# srcdir might be set by make
-srcdir=${srcdir:-"."}
+# Start pz2
+rm -f pazpar2.log
+../src/pazpar2 -v debug -d -X -l pazpar2.log -f paz_1009-b.cfg &
+PZ2PID=$!
+echo "Started pazpar2. PID=$PZ2PID"
 
-#exec ${srcdir}/run_pazpar2.sh --icu $TEST
-${srcdir}/run_pazpar2.sh --icu $TEST
+echo "Init"
+curl -X POST -H "Content-type: text/xml" --data-binary @paz_1009_service4.xml  \
+"localhost:9763?command=init"
+echo; echo
 
+echo "First Search"
+curl "localhost:9763?session=1&command=search&query=water"
+echo; echo
+
+echo "Bytarget"
+curl "localhost:9763?session=1&command=bytarget&block=1"
+echo; echo
+
+echo "Second Search"
+curl "localhost:9763?session=1&command=search&query=water&limit=publisher=U.S. G.P.O"
+echo; echo
+
+echo "Bytarget"
+curl "localhost:9763?session=1&command=bytarget&block=1"
+echo; echo
+
+
+# Kill PZ2
+kill $PZ2PID
+echo "Killed pz2 $PZ2PID"
 
 # Kill the aggw
 if [ -f aggw.pid ]

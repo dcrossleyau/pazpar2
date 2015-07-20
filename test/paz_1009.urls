@@ -1,13 +1,12 @@
 http://localhost:9763/search.pz2?command=init&clear=1
-paz_1009_settings3.xml http://localhost:9763/search.pz2?session=1&command=settings
-
-
-http://localhost:9763/search.pz2?session=1&command=search&query=water&filter=pz:id%3D1986913
+paz_1009_settings3.xml http://localhost:9763/search.pz2?session=1&command=settings 
+ 
+http://localhost:9763/search.pz2?session=1&command=search&query=water&
 w http://localhost:9763/search.pz2?session=1&command=show&num=1&block=1
 http://localhost:9763/search.pz2?session=1&command=bytarget
 http://localhost:9763/search.pz2?session=1&command=termlist&num=50&name=xtargets%2Cseries%2Cpublisher
 
-http://localhost:9763/search.pz2?session=1&command=search&query=water&filter=pz:id%3D1986913&limit=publisher%3DU.S.%20G.P.O
+http://localhost:9763/search.pz2?session=1&command=search&query=water&limit=publisher%3DU.S.%20G.P.O
 w http://localhost:9763/search.pz2?session=1&command=show&num=1&block=1
 http://localhost:9763/search.pz2?session=1&command=bytarget
 http://localhost:9763/search.pz2?session=1&command=termlist&num=50&name=xtargets%2Cseries%2Cpublisher
