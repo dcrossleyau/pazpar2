@@ -145,11 +145,13 @@
       <metadata name="series_title"/>
       <metadata brief="yes" merge="range" name="date" sortkey="numeric" termlist="yes" type="year"/>
       <metadata brief="yes" merge="longest" name="publisher" termlist="yes"/>
+      <!--metadata brief="yes" merge="longest" name="publisher" /-->
       <metadata name="name_subject"/>
       <metadata name="title_subject"/>
       <metadata brief="yes" merge="longest" name="note"/>
       <metadata name="subject" termlist="yes"/>
       <metadata name="series" termlist="yes"/>
+      <!--metadata name="series"/-->
       <metadata name="language" termlist="yes"/>
       <metadata name="audiencelevel" termlist="yes"/>
       <metadata brief="yes" name="brief-156"/>
@@ -3342,6 +3344,7 @@
         <set name="pz:cclmap:FromPubYear" target="1986913" value="u=q_FromPubYear"/>
         <set name="pz:cclmap:PUBLISHER-NUMBER" target="1986913" value="u=PUBLISHER_NUMBER"/>
         <set name="pz:facetmap:split:series" target="1986913" value="facet_17"/>
+        <!--set name="pz:facetmap:series" target="1986913" value="facet_17"/-->
         <set name="pz:limitmap:medium" target="1986913" value="ccl:medium"/>
         <set name="pz:cclmap:READING-PROGRAM-NAME" target="1986913" value="u=READING_PROGRAM_NAME"/>
         <set name="pz:cclmap:NLC-NUMBER" target="1986913" value="u=NLC_NUMBER"/>

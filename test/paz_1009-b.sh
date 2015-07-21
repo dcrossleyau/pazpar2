@@ -59,13 +59,16 @@ curl "localhost:9763?session=1&command=bytarget&block=1"
 echo; echo
 
 echo "Second Search"
-curl "localhost:9763?session=1&command=search&query=water&limit=publisher=U.S. G.P.O"
+curl "localhost:9763?session=1&command=search&query=water&limit=publisher%3DU.S.%20G.P.O"
 echo; echo
 
 echo "Bytarget"
 curl "localhost:9763?session=1&command=bytarget&block=1"
 echo; echo
 
+echo "Termlist"
+curl "localhost:9763?session=1&command=termlist&name=xtargets%2Cseries%2Cpublisher"
+echo; echo
 
 # Kill PZ2
 kill $PZ2PID
