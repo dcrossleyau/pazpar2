@@ -1,0 +1,6 @@
+http://localhost:9763/search.pz2?command=init&clear=1
+test_position_settings.xml http://localhost:9763/search.pz2?session=1&command=settings
+http://localhost:9763/search.pz2?session=1&command=search&query=22
+http://localhost:9763/search.pz2?session=1&command=show&block=1&start=0&num=3&sort=title:1&mergekey=position
+http://localhost:9763/search.pz2?session=1&command=show&block=1&start=0&num=19&sort=title:1&mergekey=position
+http://localhost:9763/search.pz2?session=1&command=show&block=1&start=0&num=3&sort=title:1&mergekey=position
