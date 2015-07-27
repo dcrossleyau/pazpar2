@@ -70,6 +70,14 @@ echo "Termlist"
 curl "localhost:9763?session=1&command=termlist&name=xtargets%2Cseries%2Cpublisher"
 echo; echo
 
+echo "Third Search"
+curl -D - "localhost:9763?session=1&command=search&query=water&limit=publisher%3DFOOBAR"
+echo; echo
+
+echo "Bytarget"
+curl "localhost:9763?session=1&command=bytarget&block=1"
+echo; echo
+
 # Kill PZ2
 kill $PZ2PID
 echo "Killed pz2 $PZ2PID"
